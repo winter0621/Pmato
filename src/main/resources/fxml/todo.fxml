@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csu.mengya.controller.TodoController" spacing="14">
+ <padding><Insets top="22" right="24" bottom="22" left="24"/></padding>
+ <Label text="Todo List" styleClass="section-title"/><Label text="Manage tasks and estimated pomodoros" styleClass="section-subtitle"/>
+ <HBox spacing="8"><TextField fx:id="titleField" promptText="Task name" HBox.hgrow="ALWAYS"/><ComboBox fx:id="priorityBox" prefWidth="110"/><Spinner fx:id="tomatoSpinner" prefWidth="90"/><Button text="Add task" onAction="#addTodo" styleClass="primary-button"/></HBox>
+ <TableView fx:id="todoTable" VBox.vgrow="ALWAYS"><columns><TableColumn fx:id="doneColumn" text="Done" prefWidth="70"/><TableColumn fx:id="titleColumn" text="Task" prefWidth="300"/><TableColumn fx:id="priorityColumn" text="Priority" prefWidth="100"/><TableColumn fx:id="tomatoColumn" text="Pomodoros" prefWidth="90"/><TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/></columns></TableView>
+ <HBox spacing="8"><Button text="Update" onAction="#updateSelected"/><Button text="Complete" onAction="#completeSelected"/><Button text="Delete" onAction="#deleteSelected"/><Label fx:id="todoStatus" styleClass="form-status"/></HBox>
+</VBox>
