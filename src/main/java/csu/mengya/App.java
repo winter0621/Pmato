@@ -39,6 +39,9 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        // 初始化数据库、种子图鉴、事件订阅（B/C 独立开发的前置，待组长 A 定稿对齐）
+        Bootstrap.init();
+
         // 加载主界面布局（FXML 内部会实例化 MainController）
         FXMLLoader loader = new FXMLLoader(
                 Objects.requireNonNull(getClass().getResource("/fxml/main.fxml")));
