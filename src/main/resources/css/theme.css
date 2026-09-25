@@ -1,5 +1,5 @@
 /* ============================================================
- * 萌芽专注 —— 全局主题样式
+ * pmato —— 全局主题样式
  *
  * 依据《统一技术约定》5.6 节：
  *   1. 所有颜色、圆角、动效时长集中定义在 .root，禁止在 FXML 硬写颜色；
@@ -39,3 +39,33 @@
     -fx-font-size: 14px;
     -fx-text-fill: -fx-accent;
 }
+
+/* Main shell and module navigation */
+.app-shell { -fx-background-color: #FAFAF7; }
+.sidebar { -fx-background-color: #EAF4EC; }
+.brand-title { -fx-font-size: 27px; -fx-font-weight: bold; -fx-text-fill: #2E6B4A; }
+.brand-subtitle { -fx-font-size: 13px; -fx-text-fill: #78917F; -fx-padding: 0 0 18 0; }
+.nav-button { -fx-background-color: transparent; -fx-background-radius: 10; -fx-alignment: CENTER_LEFT; -fx-font-size: 14px; -fx-text-fill: #466653; -fx-padding: 12 14; -fx-cursor: hand; }
+.nav-button:hover { -fx-background-color: #D6EBDD; }
+.nav-button:focused { -fx-background-color: #C8E3D0; -fx-text-fill: #245C3D; }
+.sidebar-status { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.content { -fx-background-color: #FAFAF7; }
+.page-title { -fx-font-size: 29px; -fx-font-weight: bold; -fx-text-fill: #2F4035; }
+.page-description { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; -fx-padding: 5 0 0 0; }
+.summary-pill { -fx-background-color: #EAF4EC; -fx-background-radius: 18; -fx-padding: 9 15; -fx-text-fill: #4B795C; -fx-font-size: 13px; }
+.page-card { -fx-background-color: white; -fx-background-radius: 18; -fx-border-color: #E6ECE6; -fx-border-radius: 18; -fx-border-width: 1; }
+.module-icon { -fx-font-size: 58px; -fx-text-fill: #4CAF7D; }
+.module-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; -fx-text-alignment: CENTER; }
+.module-detail { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; -fx-text-alignment: CENTER; }
+.module-progress { -fx-accent: #4CAF7D; }
+.primary-button { -fx-background-color: #4CAF7D; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 11 28; -fx-cursor: hand; }
+.primary-button:hover { -fx-background-color: #3E966A; }
+
+.section-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
+.section-subtitle { -fx-text-fill: #8A8A8A; }
+.form-status { -fx-text-fill: #4CAF7D; -fx-padding: 8 0; }
+.calendar-header { -fx-font-weight: bold; -fx-text-fill: #466653; -fx-padding: 8; }
+.event-button { -fx-background-color: #EAF4EC; -fx-text-fill: #386348; -fx-alignment: CENTER_LEFT; -fx-font-size: 11px; }
+
+
+.section-title{-fx-font-size:24px;-fx-font-weight:bold;-fx-text-fill:#33483A}.section-subtitle{-fx-text-fill:#8A8A8A}.form-status{-fx-text-fill:#4CAF7D}.calendar-header{-fx-font-weight:bold;-fx-text-fill:#466653;-fx-padding:8}.event-button{-fx-background-color:#EAF4EC;-fx-text-fill:#386348;-fx-alignment:CENTER_LEFT;-fx-font-size:11px}

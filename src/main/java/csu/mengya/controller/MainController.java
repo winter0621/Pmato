@@ -1,36 +1,3 @@
 package csu.mengya.controller;
-
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
-/**
- * 主界面控制器（F0 工程骨架）。
- *
- * <p>Day1 仅用于验证「FXML + 控制器 + 样式」链路是否完整跑通；
- * 后续 D3 将在此扩展导航栏与页面切换逻辑。</p>
- *
- * @author 组长 A（请替换为真实姓名）
- * @since V1.0
- */
-public class MainController implements Initializable {
-
-    /** 版本/状态提示标签，绑定 main.fxml 中的 fx:id="statusLabel" */
-    @FXML
-    private Label statusLabel;
-
-    /**
-     * FXML 加载完成后由 JavaFX 自动回调，用于初始化控件。
-     *
-     * @param location  FXML 资源地址，本程序暂不关心
-     * @param resources 国际化资源，本程序暂不使用
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Day1 验收标志：看到此行即代表 FXML 注入成功、环境已就绪
-        statusLabel.setText("V1.0 · 环境就绪，工程骨架可运行");
-    }
-}
+import javafx.fxml.*;import javafx.scene.Node;import javafx.scene.control.*;import javafx.scene.layout.*;import java.io.IOException;import java.net.URL;import java.util.ResourceBundle;
+public class MainController implements Initializable { @FXML private Label statusLabel,contentTitle,contentDescription; @FXML private StackPane contentHost; public void initialize(URL u,ResourceBundle r){showFocus(null);} @FXML public void showFocus(javafx.event.ActionEvent e){home("F1  专注学习计时","番茄钟倒计时、专注/短休/长休循环","准备开始一段专注","后续接入计时器、暂停、放弃和结束提醒。");} @FXML public void showGarden(javafx.event.ActionEvent e){home("F2  植物园养成","学习时长转化为能量，培育并收获作物","我的植物园","后续接入作物图鉴、五阶段生长、自由种植和收获解锁。");} @FXML public void showTodo(javafx.event.ActionEvent e){load("/fxml/todo.fxml","F3  待办清单","任务增删改查、优先级和预计番茄数");} @FXML public void showSchedule(javafx.event.ActionEvent e){load("/fxml/schedule.fxml","F4  日程规划","周视图日历、时间段规划和提醒");} @FXML public void showStats(javafx.event.ActionEvent e){home("F5  数据统计","用数据观察你的专注和成长","成长数据","后续接入学习时长趋势、番茄数、作物收集和连续打卡统计。");} @FXML public void showSettings(javafx.event.ActionEvent e){home("F6  系统与设置","调整桌面客户端的使用体验","应用设置","后续接入托盘常驻、主题切换、提醒音、免打扰、备份和导出。");} private void home(String t,String d,String h,String x){contentTitle.setText(t);contentDescription.setText(d);VBox b=new VBox(14);b.setAlignment(javafx.geometry.Pos.CENTER);Label a=new Label("pmato");a.getStyleClass().add("module-icon");Label c=new Label(h);c.getStyleClass().add("module-title");Label f=new Label(x);f.getStyleClass().add("module-detail");b.getChildren().addAll(a,c,f);contentHost.getChildren().setAll(b);statusLabel.setText("系统就绪 · "+t.substring(0,2));} private void load(String r,String t,String d){try{contentHost.getChildren().setAll((Node)new FXMLLoader(getClass().getResource(r)).load());contentTitle.setText(t);contentDescription.setText(d);statusLabel.setText("系统就绪 · "+t.substring(0,2));}catch(IOException|NullPointerException e){statusLabel.setText("页面加载失败");e.printStackTrace();}} }
