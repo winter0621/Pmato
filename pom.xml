@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  萌芽专注 —— 植物园式学习计时软件 V1.0
+  Maven 工程描述文件（POM）。
+
+  关键约定（对应《项目分工计划书》2.1 / 2.2 节）：
+    1. 采用「非模块化」方式运行 JavaFX，即【不】配置 module-path；
+       依赖由 Maven 自动拉取，用 javafx-maven-plugin 一键启动：mvn javafx:run
+    2. 切勿再去官网下载 JavaFX SDK 手动配 module-path，否则会报
+       "Error: JavaFX runtime components are missing"。
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 组织标识：csu = 中南大学（Central South University） -->
+    <groupId>csu.mengya</groupId>
+    <artifactId>mengya-focus</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>萌芽专注</name>
+    <description>植物园式学习计时软件 V1.0</description>
+
+    <properties>
+        <!-- 源码统一 UTF-8，避免 Windows 平台默认 GBK 导致中文注释/界面乱码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 编译目标 JDK 版本（与本地 JDK 17 保持一致） -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <!-- JavaFX 版本 -->
+        <javafx.version>21</javafx.version>
+    </properties>
+
+    <dependencies>
+        <!-- JavaFX 基础控件（按钮、标签、布局等） -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <!-- JavaFX FXML 支持（可视化布局加载） -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 编译插件：指定 release 与编码 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- JavaFX 启动插件：mvn javafx:run 一键运行 -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <!-- 入口指向 Launcher（不继承 Application 的类），规避启动报错 -->
+                    <mainClass>csu.mengya.Launcher</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,41 @@
+/* ============================================================
+ * 萌芽专注 —— 全局主题样式
+ *
+ * 依据《统一技术约定》5.6 节：
+ *   1. 所有颜色、圆角、动效时长集中定义在 .root，禁止在 FXML 硬写颜色；
+ *   2. 主色「生长绿」#4CAF7D，背景 #FAFAF7，高亮「成熟金」#F2B84B。
+ * ============================================================ */
+
+.root {
+    /* —— 品牌色 —— */
+    -fx-accent:          #4CAF7D;   /* 主色：生长绿 */
+    -fx-base:            #FAFAF7;   /* 背景色 */
+    -fx-highlight-color: #F2B84B;   /* 高亮色：成熟金 */
+
+    /* —— 文字色 —— */
+    -fx-text-primary:    #333333;
+    -fx-text-secondary:  #8A8A8A;
+
+    /* —— 全局字体与背景 —— */
+    -fx-font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    -fx-background-color: -fx-base;
+}
+
+/* 大标题 */
+.app-title {
+    -fx-font-size: 44px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-accent;
+}
+
+/* 副标题 */
+.app-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: -fx-text-secondary;
+}
+
+/* 状态提示 */
+.status {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-accent;
+}

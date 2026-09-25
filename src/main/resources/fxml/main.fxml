@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  主界面布局（F0 工程骨架 / Day1 验收窗口）。
+
+  仅包含标题与状态提示，用于验证环境跑通；D3 再替换为真正的导航框架。
+-->
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="csu.mengya.controller.MainController"
+      alignment="CENTER"
+      spacing="16"
+      prefWidth="960"
+      prefHeight="640">
+
+    <!-- 大标题 -->
+    <Label text="萌芽专注" styleClass="app-title"/>
+
+    <!-- 副标题 -->
+    <Label text="植物园式学习计时软件 V1.0" styleClass="app-subtitle"/>
+
+    <!-- 状态提示：由 MainController.initialize() 动态填充 -->
+    <Label fx:id="statusLabel" styleClass="status"/>
+</VBox>
