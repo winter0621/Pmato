@@ -58,6 +58,13 @@
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
+        <!-- 单元测试框架：JUnit 5（Jupiter）。scope=test 只参与测试编译与运行，不进入发布包 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -81,6 +88,16 @@
                     <!-- 入口指向 Launcher（不继承 Application 的类），规避启动报错 -->
                     <mainClass>csu.mengya.Launcher</mainClass>
                 </configuration>
+            </plugin>
+            <!--
+    测试运行插件。
+    必须显式指定 3.x 版本：Maven 默认绑定的 surefire 是 2.x，
+    识别不了 JUnit 5 的 @Test，会出现「测试类编译通过但一个都没跑」的假绿。
+-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
             </plugin>
         </plugins>
     </build>

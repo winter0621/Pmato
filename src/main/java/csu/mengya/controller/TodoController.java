@@ -33,12 +33,20 @@ import java.util.ResourceBundle;
 /**
  * 待办清单控制器（F3，对应计划书 5.2 的 todo_item 表）。
  *
- * <p>提供任务的增删改查、优先级与预计番茄数。UI 复用 A 的 todo.fxml 布局，
- * 数据访问改为 {@link TodoDao}（5.2 表结构）。</p>
+ * <p>职责：接收界面操作、调用 {@link TodoDao} 读写数据、把结果渲染到表格。
+ * 本类不含业务规则，也不直接写 SQL（计划书 5.3 分层约定）。</p>
  *
- * @author A（界面）/ B（适配 5.2 数据访问）
+ * <p>与其他模块的协作：</p>
+ * <ul>
+ *   <li>点「开始专注」时发布 {@link FocusRequestedEvent}，由 F1 计时模块响应；</li>
+ *   <li>标记完成时发布 {@link TodoCompletedEvent}，由 F5 统计模块响应。</li>
+ * </ul>
+ *
+ * @author 侯卓轩
  * @since V1.0
  */
+
+
 public class TodoController implements Initializable, PageRefreshable {
 
     @FXML private TextField titleField;

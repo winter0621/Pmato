@@ -168,8 +168,13 @@ public class ScheduleController implements Initializable, PageRefreshable {
                 for (Event e : events) {
                     LocalDateTime occurrence = e.start;
                     long step = "daily".equals(e.rule) ? 1 : 7;
-                    while (occurrence.toLocalDate().isBefore(date.minusDays(1)) && !"none".equals(e.rule))
-                        occurrence = occurrence.plusDays(step);
+                    if(!"none".equals(e.rule)){
+                        long stepDays = "daily".equals(e.rule) ? 1 : 7;
+                        long diffDays=java.time.temporal.ChronoUnit.DAYS.between(occurrence, date);
+                        if(diffDays>0){
+                            occurrence = e.start.plusDays((diffDays/stepDays)*stepDays);
+                        }
+                    }
                     while (!occurrence.toLocalDate().isAfter(date)) {
                         LocalDateTime finish = occurrence.plus(e.duration);
                         if (finish.isAfter(slot) && occurrence.isBefore(slot.plusHours(1))) {

@@ -9,6 +9,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -28,11 +29,17 @@ public final class ScheduleReminderService {
     public static void start() { EXECUTOR.scheduleAtFixedRate(ScheduleReminderService::check, 0, 20, TimeUnit.SECONDS); }
     public static void stop() { EXECUTOR.shutdownNow(); }
 
+    private static final Set<Long> REMINDED = ConcurrentHashMap.newKeySet();
+
     private static void check() {
         try {
             LocalDateTime now = LocalDateTime.now();
             for (ScheduleEvent event : new ScheduleDao().findAll()) {
                 LocalDateTime start = LocalDateTime.parse(event.getStartAt(), DB_TIME);
+                if (!REMINDED.add(event.getId())) {
+                    continue;
+                }
+
                 if ("daily".equals(event.getRepeatRule())) {
                     while (start.isBefore(now.minusDays(1))) start = start.plusDays(1);
                 } else if ("weekly".equals(event.getRepeatRule())) {

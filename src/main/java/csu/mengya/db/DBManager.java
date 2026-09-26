@@ -23,8 +23,28 @@ import java.util.Scanner;
  */
 public final class DBManager {
 
-    /** SQLite 连接串，数据库文件生成在程序运行目录下（mengya.db） */
-    private static final String DB_URL = "jdbc:sqlite:mengya.db";
+    /** 默认 SQLite 连接串，数据库文件生成在程序运行目录下（mengya.db） */
+    private static final String DEFAULT_DB_URL = "jdbc:sqlite:mengya.db";
+
+    /** 覆盖连接串的系统属性名；仅供测试使用，正式运行不设置 */
+    private static final String DB_URL_PROPERTY = "pmato.db.url";
+
+    /**
+     * 解析当前应使用的数据库连接串。
+     *
+     * <p>优先读取系统属性 {@code pmato.db.url}，没有时回退到默认值。
+     * 这个开关是为单元测试准备的：测试在 {@code @BeforeAll} 里把连接串指向
+     * 临时文件，就能在不碰开发数据库的前提下跑 DAO 测试。</p>
+     *
+     * @return 完整的 JDBC 连接串
+     */
+    private String resolveDbUrl() {
+        String override = System.getProperty(DB_URL_PROPERTY);
+        if (override != null && !override.isBlank()) {
+            return override;
+        }
+        return DEFAULT_DB_URL;
+    }
 
     /** 单例实例 */
     private static final DBManager INSTANCE = new DBManager();
@@ -57,10 +77,27 @@ public final class DBManager {
         return connection;
     }
 
+    /**
+     * 关闭当前连接并置空。
+     *
+     * <p>调用后下一次 {@link #getConnection()} 会按当时的配置重新打开数据库。
+     * 单元测试用它从开发库切到临时库；程序退出时也可用于清理。</p>
+     */
+    public synchronized void close() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                // 关闭失败不影响后续流程，忽略
+            }
+            connection = null;
+        }
+    }
+
     /** 打开连接并执行建表脚本 */
     private void open() {
         try {
-            connection = DriverManager.getConnection(DB_URL);
+            connection = DriverManager.getConnection(resolveDbUrl());
             try (Statement pragma = connection.createStatement()) {
                 pragma.execute("PRAGMA foreign_keys = ON");
             }

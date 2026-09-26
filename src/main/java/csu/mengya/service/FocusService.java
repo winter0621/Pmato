@@ -1,10 +1,6 @@
 package csu.mengya.service;
 
-import csu.mengya.common.EventBus;
-import csu.mengya.common.FocusAbortedEvent;
-import csu.mengya.common.FocusFinishedEvent;
-import csu.mengya.common.GameConstants;
-import csu.mengya.common.Result;
+import csu.mengya.common.*;
 import csu.mengya.dao.FocusSessionDao;
 import csu.mengya.model.FocusSession;
 
@@ -92,8 +88,7 @@ public final class FocusService {
             if (active == null) return Result.fail("当前没有运行中的计时");
             boolean focus = "focus".equals(mode);
             int actualMin = (int) TimeUnit.NANOSECONDS.toMinutes(elapsedNanos());
-            int energy = focus ? (int) Math.round(actualMin * GameConstants.ENERGY_PER_MINUTE
-                    * GameConstants.ABORT_RATIO) : 0;
+            int energy = focus ? EnergyCalculator.forAbortedFocus(actualMin) : 0;
             if (sessions.finish(active.getId(), "aborted", actualMin, energy) && focus) {
                 if (energy > 0) GardenService.getInstance().applyFocusEnergy(energy);
                 EventBus.publish(new FocusAbortedEvent(active.getId(), actualMin));
@@ -150,9 +145,9 @@ public final class FocusService {
         int minutes = finished.getPlannedMin();
         int energy = 0;
         if (focus) {
-            double combo = GameConstants.COMBO_RATIOS[Math.min(completedInCycle, GameConstants.COMBO_RATIOS.length - 1)];
-            double task = finished.getTodoId() == null ? 1.0 : GameConstants.TODO_BONUS;
-            energy = (int) Math.round(minutes * GameConstants.ENERGY_PER_MINUTE * combo * task);
+            // 能量计算已抽到 EnergyCalculator（纯函数，可单元测试）
+            energy = EnergyCalculator.forCompletedFocus(minutes, completedInCycle, finished.getTodoId() != null);
+
         }
         if (!sessions.finish(finished.getId(), "completed", minutes, energy)) return;
         active = null;
