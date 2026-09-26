@@ -18,7 +18,12 @@ import javafx.scene.control.SpinnerValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/** F1 计时页面：只负责展示后台计时状态，并把用户操作交给 FocusService。 */
+/**
+ * F1 计时页面：只负责展示后台计时状态，并把用户操作交给 FocusService。
+ *
+ * @author 郭艾迪
+ * @since V1.0
+ */
 public class FocusController implements Initializable, PageRefreshable {
     @FXML private Label timerLabel, modeLabel, focusStatus, cycleLabel;
     @FXML private ComboBox<TodoChoice> todoBox;

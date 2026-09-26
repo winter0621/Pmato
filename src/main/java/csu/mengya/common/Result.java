@@ -7,7 +7,7 @@ package csu.mengya.common;
  * DAO 抛出的 SQLException 由 Service 捕获后转成 {@link #fail(String)}。</p>
  *
  * @param <T> 业务数据类型
- * @author 郭艾迪
+ * @author 唐天乐
  * @since V1.0
  */
 public class Result<T> {

@@ -12,7 +12,7 @@ import csu.mengya.service.TodoService;
  * <p>负责在窗口启动前完成三件事：数据库初始化与建表、默认作物图鉴填充、
  * 事件订阅注册。B/C 独立开发期间先各自跑通，待 A 的 F0 骨架定稿后由 A 接管。</p>
  *
- * @author 郭艾迪
+ * @author 唐天乐 / 郭艾迪
  * @since V1.0
  */
 public final class Bootstrap {

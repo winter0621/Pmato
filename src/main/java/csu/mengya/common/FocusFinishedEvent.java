@@ -5,7 +5,7 @@ package csu.mengya.common;
  *
  * <p>依据计划书 5.3 事件清单，携带会话 ID、实际专注分钟、本次结算能量、关联待办。</p>
  *
- * @author 郭艾迪
+ * @author 唐天乐
  * @since V1.0
  */
 public class FocusFinishedEvent {

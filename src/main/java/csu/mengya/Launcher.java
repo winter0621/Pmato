@@ -16,7 +16,7 @@ import javafx.application.Application;
  *
  * <p>运行方式：{@code mvn javafx:run}（由 javafx-maven-plugin 调用本类）。</p>
  *
- * @author 郭艾迪
+ * @author 唐天乐
  * @since V1.0
  */
 public class Launcher {

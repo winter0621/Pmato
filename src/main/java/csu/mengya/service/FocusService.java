@@ -14,6 +14,9 @@ import java.util.function.Consumer;
 /**
  * F1 专注计时内核。后台线程负责持久化和结算；单调时钟反算剩余时间，
  * 因此窗口最小化或刷新延迟不会让计时变慢。
+ *
+ * @author 郭艾迪
+ * @since V1.0
  */
 public final class FocusService {
     public record Snapshot(String mode, boolean running, boolean paused, long remainingSeconds,

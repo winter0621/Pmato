@@ -19,7 +19,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDate;
 
-/** 学习助手服务：按用户选择提取有限的本地摘要，并调用 OpenAI Responses API。 */
+/**
+ * 学习助手服务：按用户选择提取有限的本地摘要，并调用 OpenAI Responses API。
+ *
+ * @author 郭艾迪
+ * @since V1.0
+ */
 public final class AiAssistantService {
     private static final URI RESPONSES_URI = URI.create("https://api.openai.com/v1/responses");
     private static final String MODEL = "gpt-4.1-mini";

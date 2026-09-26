@@ -11,7 +11,12 @@ import javafx.scene.control.SpinnerValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/** F6 设置页面：参数保存后对下一次计时与后续提醒生效。 */
+/**
+ * F6 设置页面：参数保存后对下一次计时与后续提醒生效。
+ *
+ * @author 郭艾迪
+ * @since V1.0
+ */
 public class SettingsController implements Initializable {
     @FXML private Spinner<Integer> focusMinutes, shortBreakMinutes, longBreakMinutes;
     @FXML private CheckBox doNotDisturb;

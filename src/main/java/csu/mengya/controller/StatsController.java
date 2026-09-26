@@ -32,7 +32,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-/** F5 数据统计：紧凑展示指标、近七天趋势与作物收集册。 */
+/**
+ * F5 数据统计：紧凑展示指标、近七天趋势与作物收集册。
+ *
+ * @author 唐天乐 / 郭艾迪
+ * @since V1.0
+ */
 public class StatsController implements Initializable, PageRefreshable {
     @FXML private Label pomodoroValue, minutesValue, collectionValue, streakValue;
     @FXML private VBox chartContainer;

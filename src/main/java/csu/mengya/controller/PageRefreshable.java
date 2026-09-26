@@ -7,7 +7,7 @@ package csu.mengya.controller;
  * 配合 {@link MainController} 的页面缓存使用：FXML 只加载一次，显示时刷新数据，
  * 既避免每次切换重复解析 FXML 造成的卡顿，又保证数据不过期。</p>
  *
- * @author 郭艾迪
+ * @author 唐天乐
  * @since V1.0
  */
 public interface PageRefreshable {

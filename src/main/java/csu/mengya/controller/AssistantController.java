@@ -10,7 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 
-/** 学习助手页面：只在用户点击生成时发起网络请求，结果回到 JavaFX 线程展示。 */
+/**
+ * 学习助手页面：只在用户点击生成时发起网络请求，结果回到 JavaFX 线程展示。
+ *
+ * @author 郭艾迪
+ * @since V1.0
+ */
 public class AssistantController {
     @FXML private PasswordField apiKeyField;
     @FXML private CheckBox includeContextBox;

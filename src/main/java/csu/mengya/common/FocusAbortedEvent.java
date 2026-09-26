@@ -3,7 +3,7 @@ package csu.mengya.common;
 /**
  * 专注中断事件（F1 计时模块发布，F5 统计订阅）。
  *
- * @author 郭艾迪
+ * @author 唐天乐
  * @since V1.0
  */
 public class FocusAbortedEvent {

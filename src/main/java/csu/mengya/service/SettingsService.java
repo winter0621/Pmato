@@ -2,7 +2,12 @@ package csu.mengya.service;
 
 import java.util.prefs.Preferences;
 
-/** F6 本地设置。Java Preferences 持久化时长与免打扰选项。 */
+/**
+ * F6 本地设置。Java Preferences 持久化时长与免打扰选项。
+ *
+ * @author 郭艾迪
+ * @since V1.0
+ */
 public final class SettingsService {
     private static final SettingsService INSTANCE = new SettingsService();
     private final Preferences prefs = Preferences.userNodeForPackage(SettingsService.class);
