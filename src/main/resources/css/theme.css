@@ -3,14 +3,14 @@
  *
  * 依据《统一技术约定》5.6 节：
  *   1. 所有颜色、圆角、动效时长集中定义在 .root，禁止在 FXML 硬写颜色；
- *   2. 主色「生长绿」#4CAF7D，背景 #FAFAF7，高亮「成熟金」#F2B84B。
+ *   2. 主色「鼠尾草绿」#7BAE8D，背景 #F6F8F4，高亮「淡绿灰」#A8BF9F。
  * ============================================================ */
 
 .root {
-    /* —— 品牌色 —— */
-    -fx-accent:          #4CAF7D;   /* 主色：生长绿 */
-    -fx-base:            #FAFAF7;   /* 背景色 */
-    -fx-highlight-color: #F2B84B;   /* 高亮色：成熟金 */
+    /* —— 品牌色（柔和低饱和）—— */
+    -fx-accent:          #7BAE8D;   /* 主色：鼠尾草绿 */
+    -fx-base:            #F6F8F4;   /* 背景色：清爽浅绿白 */
+    -fx-highlight-color: #A8BF9F;   /* 高亮色：淡绿灰 */
 
     /* —— 文字色 —— */
     -fx-text-primary:    #333333;
@@ -22,7 +22,7 @@
 }
 
 /* ===== 主框架 / 侧边栏（F0）===== */
-.app-shell { -fx-background-color: #FAFAF7; }
+.app-shell { -fx-background-color: #F6F8F4; }
 .sidebar { -fx-background-color: #EAF4EC; }
 .brand-title { -fx-font-size: 27px; -fx-font-weight: bold; -fx-text-fill: #2E6B4A; }
 .brand-subtitle { -fx-font-size: 13px; -fx-text-fill: #78917F; -fx-padding: 0 0 18 0; }
@@ -30,32 +30,91 @@
 .nav-button:hover { -fx-background-color: #D6EBDD; }
 .nav-button:focused { -fx-background-color: #C8E3D0; -fx-text-fill: #245C3D; }
 .sidebar-status { -fx-font-size: 12px; -fx-text-fill: #78917F; }
-.content { -fx-background-color: #FAFAF7; }
+.content { -fx-background-color: #F6F8F4; }
 .page-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2F4035; }
 .page-description { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; -fx-padding: 5 0 0 0; }
 .summary-pill { -fx-background-color: #EAF4EC; -fx-background-radius: 18; -fx-padding: 9 15; -fx-text-fill: #4B795C; -fx-font-size: 13px; }
 .page-card { -fx-background-color: white; -fx-background-radius: 18; -fx-border-color: #E6ECE6; -fx-border-radius: 18; -fx-border-width: 1; }
-.module-icon { -fx-font-size: 58px; -fx-text-fill: #4CAF7D; }
+.module-icon { -fx-font-size: 58px; -fx-text-fill: #7BAE8D; }
 .module-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
 .module-detail { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; }
-.primary-button { -fx-background-color: #4CAF7D; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 11 28; -fx-cursor: hand; }
-.primary-button:hover { -fx-background-color: #3E966A; }
+.primary-button { -fx-background-color: #7BAE8D; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 11 28; -fx-cursor: hand; }
+.primary-button:hover { -fx-background-color: #6AA080; }
+
+/* 页面容器（F2/F5 页面内边距） */
+.page { -fx-padding: 16; }
+
+/* 页面滚动容器（长内容页兜底，透明融入卡片） */
+.page-scroll { -fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; }
+.page-scroll > .viewport { -fx-background-color: transparent; }
 
 /* ===== 通用组件 ===== */
 .section-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
 .section-subtitle { -fx-text-fill: #8A8A8A; }
-.form-status { -fx-text-fill: #4CAF7D; -fx-padding: 8 0; }
+.form-status { -fx-text-fill: #7BAE8D; -fx-padding: 8 0; }
 .calendar-header { -fx-font-weight: bold; -fx-text-fill: #466653; -fx-padding: 8; }
 .event-button { -fx-background-color: #EAF4EC; -fx-text-fill: #386348; -fx-alignment: CENTER_LEFT; -fx-font-size: 11px; }
 .status { -fx-font-size: 14px; -fx-text-fill: -fx-accent; }
 .empty-hint { -fx-font-size: 13px; -fx-text-fill: -fx-text-secondary; -fx-font-style: italic; }
 
 /* ===== 植物园地块（F2）===== */
-.plot-tile { -fx-background-color: #F7F3EA; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2); }
-.plot-empty { -fx-border-color: #D9CEB2; -fx-border-style: dashed; -fx-border-radius: 12; -fx-border-width: 1.5; }
+.plot-tile { -fx-background-color: #F5F8F2; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2); }
+.plot-empty { -fx-border-color: #D8E0D6; -fx-border-style: dashed; -fx-border-radius: 12; -fx-border-width: 1.5; }
+.plot-drop-target { -fx-border-color: -fx-accent; -fx-border-style: solid; -fx-border-radius: 12; -fx-border-width: 2; }
 .plot-slot { -fx-font-size: 12px; -fx-text-fill: -fx-text-secondary; }
 .plot-name { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
 .plot-stage { -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: -fx-accent; }
 .plot-energy { -fx-font-size: 11px; -fx-text-fill: -fx-text-secondary; }
 .plot-progress .track { -fx-background-color: rgba(0, 0, 0, 0.08); -fx-background-radius: 4; }
 .plot-progress .bar { -fx-background-color: -fx-accent; -fx-background-radius: 4; }
+
+/* ===== 图鉴卡片（F2，收集/解锁分工：图鉴管解锁，统计页管收集）===== */
+.collection-card { -fx-background-color: white; -fx-background-radius: 12; -fx-padding: 8; -fx-alignment: CENTER; -fx-border-radius: 12; -fx-border-width: 2; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 6, 0, 0, 1); }
+.collection-card:hover { -fx-translate-y: -2; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.10), 10, 0, 0, 2); }
+.collection-card-common { -fx-border-color: #8FBF6A; }
+.collection-card-rare { -fx-border-color: #A78BFA; }
+.collection-card-epic { -fx-border-color: #8FB7D9; }
+.collection-card-locked { -fx-background-color: #EFF2EC; -fx-border-color: #DCE2DA; }
+.collection-card-selected { -fx-border-color: #7BAE8D; -fx-border-width: 2.5; -fx-effect: dropshadow(gaussian, rgba(123, 174, 141, 0.35), 10, 0, 0, 0); }
+.collection-name { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
+.collection-state-locked { -fx-font-size: 11px; -fx-text-fill: -fx-text-secondary; }
+.collection-state-unlocked { -fx-font-size: 11px; -fx-text-fill: #7CB342; }
+.collection-state-collected { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7BAE8D; }
+
+/* ===== 收集册（F5，收集成就展示）===== */
+.album-card { -fx-background-color: white; -fx-background-radius: 14; -fx-padding: 10; -fx-alignment: CENTER; -fx-border-radius: 14; -fx-border-width: 2; -fx-border-color: #E6ECE6; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 6, 0, 0, 1); }
+.album-card-collected { -fx-border-color: #7BAE8D; -fx-effect: dropshadow(gaussian, rgba(123, 174, 141, 0.35), 10, 0, 0, 0); }
+.album-card-missing { -fx-background-color: #F1F4EF; -fx-border-style: dashed; -fx-border-color: #DCE3DB; }
+.album-name { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
+.album-name-missing { -fx-text-fill: -fx-text-secondary; }
+.album-state-collected { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7BAE8D; }
+.album-state-missing { -fx-font-size: 11px; -fx-text-fill: -fx-text-secondary; }
+
+/* ===== 统计图表卡片（F5）===== */
+.chart-card { -fx-background-color: white; -fx-background-radius: 16; -fx-padding: 14; -fx-border-color: #E3EBE4; -fx-border-radius: 16; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2); }
+.chart-card-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
+.chart { -fx-padding: 6; }
+.chart-plot-background { -fx-background-color: transparent; }
+.chart-vertical-grid-lines { -fx-stroke: #F3EFE6; }
+.chart-horizontal-grid-lines { -fx-stroke: #F3EFE6; }
+.chart-legend { -fx-background-color: transparent; }
+.chart-legend-item { -fx-text-fill: -fx-text-secondary; }
+.chart-legend-item-symbol { -fx-background-radius: 4; }
+.axis-label { -fx-text-fill: -fx-text-secondary; -fx-font-size: 11px; }
+.axis { -fx-tick-label-fill: -fx-text-secondary; -fx-font-size: 10px; }
+.axis-tick-mark { -fx-stroke: #E6ECE6; }
+.axis-minor-tick-mark { -fx-stroke: #F0EDE3; }
+
+/* 面积图：主色绿线 + 渐变区域填充 */
+.default-color0.chart-series-area-line { -fx-stroke: #7BAE8D; -fx-stroke-width: 2.5; }
+.default-color0.chart-series-area-fill { -fx-fill: linear-gradient(to top, rgba(123, 174, 141, 0.30), rgba(123, 174, 141, 0.03)); }
+.default-color0.chart-area-symbol { -fx-background-color: #7BAE8D, white; -fx-background-insets: 0, 2; -fx-background-radius: 5, 4; }
+
+/* 柱状图：主色圆角柱 */
+.default-color0.chart-bar { -fx-bar-fill: #7BAE8D; -fx-background-radius: 6 6 0 0; }
+
+/* 饼图：已收集绿 / 未收集浅绿灰 */
+.default-color0.chart-pie { -fx-pie-fill: #7BAE8D; }
+.default-color1.chart-pie { -fx-pie-fill: #E4E9E2; }
+.chart-pie-label-line { -fx-stroke: #D9CEB2; }
+.chart-pie-label { -fx-fill: -fx-text-primary; -fx-font-size: 11px; }

@@ -85,6 +85,17 @@ public class GardenPlotDao {
         }
     }
 
+    /** 删除单个地块（收获后释放该槽位） */
+    public synchronized void delete(long id) {
+        String sql = "DELETE FROM garden_plot WHERE id = ?";
+        try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("删除地块失败", e);
+        }
+    }
+
     /** 清空全部地块（开发用重置） */
     public synchronized void deleteAll() {
         String sql = "DELETE FROM garden_plot";

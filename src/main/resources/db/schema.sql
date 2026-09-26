@@ -34,7 +34,9 @@ CREATE TABLE IF NOT EXISTS plant_species (
   name          TEXT    NOT NULL,
   rarity        TEXT    NOT NULL,
   unlock_energy INTEGER NOT NULL,
-  stage_scale   REAL    NOT NULL DEFAULT 1.0
+  stage_scale   REAL    NOT NULL DEFAULT 1.0,
+  collected     INTEGER NOT NULL DEFAULT 0,
+  unlocked      INTEGER NOT NULL DEFAULT 0
 );
 
 -- 植物园地块

@@ -56,33 +56,82 @@ public final class GardenService {
     }
 
     /**
-     * 种植作物到第一个空地块。
+     * 判断某物种是否已解锁（门槛为 0 的普通作物默认解锁）。
+     *
+     * @param species 物种
+     * @return 是否已解锁
+     */
+    public boolean isUnlocked(PlantSpecies species) {
+        return species.getUnlockEnergy() == 0 || species.isUnlocked();
+    }
+
+    /**
+     * 花能量解锁某物种（永久解锁）。
      *
      * @param speciesId 物种 ID
-     * @return 成功返回地块；地块满或能量不足返回失败
+     * @return 成功返回物种；已解锁或能量不足返回失败
      */
-    public Result<GardenPlot> plant(String speciesId) {
+    public Result<PlantSpecies> unlockSpecies(String speciesId) {
         PlantSpecies species = speciesDao.findById(speciesId);
         if (species == null) {
             return Result.fail("未知作物");
         }
-        if (totalEnergy() < species.getUnlockEnergy()) {
-            return Result.fail("累计能量不足，暂未解锁「" + species.getName() + "」");
+        if (isUnlocked(species)) {
+            return Result.fail("该作物已解锁");
         }
+        if (totalEnergy() < species.getUnlockEnergy()) {
+            return Result.fail("能量不足，解锁需要 " + species.getUnlockEnergy() + " 能量");
+        }
+        spendEnergy(species.getUnlockEnergy());
+        speciesDao.markUnlocked(speciesId);
+        return Result.ok(species);
+    }
+
+    /**
+     * 种植作物到指定地块（需已解锁 + 扣除种植消耗）。
+     *
+     * @param speciesId 物种 ID
+     * @param slotIndex 地块位置
+     * @return 成功返回地块；失败返回原因
+     */
+    public Result<GardenPlot> plant(String speciesId, int slotIndex) {
+        PlantSpecies species = speciesDao.findById(speciesId);
+        if (species == null) {
+            return Result.fail("未知作物");
+        }
+        if (!isUnlocked(species)) {
+            return Result.fail("「" + species.getName() + "」还未解锁，需 " + species.getUnlockEnergy() + " 能量");
+        }
+        int cost = GameConstants.plantCost(species.getRarity());
+        if (totalEnergy() < cost) {
+            return Result.fail("能量不足，种植需要 " + cost + " 能量");
+        }
+        if (slotIndex < 0 || slotIndex >= GameConstants.PLOT_COUNT) {
+            return Result.fail("无效的地块位置");
+        }
+        if (plotDao.findBySlot(slotIndex) != null) {
+            return Result.fail("该地块已种了作物，不能覆盖");
+        }
+        spendEnergy(cost);
+        GardenPlot plot = new GardenPlot();
+        plot.setSpeciesId(speciesId);
+        plot.setSlotIndex(slotIndex);
+        plot.setPlantedAt(LocalDateTime.now().toString());
+        plot.setEnergy(0);
+        plot.setStage(0);
+        plot.setStatus("growing");
+        plotDao.insert(plot);
+        return Result.ok(plot);
+    }
+
+    /** 第一个空地块的下标，无则返回 -1 */
+    public int firstEmptySlot() {
         for (int i = 0; i < GameConstants.PLOT_COUNT; i++) {
             if (plotDao.findBySlot(i) == null) {
-                GardenPlot plot = new GardenPlot();
-                plot.setSpeciesId(speciesId);
-                plot.setSlotIndex(i);
-                plot.setPlantedAt(LocalDateTime.now().toString());
-                plot.setEnergy(0);
-                plot.setStage(0);
-                plot.setStatus("growing");
-                plotDao.insert(plot);
-                return Result.ok(plot);
+                return i;
             }
         }
-        return Result.fail("地块已满，先收获成熟作物");
+        return -1;
     }
 
     /**
@@ -119,24 +168,41 @@ public final class GardenService {
         return Result.ok(plot);
     }
 
-    /** 收获第一个成熟作物（状态置为 harvested，作为收集记录保留） */
+    /** 开发用：浇灌到下一生长阶段，便于快速查看五阶段生长过程 */
+    public Result<GardenPlot> growToNextStage() {
+        GardenPlot plot = firstGrowingPlot();
+        if (plot == null) {
+            return Result.fail("没有生长中的作物，先种植一株吧");
+        }
+        double scale = speciesScale(plot.getSpeciesId());
+        int stage = calcStage(plot.getEnergy(), scale);
+        if (stage >= GameConstants.STAGE_THRESHOLDS.length - 1) {
+            return Result.fail("已成熟，可以收获了");
+        }
+        // 计算到达下一阶段还差多少能量（阈值按稀有度系数放大）
+        int nextThreshold = (int) Math.ceil(GameConstants.STAGE_THRESHOLDS[stage + 1] * scale);
+        int need = Math.max(1, nextThreshold - plot.getEnergy());
+        return applyFocusEnergy(need);
+    }
+
+    /** 收获第一个成熟作物：标记物种已收集，并删除地块释放槽位供重新种植 */
     public Result<GardenPlot> harvestFirstMature() {
         for (GardenPlot p : plotDao.findAll()) {
             if ("mature".equals(p.getStatus())) {
-                p.setStatus("harvested");
-                plotDao.update(p);
+                speciesDao.markCollected(p.getSpeciesId());   // 永久记录「已收集」
+                plotDao.delete(p.getId());                    // 释放槽位
                 return Result.ok(p);
             }
         }
         return Result.fail("没有可收获的成熟作物");
     }
 
-    /** 已收集（收获过）的物种 ID 集合 */
+    /** 已收集（收获过）的物种 ID 集合（从图鉴表读取，重种不影响） */
     public Set<String> collectedSpeciesIds() {
         Set<String> set = new HashSet<>();
-        for (GardenPlot p : plotDao.findAll()) {
-            if ("harvested".equals(p.getStatus())) {
-                set.add(p.getSpeciesId());
+        for (PlantSpecies s : speciesDao.findAll()) {
+            if (s.isCollected()) {
+                set.add(s.getId());
             }
         }
         return set;
@@ -207,6 +273,14 @@ public final class GardenService {
         UserProfileDao dao = new UserProfileDao();
         UserProfile profile = dao.getOrCreate();
         profile.setTotalEnergy(profile.getTotalEnergy() + energy);
+        dao.update(profile);
+    }
+
+    /** 扣除用户能量（种植/解锁消耗） */
+    private void spendEnergy(int amount) {
+        UserProfileDao dao = new UserProfileDao();
+        UserProfile profile = dao.getOrCreate();
+        profile.setTotalEnergy(profile.getTotalEnergy() - amount);
         dao.update(profile);
     }
 }

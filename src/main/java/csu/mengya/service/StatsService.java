@@ -1,10 +1,14 @@
 package csu.mengya.service;
 
 import csu.mengya.dao.FocusSessionDao;
-import csu.mengya.dao.UserProfileDao;
 import csu.mengya.model.FocusSession;
+import csu.mengya.model.PlantSpecies;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -62,9 +66,34 @@ public final class StatsService {
         return GardenService.getInstance().allSpecies().size();
     }
 
-    /** 连续打卡天数（当前直接读 user_profile，后续 D9 再实现完整打卡判定） */
+    /** 收集册数据：全部物种（含收集状态），供统计页收集册网格展示 */
+    public List<PlantSpecies> speciesAlbum() {
+        return GardenService.getInstance().allSpecies();
+    }
+
+    /**
+     * 连续打卡天数：从专注会话反推，统计「连续有专注记录的天数」。
+     * 今天还没记录时从昨天起算（当天未结束不算断签），断一天即归零。
+     */
     public int streakDays() {
-        return new UserProfileDao().getOrCreate().getStreakDays();
+        Set<LocalDate> days = new HashSet<>();
+        for (FocusSession s : sessionDao.findCompletedFocus()) {
+            String d = dayOf(s.getStartAt());
+            if (d.length() == 10) {
+                days.add(LocalDate.parse(d));
+            }
+        }
+        if (days.isEmpty()) {
+            return 0;
+        }
+        LocalDate today = LocalDate.now();
+        LocalDate cursor = days.contains(today) ? today : today.minusDays(1);
+        int streak = 0;
+        while (days.contains(cursor)) {
+            streak++;
+            cursor = cursor.minusDays(1);
+        }
+        return streak;
     }
 
     /** 从 ISO8601 时间串提取日期部分（yyyy-MM-dd） */

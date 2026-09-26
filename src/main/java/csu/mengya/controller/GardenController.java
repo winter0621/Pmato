@@ -12,18 +12,22 @@ import csu.mengya.model.FocusSession;
 import csu.mengya.model.GardenPlot;
 import csu.mengya.model.PlantSpecies;
 import csu.mengya.service.GardenService;
+import javafx.animation.Interpolator;
+import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.util.Duration;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -44,10 +48,10 @@ import java.util.ResourceBundle;
  * @author B
  * @since V1.0
  */
-public class GardenController implements Initializable {
+public class GardenController implements Initializable, PageRefreshable {
 
     @FXML
-    private ListView<String> speciesListView;
+    private FlowPane collectionPane;
 
     @FXML
     private FlowPane plotPane;
@@ -62,66 +66,161 @@ public class GardenController implements Initializable {
     private final PlantSpeciesDao speciesDao = new PlantSpeciesDao();
     private final FocusSessionDao sessionDao = new FocusSessionDao();
 
-    /** 与 speciesListView 一一对应的作物列表 */
+    /** 与图鉴卡片一一对应的作物列表 */
     private final List<PlantSpecies> species = new ArrayList<>();
+
+    /** 当前选中的图鉴卡片下标，-1 表示未选中 */
+    private int selectedIndex = -1;
+
+    /** 记录上一轮各槽位的生长阶段，用于检测阶段升级并触发动画 */
+    private final Map<Integer, Integer> prevStage = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setupSpeciesList();
         refreshAll();
-        statusLabel.setText("就绪：选中图鉴作物点「种植」，或点「模拟专注」给作物加能量");
+        selectedIndex = 0;      // 默认选中第一张卡片
+        refreshCollection();    // 重建以高亮默认选中
+        statusLabel.setText("就绪：先解锁作物，再拖拽到空地种植；点「模拟专注」赚能量");
     }
 
     /**
-     * 配置图鉴列表的自定义单元格：左侧显示作物成熟期缩略图，右侧显示名称与稀有度。
-     * 图片资源缺失时自动回退为纯文本行，不影响列表可用性。
+     * 构建一张图鉴卡片：成熟期贴图 + 名称 + 状态行。
+     * 未解锁灰暗带锁；已解锁显示稀有度边框色；已收集附金色圆点标记（对应 TC-2.7）。
+     * 点击选中（供解锁/种植按钮使用），拖拽可将该作物种到空地。
      */
-    private void setupSpeciesList() {
-        speciesListView.setCellFactory(list -> new ListCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null);
-                    setText(null);
-                    return;
-                }
-                // 通过当前行索引找到对应的作物，取成熟期贴图作缩略图
-                int idx = getIndex();
-                PlantSpecies sp = (idx >= 0 && idx < species.size()) ? species.get(idx) : null;
-                if (sp != null) {
-                    Image img = PlantImage.matureOf(sp.getId());
-                    if (img != null) {
-                        ImageView thumb = new ImageView(img);
-                        thumb.setFitWidth(36);
-                        thumb.setFitHeight(36);
-                        thumb.setPreserveRatio(true);
-                        HBox box = new HBox(8);
-                        box.setAlignment(Pos.CENTER_LEFT);
-                        box.getChildren().addAll(thumb, new Label(item));
-                        setGraphic(box);
-                        setText(null);
-                        return;
-                    }
-                }
-                setText(item);
-                setGraphic(null);
+    private VBox buildCollectionCard(PlantSpecies sp, int idx) {
+        boolean locked = sp.getUnlockEnergy() > 0 && !sp.isUnlocked();
+
+        VBox card = new VBox(4);
+        card.setPrefSize(100, 132);
+        card.setAlignment(Pos.CENTER);
+        card.getStyleClass().add("collection-card");
+        card.getStyleClass().add("collection-card-" + rarityKey(sp.getRarity()));
+        if (locked) {
+            card.getStyleClass().add("collection-card-locked");
+        }
+        if (idx == selectedIndex) {
+            card.getStyleClass().add("collection-card-selected");
+        }
+
+        // 成熟期贴图作卡片主图；未解锁时压暗
+        Node art;
+        Image img = PlantImage.matureOf(sp.getId());
+        if (img != null) {
+            ImageView artImg = new ImageView(img);
+            artImg.setFitWidth(64);
+            artImg.setFitHeight(64);
+            artImg.setPreserveRatio(true);
+            if (locked) {
+                artImg.setOpacity(0.35);
             }
+            art = artImg;
+        } else {
+            Label emoji = new Label(PlantEmoji.of(sp.getId()));
+            emoji.setFont(new Font(44));
+            if (locked) {
+                emoji.setOpacity(0.35);
+            }
+            art = emoji;
+        }
+
+        Label name = new Label(sp.getName());
+        name.getStyleClass().add("collection-name");
+
+        Label state = new Label();
+        if (locked) {
+            state.setText("🔒 需 " + sp.getUnlockEnergy() + " 能量");
+            state.getStyleClass().add("collection-state-locked");
+        } else if (sp.isCollected()) {
+            state.setText("● 已收集");
+            state.getStyleClass().add("collection-state-collected");
+        } else {
+            state.setText("已解锁");
+            state.getStyleClass().add("collection-state-unlocked");
+        }
+
+        card.getChildren().addAll(art, name, state);
+
+        // 点击选中（只切换高亮样式，避免整网格重建）
+        card.setOnMouseClicked(e -> {
+            if (selectedIndex == idx) {
+                return;
+            }
+            selectedIndex = idx;
+            for (int i = 0; i < collectionPane.getChildren().size(); i++) {
+                collectionPane.getChildren().get(i).getStyleClass().remove("collection-card-selected");
+            }
+            card.getStyleClass().add("collection-card-selected");
         });
+        // 拖拽到空地种植（未解锁不允许拖）
+        card.setOnDragDetected(e -> {
+            if (locked) {
+                statusLabel.setText("「" + sp.getName() + "」还未解锁，需 " + sp.getUnlockEnergy() + " 能量");
+                return;
+            }
+            Dragboard db = card.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(sp.getId());
+            db.setContent(content);
+            e.consume();
+        });
+        return card;
     }
 
-    /** 种植选中作物到第一个空地块 */
+    /** 刷新图鉴卡片网格（每次从 DAO 重建，保持与数据库一致） */
+    private void refreshCollection() {
+        species.clear();
+        collectionPane.getChildren().clear();
+        for (PlantSpecies s : speciesDao.findAll()) {
+            species.add(s);
+            collectionPane.getChildren().add(buildCollectionCard(s, species.size() - 1));
+        }
+    }
+
+    /** 稀有度 -> CSS 类后缀（边框色） */
+    private String rarityKey(String rarity) {
+        if ("rare".equalsIgnoreCase(rarity)) {
+            return "rare";
+        }
+        if ("epic".equalsIgnoreCase(rarity)) {
+            return "epic";
+        }
+        return "common";
+    }
+
+    /** 解锁选中的作物（花能量） */
     @FXML
-    private void onPlant() {
-        int idx = speciesListView.getSelectionModel().getSelectedIndex();
+    private void onUnlock() {
+        int idx = selectedIndex;
         if (idx < 0) {
             statusLabel.setText("请先在左侧图鉴选中一种作物");
             return;
         }
         PlantSpecies s = species.get(idx);
-        Result<GardenPlot> r = garden.plant(s.getId());
+        Result<PlantSpecies> r = garden.unlockSpecies(s.getId());
+        statusLabel.setText(r.isSuccess() ? "已解锁「" + s.getName() + "」" : r.getMessage());
+        refreshCollection();
+        refreshTotalEnergy();
+    }
+
+    /** 种植选中作物到第一个空地块（拖拽为另一种更直观的方式） */
+    @FXML
+    private void onPlant() {
+        int idx = selectedIndex;
+        if (idx < 0) {
+            statusLabel.setText("请先在左侧图鉴选中一种作物");
+            return;
+        }
+        PlantSpecies s = species.get(idx);
+        int slot = garden.firstEmptySlot();
+        if (slot < 0) {
+            statusLabel.setText("地块已满，先收获成熟作物");
+            return;
+        }
+        Result<GardenPlot> r = garden.plant(s.getId(), slot);
         statusLabel.setText(r.isSuccess() ? "已种下「" + s.getName() + "」" : r.getMessage());
         refreshPlots();
+        refreshTotalEnergy();
     }
 
     /**
@@ -148,6 +247,7 @@ public class GardenController implements Initializable {
         statusLabel.setText("已模拟完成一次专注，+25 能量");
         refreshPlots();
         refreshTotalEnergy();
+        refreshCollection();
     }
 
     /** 收获第一个成熟作物 */
@@ -156,6 +256,16 @@ public class GardenController implements Initializable {
         Result<GardenPlot> r = garden.harvestFirstMature();
         statusLabel.setText(r.isSuccess() ? "收获成功！" : r.getMessage());
         refreshPlots();
+    }
+
+    /** 开发用：浇灌到下一生长阶段，快速查看生长过程 */
+    @FXML
+    private void onGrowStage() {
+        Result<GardenPlot> r = garden.growToNextStage();
+        statusLabel.setText(r.isSuccess() ? "已长到下一阶段" : r.getMessage());
+        refreshPlots();
+        refreshTotalEnergy();
+        refreshCollection();
     }
 
     /** 重置植物园（开发用，便于重复测试种植流程） */
@@ -167,23 +277,17 @@ public class GardenController implements Initializable {
         refreshTotalEnergy();
     }
 
-    /** 刷新整页 */
-    private void refreshAll() {
-        refreshSpecies();
-        refreshPlots();
-        refreshTotalEnergy();
+    /** 页面被再次显示时刷新数据（实现 PageRefreshable） */
+    @Override
+    public void refresh() {
+        refreshAll();
     }
 
-    /** 刷新左侧图鉴列表（带成熟期缩略图，图片缺失时回退纯文本） */
-    private void refreshSpecies() {
-        species.clear();
-        speciesListView.getItems().clear();
-        for (PlantSpecies s : speciesDao.findAll()) {
-            species.add(s);
-            String line = s.getName()
-                    + "（" + rarityName(s.getRarity()) + "）· 解锁 " + s.getUnlockEnergy() + " 能量";
-            speciesListView.getItems().add(line);
-        }
+    /** 刷新整页 */
+    private void refreshAll() {
+        refreshCollection();
+        refreshPlots();
+        refreshTotalEnergy();
     }
 
     /** 刷新地块网格（按 0..PLOT_COUNT-1 顺序渲染，空地显示占位） */
@@ -194,7 +298,14 @@ public class GardenController implements Initializable {
             bySlot.put(p.getSlotIndex(), p);
         }
         for (int i = 0; i < GameConstants.PLOT_COUNT; i++) {
-            plotPane.getChildren().add(buildTile(i, bySlot.get(i)));
+            GardenPlot p = bySlot.get(i);
+            boolean grew = p != null && prevStage.containsKey(i) && p.getStage() > prevStage.get(i);
+            plotPane.getChildren().add(buildTile(i, p, grew));
+        }
+        // 更新本轮阶段快照，供下次检测升级
+        prevStage.clear();
+        for (GardenPlot p : garden.allPlots()) {
+            prevStage.put(p.getSlotIndex(), p.getStage());
         }
     }
 
@@ -202,12 +313,12 @@ public class GardenController implements Initializable {
      * 构建单个地块卡片。
      * 空地为「土壤 + 空地」占位；已种地显示按阶段缩放的 Emoji + 阶段 + 进度条 + 能量。
      */
-    private VBox buildTile(int slot, GardenPlot plot) {
-        VBox tile = new VBox(6);
-        tile.setPrefSize(150, 165);
+    private VBox buildTile(int slot, GardenPlot plot, boolean grew) {
+        VBox tile = new VBox(4);
+        tile.setPrefSize(150, 215);
         tile.setAlignment(Pos.CENTER);
 
-        Label slotLabel = new Label("地块 " + slot);
+        Label slotLabel = new Label("地块 " + (slot + 1));
         slotLabel.getStyleClass().add("plot-slot");
 
         if (plot == null) {
@@ -215,6 +326,7 @@ public class GardenController implements Initializable {
             Label empty = new Label("空地");
             empty.getStyleClass().add("empty-hint");
             tile.getChildren().addAll(slotLabel, empty);
+            makeDroppable(tile, slot);
             return tile;
         }
 
@@ -242,6 +354,19 @@ public class GardenController implements Initializable {
             plantNode.setOpacity(0.4);   // 已收获的变淡，表示「已完成」
         }
 
+        // 阶段升级时播放「生长」缩放动画（从 0.6 弹跳到 1.0）
+        if (grew) {
+            plantNode.setScaleX(0.6);
+            plantNode.setScaleY(0.6);
+            ScaleTransition grow = new ScaleTransition(Duration.millis(260), plantNode);
+            grow.setFromX(0.6);
+            grow.setFromY(0.6);
+            grow.setToX(1.0);
+            grow.setToY(1.0);
+            grow.setInterpolator(Interpolator.EASE_OUT);
+            Platform.runLater(grow::play);
+        }
+
         Label nameLabel = new Label(name);
         nameLabel.getStyleClass().add("plot-name");
 
@@ -252,6 +377,7 @@ public class GardenController implements Initializable {
         // 生长进度条：当前阶段内的成长比例，成熟满格
         ProgressBar bar = new ProgressBar(garden.stageProgress(plot));
         bar.setPrefWidth(120);
+        bar.setPrefHeight(8);
         bar.getStyleClass().add("plot-progress");
 
         Label energyLabel = new Label(plot.getEnergy() + " EP");
@@ -261,19 +387,43 @@ public class GardenController implements Initializable {
         return tile;
     }
 
+    /** 给空地地块绑定拖拽放置：拖拽图鉴作物到该地块种植 */
+    private void makeDroppable(VBox tile, int slot) {
+        tile.setOnDragOver(e -> {
+            if (e.getDragboard().hasString()) {
+                e.acceptTransferModes(TransferMode.COPY);
+            }
+            e.consume();
+        });
+        tile.setOnDragEntered(e -> {
+            if (e.getDragboard().hasString()) {
+                tile.getStyleClass().add("plot-drop-target");
+            }
+            e.consume();
+        });
+        tile.setOnDragExited(e -> {
+            tile.getStyleClass().remove("plot-drop-target");
+            e.consume();
+        });
+        tile.setOnDragDropped(e -> {
+            boolean ok = false;
+            if (e.getDragboard().hasString()) {
+                String speciesId = e.getDragboard().getString();
+                Result<GardenPlot> r = garden.plant(speciesId, slot);
+                statusLabel.setText(r.isSuccess() ? "已种下" : r.getMessage());
+                if (r.isSuccess()) {
+                    refreshPlots();
+                    refreshTotalEnergy();
+                    ok = true;
+                }
+            }
+            e.setDropCompleted(ok);
+            e.consume();
+        });
+    }
+
     /** 刷新累计能量显示 */
     private void refreshTotalEnergy() {
         totalEnergyLabel.setText("累计能量：" + garden.totalEnergy());
-    }
-
-    /** 稀有度 -> 中文名 */
-    private String rarityName(String rarity) {
-        if ("rare".equalsIgnoreCase(rarity)) {
-            return "稀有";
-        }
-        if ("epic".equalsIgnoreCase(rarity)) {
-            return "史诗";
-        }
-        return "普通";
     }
 }

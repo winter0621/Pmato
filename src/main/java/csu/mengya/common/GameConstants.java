@@ -52,6 +52,33 @@ public final class GameConstants {
     /** 地块数量 */
     public static final int PLOT_COUNT = 6;
 
+    // ---------- 种植消耗（按稀有度） ----------
+
+    /** 普通作物种植消耗 */
+    public static final int PLANT_COST_COMMON = 10;
+
+    /** 稀有作物种植消耗 */
+    public static final int PLANT_COST_RARE = 20;
+
+    /** 史诗作物种植消耗 */
+    public static final int PLANT_COST_EPIC = 30;
+
+    /**
+     * 根据稀有度取种植消耗。
+     *
+     * @param rarity common / rare / epic
+     * @return 种植所需能量
+     */
+    public static int plantCost(String rarity) {
+        if ("rare".equalsIgnoreCase(rarity)) {
+            return PLANT_COST_RARE;
+        }
+        if ("epic".equalsIgnoreCase(rarity)) {
+            return PLANT_COST_EPIC;
+        }
+        return PLANT_COST_COMMON;
+    }
+
     /**
      * 根据稀有度字符串取生长系数。
      *

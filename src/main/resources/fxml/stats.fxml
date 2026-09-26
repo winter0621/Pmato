@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- 数据统计页面（F5），图表由 StatsController 动态构建 -->
-<VBox xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="csu.mengya.controller.StatsController"
-      spacing="12"
-      styleClass="page">
+<!-- 数据统计页面（F5），图表由 StatsController 动态构建；外层 ScrollPane 兜底防止收集册等长内容被裁 -->
+<ScrollPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="csu.mengya.controller.StatsController"
+            fitToWidth="true"
+            styleClass="page-scroll">
 
-    <Label text="数据统计" styleClass="page-title"/>
-    <Label fx:id="summaryLabel" styleClass="status"/>
-    <VBox fx:id="chartContainer" spacing="16"/>
-</VBox>
+    <VBox spacing="12" styleClass="page">
+        <Label text="数据统计" styleClass="page-title"/>
+        <Label fx:id="summaryLabel" styleClass="status"/>
+        <VBox fx:id="chartContainer" spacing="16"/>
+    </VBox>
+</ScrollPane>

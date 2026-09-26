@@ -25,6 +25,12 @@ public class PlantSpecies {
     /** 稀有度系数（影响生长阈值缩放） */
     private double stageScale;
 
+    /** 是否已收集（收获过一次即永久为 true） */
+    private boolean collected;
+
+    /** 是否已解锁（普通作物默认解锁；稀有/史诗需花能量解锁） */
+    private boolean unlocked;
+
     public String getId() {
         return id;
     }
@@ -63,5 +69,21 @@ public class PlantSpecies {
 
     public void setStageScale(double stageScale) {
         this.stageScale = stageScale;
+    }
+
+    public boolean isCollected() {
+        return collected;
+    }
+
+    public void setCollected(boolean collected) {
+        this.collected = collected;
+    }
+
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked(boolean unlocked) {
+        this.unlocked = unlocked;
     }
 }

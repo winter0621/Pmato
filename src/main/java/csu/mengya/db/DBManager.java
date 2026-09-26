@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -61,10 +62,49 @@ public final class DBManager {
         try {
             connection = DriverManager.getConnection(DB_URL);
             executeSchema(connection);
+            migrate(connection);
         } catch (SQLException e) {
             // 数据库初始化失败属于致命错误，直接抛出，由 Bootstrap 让程序提示后退出
             throw new RuntimeException("数据库初始化失败", e);
         }
+    }
+
+    /**
+     * 轻量迁移：老库缺列时补列，避免「直接删库重建」丢用户数据（计划书 5.2 迁移策略）。
+     */
+    private void migrate(Connection conn) {
+        // V1.1：plant_species 增加 collected 列，标记物种是否已收集
+        if (!hasColumn(conn, "plant_species", "collected")) {
+            try (Statement s = conn.createStatement()) {
+                s.execute("ALTER TABLE plant_species ADD COLUMN collected INTEGER NOT NULL DEFAULT 0");
+            } catch (SQLException e) {
+                throw new RuntimeException("迁移 plant_species 失败", e);
+            }
+        }
+        // V1.2：plant_species 增加 unlocked 列（解锁状态）；普通作物（门槛 0）默认已解锁
+        if (!hasColumn(conn, "plant_species", "unlocked")) {
+            try (Statement s = conn.createStatement()) {
+                s.execute("ALTER TABLE plant_species ADD COLUMN unlocked INTEGER NOT NULL DEFAULT 0");
+                s.execute("UPDATE plant_species SET unlocked = 1 WHERE unlock_energy = 0");
+            } catch (SQLException e) {
+                throw new RuntimeException("迁移 plant_species 失败", e);
+            }
+        }
+    }
+
+    /** 判断某表是否存在指定列 */
+    private boolean hasColumn(Connection conn, String table, String column) {
+        try (Statement s = conn.createStatement();
+             ResultSet rs = s.executeQuery("PRAGMA table_info(" + table + ")")) {
+            while (rs.next()) {
+                if (column.equals(rs.getString("name"))) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            // 查询失败按「列不存在」处理
+        }
+        return false;
     }
 
     /** 读取 schema.sql 并逐条执行建表语句 */
