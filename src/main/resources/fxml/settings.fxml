@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="csu.mengya.controller.SettingsController" spacing="14" styleClass="settings-page">
+    <padding><Insets top="20" right="22" bottom="20" left="22"/></padding>
+    <Label text="系统与设置" styleClass="section-title"/>
+    <Label text="调整专注节奏与提醒方式，设置会保存在本机" styleClass="section-subtitle"/>
+    <VBox spacing="12" styleClass="settings-card">
+        <Label text="番茄节奏" styleClass="panel-title"/>
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="form-row">
+            <Label text="专注"/>
+            <Spinner fx:id="focusMinutes" prefWidth="100"/>
+            <Label text="分钟"/>
+            <Label text="短休"/>
+            <Spinner fx:id="shortBreakMinutes" prefWidth="100"/>
+            <Label text="分钟"/>
+            <Label text="长休"/>
+            <Spinner fx:id="longBreakMinutes" prefWidth="100"/>
+            <Label text="分钟"/>
+        </HBox>
+        <Label text="第 4 个番茄后自动进入长休，其余自动进入短休。" styleClass="section-subtitle"/>
+    </VBox>
+    <VBox spacing="12" styleClass="settings-card">
+        <Label text="提醒" styleClass="panel-title"/>
+        <CheckBox fx:id="doNotDisturb" text="免打扰：不弹出日程与专注结束通知"/>
+    </VBox>
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Button text="保存设置" onAction="#saveSettings" styleClass="primary-button"/>
+        <Label fx:id="settingsStatus" styleClass="form-status"/>
+    </HBox>
+</VBox>

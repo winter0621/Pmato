@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<!-- 数据统计页面（F5），图表由 StatsController 动态构建；外层 ScrollPane 兜底防止收集册等长内容被裁 -->
 <ScrollPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="csu.mengya.controller.StatsController"
-            fitToWidth="true"
-            styleClass="page-scroll">
-
-    <VBox spacing="12" styleClass="page">
-        <Label text="数据统计" styleClass="page-title"/>
-        <Label fx:id="summaryLabel" styleClass="status"/>
-        <VBox fx:id="chartContainer" spacing="16"/>
+            fitToWidth="true" styleClass="page-scroll">
+    <VBox spacing="14" styleClass="stats-page">
+        <padding><Insets top="20" right="22" bottom="20" left="22"/></padding>
+        <Label text="数据统计" styleClass="section-title"/>
+        <Label text="回顾学习节奏，看看专注带来的每一点变化" styleClass="section-subtitle"/>
+        <HBox spacing="12" styleClass="stats-metrics">
+            <VBox spacing="5" styleClass="stats-metric" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="累计番茄" styleClass="stats-metric-label"/>
+                <Label fx:id="pomodoroValue" text="0 个" styleClass="stats-metric-value"/>
+            </VBox>
+            <VBox spacing="5" styleClass="stats-metric" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="学习时长" styleClass="stats-metric-label"/>
+                <Label fx:id="minutesValue" text="0 分钟" styleClass="stats-metric-value"/>
+            </VBox>
+            <VBox spacing="5" styleClass="stats-metric" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="作物收集" styleClass="stats-metric-label"/>
+                <Label fx:id="collectionValue" text="0/8" styleClass="stats-metric-value"/>
+            </VBox>
+            <VBox spacing="5" styleClass="stats-metric" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="连续打卡" styleClass="stats-metric-label"/>
+                <Label fx:id="streakValue" text="0 天" styleClass="stats-metric-value"/>
+            </VBox>
+        </HBox>
+        <VBox fx:id="chartContainer" spacing="14"/>
     </VBox>
 </ScrollPane>

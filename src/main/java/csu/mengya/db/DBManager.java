@@ -61,8 +61,12 @@ public final class DBManager {
     private void open() {
         try {
             connection = DriverManager.getConnection(DB_URL);
+            try (Statement pragma = connection.createStatement()) {
+                pragma.execute("PRAGMA foreign_keys = ON");
+            }
             executeSchema(connection);
             migrate(connection);
+            ensureDefaultProfile(connection);
         } catch (SQLException e) {
             // 数据库初始化失败属于致命错误，直接抛出，由 Bootstrap 让程序提示后退出
             throw new RuntimeException("数据库初始化失败", e);
@@ -105,6 +109,17 @@ public final class DBManager {
             // 查询失败按「列不存在」处理
         }
         return false;
+    }
+
+    /** 首次启动创建默认用户档案，避免统计页读取不到 id=1。 */
+    private void ensureDefaultProfile(Connection conn) {
+        String sql = "INSERT OR IGNORE INTO user_profile (id, nickname, total_energy, streak_days, created_at) "
+                + "VALUES (1, '学习者', 0, 0, datetime('now', 'localtime'))";
+        try (Statement statement = conn.createStatement()) {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException("初始化默认用户失败", e);
+        }
     }
 
     /** 读取 schema.sql 并逐条执行建表语句 */

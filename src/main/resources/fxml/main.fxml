@@ -15,10 +15,10 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="csu.mengya.controller.MainController"
-            prefWidth="1100" prefHeight="700" styleClass="app-shell">
+            prefWidth="1280" prefHeight="800" styleClass="app-shell">
 
     <left>
-        <VBox prefWidth="230" spacing="10" styleClass="sidebar">
+        <VBox prefWidth="210" spacing="10" styleClass="sidebar">
             <padding>
                 <Insets top="28" right="18" bottom="24" left="18"/>
             </padding>
@@ -32,6 +32,7 @@
                 <Button text="F4  日程规划" onAction="#showSchedule" styleClass="nav-button"/>
                 <Button text="F5  数据统计" onAction="#showStats" styleClass="nav-button"/>
                 <Button text="F6  系统与设置" onAction="#showSettings" styleClass="nav-button"/>
+                <Button text="✦  学习助手" onAction="#showAssistant" styleClass="nav-button"/>
             </VBox>
 
             <Label fx:id="statusLabel" text="系统就绪" styleClass="sidebar-status" wrapText="true"/>
@@ -41,14 +42,14 @@
     <center>
         <VBox spacing="18" styleClass="content">
             <padding>
-                <Insets top="30" right="36" bottom="30" left="36"/>
+                <Insets top="24" right="28" bottom="24" left="28"/>
             </padding>
             <HBox alignment="CENTER_LEFT">
                 <VBox HBox.hgrow="ALWAYS">
                     <Label fx:id="contentTitle" text="F2  植物园养成" styleClass="page-title"/>
                     <Label fx:id="contentDescription" text="学习时长转化为能量，培育并收获作物" styleClass="page-description"/>
                 </VBox>
-                <Label text="今日专注  0 分钟" styleClass="summary-pill"/>
+                <Label fx:id="todayFocusLabel" text="今日专注  0 分钟" styleClass="summary-pill"/>
             </HBox>
             <StackPane fx:id="contentHost" VBox.vgrow="ALWAYS" styleClass="page-card"/>
         </VBox>

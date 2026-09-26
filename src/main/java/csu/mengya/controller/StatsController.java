@@ -11,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
@@ -19,221 +18,203 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-/**
- * 数据统计页面控制器（F5 数据统计）。
- *
- * <p>用 JavaFX 内置 LineChart / BarChart / PieChart 展示学习趋势、番茄数与收集进度。
- * 无数据时展示空状态文案，不报错、不出现 NaN（对应验收用例 TC-5.3）。</p>
- *
- * @author B
- * @since V1.0
- */
+/** F5 数据统计：紧凑展示指标、近七天趋势与作物收集册。 */
 public class StatsController implements Initializable, PageRefreshable {
-
-    @FXML
-    private Label summaryLabel;
-
-    @FXML
-    private VBox chartContainer;
-
+    @FXML private Label pomodoroValue, minutesValue, collectionValue, streakValue;
+    @FXML private VBox chartContainer;
     private final StatsService stats = new StatsService();
+    private static final DateTimeFormatter DAY_LABEL = DateTimeFormatter.ofPattern("MM/dd");
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        refresh();
-    }
+    @Override public void initialize(URL location, ResourceBundle resources) { refresh(); }
 
-    /** 刷新全部统计卡片（页面被再次显示时调用） */
-    @Override
-    public void refresh() {
-        summaryLabel.setText("累计番茄 " + stats.totalPomodoro()
-                + " 个 · 学习 " + stats.totalMinutes() + " 分钟"
-                + " · 收集 " + stats.collectedSpeciesCount() + "/" + stats.totalSpeciesCount()
-                + " · 连续打卡 " + stats.streakDays() + " 天");
-
-        chartContainer.getChildren().clear();
-        buildTrendChart();
-        buildPomodoroChart();
-        buildCollectionChart();
-        buildCollectionAlbum();
-    }
-
-    /** 学习时长趋势面积图（包进统一卡片） */
-    private void buildTrendChart() {
-        Map<String, Integer> data = stats.minutesByDay();
-        Node body;
-        if (data.isEmpty()) {
-            body = emptyHint("暂无学习记录，去植物园完成一次专注吧");
-        } else {
-            CategoryAxis x = new CategoryAxis();
-            x.setLabel("日期");
-            NumberAxis y = new NumberAxis();
-            y.setLabel("分钟");
-            configAxis(y, data.values().stream().mapToInt(Integer::intValue).max().orElse(0));
-            AreaChart<String, Number> chart = new AreaChart<>(x, y);
-            chart.setAnimated(false);
-            chart.setPrefHeight(230);
-            chart.setLegendVisible(false);
-
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("时长");
-            data.forEach((day, min) -> series.getData().add(new XYChart.Data<>(day, min)));
-            chart.getData().add(series);
-            body = chart;
-        }
-        chartContainer.getChildren().add(wrapCard("学习时长趋势（分钟）", body));
-    }
-
-    /** 每日番茄数柱状图（包进统一卡片） */
-    private void buildPomodoroChart() {
-        Map<String, Integer> data = stats.pomodoroByDay();
-        Node body;
-        if (data.isEmpty()) {
-            body = emptyHint("暂无番茄记录");
-        } else {
-            CategoryAxis x = new CategoryAxis();
-            x.setLabel("日期");
-            NumberAxis y = new NumberAxis();
-            y.setLabel("番茄数");
-            configAxis(y, data.values().stream().mapToInt(Integer::intValue).max().orElse(0));
-            BarChart<String, Number> chart = new BarChart<>(x, y);
-            chart.setAnimated(false);
-            chart.setPrefHeight(230);
-            chart.setLegendVisible(false);
-
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("番茄");
-            data.forEach((day, count) -> series.getData().add(new XYChart.Data<>(day, count)));
-            chart.getData().add(series);
-            body = chart;
-        }
-        chartContainer.getChildren().add(wrapCard("每日番茄数", body));
-    }
-
-    /**
-     * 配置 Y 轴为「整数刻度 + 上限贴合数据」，避免番茄数这种小数值出现 1.25/0.75 等小数刻度。
-     *
-     * @param y     目标 Y 轴
-     * @param maxVal 数据最大值
-     */
-    private void configAxis(NumberAxis y, int maxVal) {
-        int tick = Math.max(1, (int) Math.ceil(maxVal / 5.0));
-        int upper = tick * Math.max(1, (int) Math.ceil(maxVal / (double) tick));
-        y.setAutoRanging(false);
-        y.setLowerBound(0);
-        y.setUpperBound(upper);
-        y.setTickUnit(tick);
-    }
-
-    /** 作物收集进度饼图（包进统一卡片） */
-    private void buildCollectionChart() {
+    /** 页面重新显示时重新读取会话与图鉴，避免停留在旧数据。 */
+    @Override public void refresh() {
         int collected = stats.collectedSpeciesCount();
         int total = stats.totalSpeciesCount();
-        int remaining = Math.max(0, total - collected);
-        Node body;
-        if (total == 0) {
-            body = emptyHint("图鉴为空");
-        } else {
-            PieChart chart = new PieChart();
-            chart.setPrefHeight(200);
-            chart.setLegendVisible(false);
-            if (collected > 0) {
-                chart.getData().add(new PieChart.Data("已收集 " + collected, collected));
-            }
-            if (remaining > 0) {
-                chart.getData().add(new PieChart.Data("未收集 " + remaining, remaining));
-            }
-            body = chart;
-        }
-        chartContainer.getChildren().add(wrapCard("作物收集进度（已收集 " + collected + "/" + total + "）", body));
+        pomodoroValue.setText(stats.totalPomodoro() + " 个");
+        minutesValue.setText(stats.totalMinutes() + " 分钟");
+        collectionValue.setText(collected + "/" + total);
+        streakValue.setText(stats.streakDays() + " 天");
+        chartContainer.getChildren().setAll(buildChartsRow(), buildCollectionRow(collected, total));
     }
 
-    /** 把图表包进统一卡片（白底圆角 + 标题），与收集册视觉一致 */
-    private VBox wrapCard(String title, Node body) {
-        VBox card = new VBox(8);
-        card.getStyleClass().add("chart-card");
-        Label t = new Label(title);
-        t.getStyleClass().add("chart-card-title");
-        card.getChildren().addAll(t, body);
+    /** 两张趋势图并排，缩短首屏长度。 */
+    private HBox buildChartsRow() {
+        VBox minutes = wrapCard("近 7 天学习时长", buildMinutesChart());
+        VBox pomodoros = wrapCard("近 7 天每日番茄", buildPomodoroChart());
+        minutes.getStyleClass().add("stats-chart-card");
+        pomodoros.getStyleClass().add("stats-chart-card");
+        HBox row = new HBox(14, minutes, pomodoros);
+        row.getStyleClass().add("stats-chart-row");
+        HBox.setHgrow(minutes, Priority.ALWAYS);
+        HBox.setHgrow(pomodoros, Priority.ALWAYS);
+        return row;
+    }
+
+    private Node buildMinutesChart() {
+        Map<String, Integer> data = recentSeven(stats.minutesByDay());
+        if (data.values().stream().allMatch(value -> value == 0))
+            return emptyHint("近七天暂无学习记录，完成一次专注后这里会显示趋势");
+        CategoryAxis x = new CategoryAxis();
+        NumberAxis y = new NumberAxis();
+        configAxis(y, data.values().stream().mapToInt(Integer::intValue).max().orElse(0));
+        AreaChart<String, Number> chart = new AreaChart<>(x, y);
+        chart.setAnimated(false);
+        chart.setLegendVisible(false);
+        chart.setCreateSymbols(true);
+        chart.setPrefHeight(205);
+        chart.setMinHeight(205);
+        chart.setMaxWidth(Double.MAX_VALUE);
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        data.forEach((day, count) -> series.getData().add(new XYChart.Data<>(day, count)));
+        chart.getData().add(series);
+        return chart;
+    }
+
+    private Node buildPomodoroChart() {
+        Map<String, Integer> data = recentSeven(stats.pomodoroByDay());
+        if (data.values().stream().allMatch(value -> value == 0))
+            return emptyHint("近七天暂无番茄记录");
+        CategoryAxis x = new CategoryAxis();
+        NumberAxis y = new NumberAxis();
+        configAxis(y, data.values().stream().mapToInt(Integer::intValue).max().orElse(0));
+        BarChart<String, Number> chart = new BarChart<>(x, y);
+        chart.setAnimated(false);
+        chart.setLegendVisible(false);
+        chart.setCategoryGap(12);
+        chart.setBarGap(4);
+        chart.setPrefHeight(205);
+        chart.setMinHeight(205);
+        chart.setMaxWidth(Double.MAX_VALUE);
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        data.forEach((day, count) -> series.getData().add(new XYChart.Data<>(day, count)));
+        chart.getData().add(series);
+        return chart;
+    }
+
+    /** 补齐无记录日期，单日数据也会呈现为正常宽度的柱子。 */
+    private Map<String, Integer> recentSeven(Map<String, Integer> source) {
+        Map<String, Integer> result = new LinkedHashMap<>();
+        LocalDate today = LocalDate.now();
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = today.minusDays(i);
+            result.put(date.format(DAY_LABEL), source.getOrDefault(date.toString(), 0));
+        }
+        return result;
+    }
+
+    private void configAxis(NumberAxis axis, int maximum) {
+        int tick = Math.max(1, (int) Math.ceil(maximum / 4.0));
+        axis.setAutoRanging(false);
+        axis.setLowerBound(0);
+        axis.setUpperBound(Math.max(tick, tick * (int) Math.ceil(maximum / (double) tick)));
+        axis.setTickUnit(tick);
+    }
+
+    /** 饼图和图鉴同排，作物较多时图鉴自然换行。 */
+    private HBox buildCollectionRow(int collected, int total) {
+        VBox progress = wrapCard("收集进度  " + collected + "/" + total, buildPie(collected, total));
+        progress.getStyleClass().add("stats-progress-card");
+        VBox album = buildAlbum();
+        HBox row = new HBox(14, progress, album);
+        row.getStyleClass().add("stats-collection-row");
+        HBox.setHgrow(album, Priority.ALWAYS);
+        return row;
+    }
+
+    private Node buildPie(int collected, int total) {
+        if (total == 0) return emptyHint("图鉴暂无作物");
+        PieChart chart = new PieChart();
+        chart.setAnimated(false);
+        chart.setLegendVisible(false);
+        chart.setLabelsVisible(false);
+        chart.setPrefHeight(180);
+        chart.setMinHeight(180);
+        chart.getData().add(new PieChart.Data("已收集", collected));
+        chart.getData().add(new PieChart.Data("未收集", total - collected));
+        return chart;
+    }
+
+    private VBox buildAlbum() {
+        VBox panel = new VBox(12);
+        panel.getStyleClass().add("stats-album-panel");
+        panel.setMaxWidth(Double.MAX_VALUE);
+        Label title = new Label("作物收集册");
+        title.getStyleClass().add("chart-card-title");
+        FlowPane pane = new FlowPane(10, 10);
+        pane.prefWrapLengthProperty().bind(panel.widthProperty().subtract(32));
+        List<PlantSpecies> species = stats.speciesAlbum();
+        if (species.isEmpty()) {
+            panel.getChildren().addAll(title, emptyHint("图鉴暂无作物"));
+            return panel;
+        }
+        for (PlantSpecies plant : species) pane.getChildren().add(albumCard(plant));
+        panel.getChildren().addAll(title, pane);
+        return panel;
+    }
+
+    private VBox albumCard(PlantSpecies species) {
+        boolean collected = species.isCollected();
+        VBox card = new VBox(4);
+        card.setPrefSize(122, 150);
+        card.setAlignment(Pos.CENTER);
+        card.getStyleClass().addAll("album-card",
+                collected ? "album-card-collected" : "album-card-missing");
+        Node art;
+        Image image = PlantImage.matureOf(species.getId());
+        if (image != null) {
+            ImageView view = new ImageView(image);
+            view.setFitWidth(82);
+            view.setFitHeight(82);
+            view.setPreserveRatio(true);
+            art = view;
+        } else {
+            Label emoji = new Label(PlantEmoji.of(species.getId()));
+            emoji.setFont(new Font(54));
+            art = emoji;
+        }
+        if (!collected) art.setOpacity(0.45);
+        Label name = new Label(species.getName());
+        name.getStyleClass().add("album-name");
+        if (!collected) name.getStyleClass().add("album-name-missing");
+        Label status = new Label(collected ? "已收集" : "未收集");
+        status.getStyleClass().add(collected ? "album-state-collected" : "album-state-missing");
+        card.getChildren().addAll(art, name, status);
         return card;
     }
 
-    /**
-     * 收集册：全部物种卡片，展示与 F2 图鉴同款的成熟期贴图。
-     * 已收集 = 全彩 + 金色边框 + 「已收集」；未收集 = 图片可见但偏暗 + 灰色名字 + 「未收集」。
-     * 与 F2 图鉴的分工：图鉴管「解锁」，统计页管「收集成就」。
-     */
-    private void buildCollectionAlbum() {
-        List<PlantSpecies> album = stats.speciesAlbum();
-        if (album.isEmpty()) {
-            return;
-        }
-        Label title = new Label("收集册");
-        title.getStyleClass().add("section-title");
-
-        FlowPane pane = new FlowPane(10, 10);
-        pane.setPrefWrapLength(720);
-        for (PlantSpecies sp : album) {
-            boolean collected = sp.isCollected();
-
-            VBox card = new VBox(4);
-            card.setPrefSize(150, 168);
-            card.setAlignment(Pos.CENTER);
-            card.getStyleClass().add("album-card");
-            if (collected) {
-                card.getStyleClass().add("album-card-collected");
-            } else {
-                card.getStyleClass().add("album-card-missing");
-            }
-
-            // 成熟期贴图作卡片主图；未收集时压暗但保持可见
-            Node art;
-            Image img = PlantImage.matureOf(sp.getId());
-            if (img != null) {
-                ImageView artImg = new ImageView(img);
-                artImg.setFitWidth(92);
-                artImg.setFitHeight(92);
-                artImg.setPreserveRatio(true);
-                if (!collected) {
-                    artImg.setOpacity(0.45);
-                }
-                art = artImg;
-            } else {
-                Label emoji = new Label(PlantEmoji.of(sp.getId()));
-                emoji.setFont(new Font(62));
-                if (!collected) {
-                    emoji.setOpacity(0.45);
-                }
-                art = emoji;
-            }
-
-            Label name = new Label(sp.getName());
-            name.getStyleClass().add("album-name");
-            if (!collected) {
-                name.getStyleClass().add("album-name-missing");
-            }
-
-            Label state = new Label(collected ? "已收集" : "未收集");
-            state.getStyleClass().add(collected ? "album-state-collected" : "album-state-missing");
-
-            card.getChildren().addAll(art, name, state);
-            pane.getChildren().add(card);
-        }
-        chartContainer.getChildren().addAll(title, pane);
+    private VBox wrapCard(String title, Node body) {
+        VBox card = new VBox(8);
+        card.getStyleClass().add("chart-card");
+        card.setMaxWidth(Double.MAX_VALUE);
+        Label heading = new Label(title);
+        heading.getStyleClass().add("chart-card-title");
+        card.getChildren().addAll(heading, body);
+        return card;
     }
 
-    /** 空状态提示标签 */
     private Label emptyHint(String text) {
         Label label = new Label(text);
         label.getStyleClass().add("empty-hint");
+        label.setWrapText(true);
+        label.setMinHeight(205);
+        label.setAlignment(Pos.CENTER);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setMaxWidth(Double.MAX_VALUE);
         return label;
     }
 }

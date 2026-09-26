@@ -5,6 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import csu.mengya.common.EventBus;
+import csu.mengya.common.FocusRequestedEvent;
+import csu.mengya.common.ScheduleRemindEvent;
+import csu.mengya.service.ScheduleReminderService;
+import csu.mengya.service.FocusService;
+import csu.mengya.service.SettingsService;
 
 import java.util.Objects;
 
@@ -26,10 +36,10 @@ public class App extends Application {
     private static final String APP_NAME = "pmato";
 
     /** 主窗口默认宽（像素） */
-    private static final double WIDTH = 960;
+    private static final double WIDTH = 1280;
 
     /** 主窗口默认高（像素） */
-    private static final double HEIGHT = 640;
+    private static final double HEIGHT = 800;
 
     /**
      * JavaFX 启动入口，由 {@link Launcher} 调用。
@@ -47,13 +57,35 @@ public class App extends Application {
         Parent root = loader.load();
 
         // 构建场景并挂载全局主题样式（颜色、圆角等集中定义在 theme.css）
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        var screen = Screen.getPrimary().getVisualBounds();
+        Scene scene = new Scene(root, Math.min(WIDTH, screen.getWidth() * 0.94),
+                Math.min(HEIGHT, screen.getHeight() * 0.94));
         scene.getStylesheets().add(
                 Objects.requireNonNull(getClass().getResource("/css/theme.css")).toExternalForm());
 
         // 配置窗口并显示
         stage.setTitle(APP_NAME);
         stage.setScene(scene);
+        stage.setMinWidth(Math.min(1060, screen.getWidth()));
+        stage.setMinHeight(Math.min(650, screen.getHeight()));
+        EventBus.subscribe(ScheduleRemindEvent.class, event -> Platform.runLater(() -> {
+            if (SettingsService.getInstance().doNotDisturb()) return;
+            Alert reminder = new Alert(Alert.AlertType.INFORMATION);
+            reminder.initOwner(stage);
+            reminder.setTitle("日程提醒");
+            reminder.setHeaderText(event.title());
+            reminder.setContentText("计划开始时间：" + event.startAt() + "\n可带入关联待办开始专注。");
+            ButtonType focusButton = new ButtonType("前往专注");
+            reminder.getButtonTypes().setAll(focusButton, ButtonType.CANCEL);
+            reminder.setOnHidden(hidden -> {
+                if (reminder.getResult() == focusButton)
+                    EventBus.publish(new FocusRequestedEvent(event.todoId()));
+            });
+            reminder.show();
+        }));
+        ScheduleReminderService.start();
         stage.show();
     }
+
+    @Override public void stop() { ScheduleReminderService.stop(); FocusService.getInstance().stop(); }
 }

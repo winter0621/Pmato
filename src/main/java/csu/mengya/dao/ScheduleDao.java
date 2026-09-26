@@ -37,15 +37,21 @@ public class ScheduleDao {
 
     /** 新增日程（repeat_rule 默认 none，remind_before 默认 5） */
     public synchronized void insert(String title, String startAt, String endAt, String color) {
+        insert(title, startAt, endAt, "none", 5, null, color);
+    }
+
+    /** 新增包含重复、提醒和待办关联的日程。 */
+    public synchronized void insert(String title, String startAt, String endAt, String repeatRule,
+                                    int remindBefore, Integer todoId, String color) {
         String sql = "INSERT INTO schedule_event (title, start_at, end_at, repeat_rule, remind_before, todo_id, color) "
                 + "VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setString(2, startAt);
             ps.setString(3, endAt);
-            ps.setString(4, "none");
-            ps.setInt(5, 5);
-            ps.setNull(6, Types.INTEGER);
+            ps.setString(4, repeatRule);
+            ps.setInt(5, remindBefore);
+            if (todoId == null) ps.setNull(6, Types.INTEGER); else ps.setInt(6, todoId);
             ps.setString(7, color);
             ps.executeUpdate();
         } catch (SQLException e) {

@@ -77,3 +77,13 @@ CREATE TABLE IF NOT EXISTS schedule_event (
   color         TEXT,
   FOREIGN KEY (todo_id) REFERENCES todo_item(id) ON DELETE SET NULL
 );
+
+-- 常用查询索引：不改变表结构，避免待办排序、周视图和统计数据量增加后变慢。
+CREATE INDEX IF NOT EXISTS idx_todo_status_priority_due
+  ON todo_item(status, priority DESC, due_date);
+CREATE INDEX IF NOT EXISTS idx_focus_start_status
+  ON focus_session(start_at, status);
+CREATE INDEX IF NOT EXISTS idx_schedule_start
+  ON schedule_event(start_at);
+CREATE INDEX IF NOT EXISTS idx_schedule_todo
+  ON schedule_event(todo_id);

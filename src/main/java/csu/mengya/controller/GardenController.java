@@ -1,14 +1,10 @@
 package csu.mengya.controller;
 
-import csu.mengya.common.EventBus;
-import csu.mengya.common.FocusFinishedEvent;
 import csu.mengya.common.GameConstants;
 import csu.mengya.common.PlantEmoji;
 import csu.mengya.common.PlantImage;
 import csu.mengya.common.Result;
-import csu.mengya.dao.FocusSessionDao;
 import csu.mengya.dao.PlantSpeciesDao;
-import csu.mengya.model.FocusSession;
 import csu.mengya.model.GardenPlot;
 import csu.mengya.model.PlantSpecies;
 import csu.mengya.service.GardenService;
@@ -32,7 +28,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +59,6 @@ public class GardenController implements Initializable, PageRefreshable {
 
     private final GardenService garden = GardenService.getInstance();
     private final PlantSpeciesDao speciesDao = new PlantSpeciesDao();
-    private final FocusSessionDao sessionDao = new FocusSessionDao();
 
     /** 与图鉴卡片一一对应的作物列表 */
     private final List<PlantSpecies> species = new ArrayList<>();
@@ -80,7 +74,7 @@ public class GardenController implements Initializable, PageRefreshable {
         refreshAll();
         selectedIndex = 0;      // 默认选中第一张卡片
         refreshCollection();    // 重建以高亮默认选中
-        statusLabel.setText("就绪：先解锁作物，再拖拽到空地种植；点「模拟专注」赚能量");
+        statusLabel.setText("就绪：解锁并种下作物，完成真实专注后获得能量");
     }
 
     /**
@@ -223,58 +217,12 @@ public class GardenController implements Initializable, PageRefreshable {
         refreshTotalEnergy();
     }
 
-    /**
-     * 模拟完成一次 25 分钟专注（开发用）。
-     *
-     * <p>A 的计时内核就绪前，用这个按钮临时触发「写会话 + 发事件」整条链路，
-     * 便于独立验证能量结算与生长判定。等 F1 完成后删除此按钮，改由真实计时触发。</p>
-     */
-    @FXML
-    private void onSimulateFocus() {
-        FocusSession session = new FocusSession();
-        session.setStartAt(LocalDateTime.now().toString());
-        session.setEndAt(LocalDateTime.now().toString());
-        session.setPlannedMin(25);
-        session.setActualMin(25);
-        session.setType("focus");
-        session.setStatus("completed");
-        session.setEnergyGained(25);
-        sessionDao.insert(session);
-
-        // 发布事件：EnergyService 订阅后会浇灌作物、结算能量
-        EventBus.publish(new FocusFinishedEvent(session.getId(), 25, 25, null));
-
-        statusLabel.setText("已模拟完成一次专注，+25 能量");
-        refreshPlots();
-        refreshTotalEnergy();
-        refreshCollection();
-    }
-
     /** 收获第一个成熟作物 */
     @FXML
     private void onHarvest() {
         Result<GardenPlot> r = garden.harvestFirstMature();
         statusLabel.setText(r.isSuccess() ? "收获成功！" : r.getMessage());
         refreshPlots();
-    }
-
-    /** 开发用：浇灌到下一生长阶段，快速查看生长过程 */
-    @FXML
-    private void onGrowStage() {
-        Result<GardenPlot> r = garden.growToNextStage();
-        statusLabel.setText(r.isSuccess() ? "已长到下一阶段" : r.getMessage());
-        refreshPlots();
-        refreshTotalEnergy();
-        refreshCollection();
-    }
-
-    /** 重置植物园（开发用，便于重复测试种植流程） */
-    @FXML
-    private void onReset() {
-        garden.resetAll();
-        statusLabel.setText("植物园已重置");
-        refreshPlots();
-        refreshTotalEnergy();
     }
 
     /** 页面被再次显示时刷新数据（实现 PageRefreshable） */

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="csu.mengya.controller.AssistantController" spacing="13" styleClass="assistant-page">
+    <padding><Insets top="22" right="24" bottom="22" left="24"/></padding>
+    <Label text="学习助手" styleClass="section-title"/>
+    <Label text="把大任务拆成可开始的小步骤，或为接下来一周安排学习节奏。" styleClass="section-subtitle" wrapText="true"/>
+    <HBox spacing="10" styleClass="assistant-key-row">
+        <Label text="API Key"/>
+        <PasswordField fx:id="apiKeyField" promptText="输入你自己的 OpenAI API Key" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <Label text="密钥仅保留在本次页面内，不写入数据库。点击生成时才会向 OpenAI 发送内容。" styleClass="assistant-note" wrapText="true"/>
+    <CheckBox fx:id="includeContextBox" text="附上最多 8 条未完成待办和未来 7 天的日程摘要" selected="true"/>
+    <TextArea fx:id="questionArea" promptText="例如：我有两天时间准备高数测验，请帮我安排复习顺序。" prefRowCount="3" wrapText="true"/>
+    <HBox spacing="10" styleClass="assistant-actions">
+        <Button fx:id="breakdownButton" text="拆解待办" onAction="#breakDownTasks"/>
+        <Button fx:id="planButton" text="规划本周" onAction="#planWeek"/>
+        <Button fx:id="askButton" text="发送问题" onAction="#askQuestion" styleClass="primary-button"/>
+    </HBox>
+    <Label fx:id="statusLabel" text="准备就绪" styleClass="form-status"/>
+    <TextArea fx:id="answerArea" editable="false" wrapText="true" VBox.vgrow="ALWAYS"
+              promptText="助手的建议会显示在这里。请结合自己的课程和时间核对后再采纳。"/>
+</VBox>

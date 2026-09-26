@@ -2,6 +2,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
@@ -9,10 +10,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csu.mengya.controller.TodoController" spacing="14">
- <padding><Insets top="22" right="24" bottom="22" left="24"/></padding>
- <Label text="Todo List" styleClass="section-title"/><Label text="Manage tasks and estimated pomodoros" styleClass="section-subtitle"/>
- <HBox spacing="8"><TextField fx:id="titleField" promptText="Task name" HBox.hgrow="ALWAYS"/><ComboBox fx:id="priorityBox" prefWidth="110"/><Spinner fx:id="tomatoSpinner" prefWidth="90"/><Button text="Add task" onAction="#addTodo" styleClass="primary-button"/></HBox>
- <TableView fx:id="todoTable" VBox.vgrow="ALWAYS"><columns><TableColumn fx:id="doneColumn" text="Done" prefWidth="70"/><TableColumn fx:id="titleColumn" text="Task" prefWidth="300"/><TableColumn fx:id="priorityColumn" text="Priority" prefWidth="100"/><TableColumn fx:id="tomatoColumn" text="Pomodoros" prefWidth="90"/><TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/></columns></TableView>
- <HBox spacing="8"><Button text="Update" onAction="#updateSelected"/><Button text="Complete" onAction="#completeSelected"/><Button text="Delete" onAction="#deleteSelected"/><Label fx:id="todoStatus" styleClass="form-status"/></HBox>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csu.mengya.controller.TodoController" spacing="14" styleClass="todo-page">
+ <padding><Insets top="20" right="22" bottom="20" left="22"/></padding>
+ <Label text="待办清单" styleClass="section-title"/><Label text="按优先级与截止日期安排任务，记录每一步专注进度" styleClass="section-subtitle"/>
+ <HBox spacing="10" styleClass="form-row"><TextField fx:id="titleField" promptText="输入任务名称" HBox.hgrow="ALWAYS"/><Button text="添加任务" onAction="#addTodo" styleClass="primary-button"/></HBox>
+ <HBox spacing="10" styleClass="form-row"><Label text="优先级"/><ComboBox fx:id="priorityBox" prefWidth="100"/><Label text="截止日期"/><DatePicker fx:id="dueDatePicker" promptText="选择日期" prefWidth="150"/><Label text="预计番茄数"/><Spinner fx:id="tomatoSpinner" prefWidth="95"/></HBox>
+ <TableView fx:id="todoTable" VBox.vgrow="ALWAYS" styleClass="todo-table"><columns><TableColumn fx:id="doneColumn" text="完成" prefWidth="60"/><TableColumn fx:id="titleColumn" text="任务" prefWidth="320"/><TableColumn fx:id="priorityColumn" text="优先级" prefWidth="90"/><TableColumn fx:id="dueColumn" text="截止日期" prefWidth="120"/><TableColumn fx:id="progressColumn" text="进度" prefWidth="80"/><TableColumn fx:id="tomatoColumn" text="预计番茄" prefWidth="100"/><TableColumn fx:id="statusColumn" text="状态" prefWidth="90"/></columns></TableView>
+ <HBox spacing="10" styleClass="form-actions"><Button text="开始专注" onAction="#focusSelected" styleClass="primary-button"/><Button text="更新任务" onAction="#updateSelected"/><Button text="标记完成" onAction="#completeSelected"/><Button text="删除任务" onAction="#deleteSelected"/><Label fx:id="todoStatus" styleClass="form-status"/></HBox>
 </VBox>

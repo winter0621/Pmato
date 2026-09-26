@@ -5,13 +5,17 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csu.mengya.controller.ScheduleController" spacing="14">
- <padding><Insets top="22" right="24" bottom="22" left="24"/></padding>
- <Label text="Schedule" styleClass="section-title"/><Label text="Plan study time for the week" styleClass="section-subtitle"/>
- <HBox spacing="8"><DatePicker fx:id="datePicker"/><ComboBox fx:id="timeBox" prefWidth="100"/><TextField fx:id="eventField" promptText="Event name" HBox.hgrow="ALWAYS"/><ComboBox fx:id="typeBox" prefWidth="110"/><Button text="Add event" onAction="#addEvent" styleClass="primary-button"/></HBox>
- <GridPane fx:id="weekGrid" hgap="8" vgap="8" VBox.vgrow="ALWAYS"/>
- <HBox spacing="8"><Button text="Delete selected" onAction="#deleteSelected"/><Label fx:id="scheduleStatus" styleClass="form-status"/></HBox>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csu.mengya.controller.ScheduleController" spacing="12" styleClass="schedule-page">
+ <padding><Insets top="20" right="22" bottom="20" left="22"/></padding>
+ <Label text="日程规划" styleClass="section-title"/><Label text="在周视图里安排时间，提前收到日程提醒" styleClass="section-subtitle"/>
+ <HBox spacing="10" styleClass="form-row"><Button text="‹ 上周" onAction="#previousWeek"/><DatePicker fx:id="datePicker" prefWidth="160"/><Button text="下周 ›" onAction="#nextWeek"/><TextField fx:id="eventField" promptText="输入日程名称" HBox.hgrow="ALWAYS"/></HBox>
+ <HBox spacing="8" styleClass="form-row"><Label text="开始时间"/><ComboBox fx:id="timeBox" prefWidth="100"/><Label text="结束时间"/><ComboBox fx:id="endTimeBox" prefWidth="100"/><Label text="类型"/><ComboBox fx:id="typeBox" prefWidth="100"/><Label text="重复"/><ComboBox fx:id="repeatBox" prefWidth="100"/></HBox>
+ <HBox spacing="8" styleClass="form-row"><Label text="提前提醒"/><Spinner fx:id="remindSpinner" prefWidth="90"/><Label text="分钟"/><Label text="关联待办"/><ComboBox fx:id="todoBox" promptText="无关联待办" prefWidth="200" HBox.hgrow="ALWAYS"/><Button text="添加日程" onAction="#addEvent" styleClass="primary-button"/></HBox>
+ <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="calendar-scroll"><content><GridPane fx:id="weekGrid" hgap="3" vgap="3" styleClass="calendar-grid"/></content></ScrollPane>
+ <HBox spacing="10" styleClass="form-actions"><Button text="开始专注" onAction="#focusSelected" styleClass="primary-button"/><Button text="删除所选" onAction="#deleteSelected"/><Label fx:id="scheduleStatus" styleClass="form-status"/></HBox>
 </VBox>

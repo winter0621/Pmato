@@ -79,6 +79,33 @@ public class FocusSessionDao {
         }
     }
 
+    /** 结束运行中的会话；只更新 running 行，防止重复结算。 */
+    public synchronized boolean finish(int id, String status, int actualMin, int energy) {
+        String sql = "UPDATE focus_session SET end_at = ?, status = ?, actual_min = ?, energy_gained = ? "
+                + "WHERE id = ? AND status = 'running'";
+        try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setString(1, java.time.LocalDateTime.now().toString());
+            ps.setString(2, status);
+            ps.setInt(3, actualMin);
+            ps.setInt(4, energy);
+            ps.setInt(5, id);
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException("结束会话失败", e);
+        }
+    }
+
+    /** 程序上次意外退出时，残留的 running 会话不产生能量。 */
+    public synchronized void abortStaleRunning() {
+        String sql = "UPDATE focus_session SET status = 'aborted', end_at = ?, actual_min = 0, energy_gained = 0 "
+                + "WHERE status = 'running'";
+        try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setString(1, java.time.LocalDateTime.now().toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("恢复未完成会话失败", e);
+        }
+    }
     /** 结果集 -> 实体对象 */
     private FocusSession map(ResultSet rs) throws SQLException {
         FocusSession s = new FocusSession();

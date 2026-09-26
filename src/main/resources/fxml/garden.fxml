@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
-
-<!-- 植物园页面（F2），由 MainController 导航加载；外层 ScrollPane 兜底防止内容超出被裁 -->
 <ScrollPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="csu.mengya.controller.GardenController"
-            fitToWidth="true"
-            styleClass="page-scroll">
-
-    <VBox spacing="12" styleClass="page">
-        <Label text="植物园" styleClass="page-title"/>
-
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button text="模拟完成专注（+25 能量）" onAction="#onSimulateFocus"/>
-            <Button text="长到下一阶段" onAction="#onGrowStage"/>
-            <Button text="收获成熟作物" onAction="#onHarvest"/>
-            <Button text="重置植物园" onAction="#onReset"/>
-            <Label fx:id="totalEnergyLabel" styleClass="status"/>
+            fitToWidth="true" styleClass="page-scroll">
+    <VBox spacing="14" styleClass="garden-page">
+        <padding><Insets top="20" right="22" bottom="20" left="22"/></padding>
+        <Label text="植物园" styleClass="section-title"/>
+        <Label text="选一株喜欢的作物种下，让每次专注都看得见成长" styleClass="section-subtitle"/>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="garden-toolbar">
+            <Label fx:id="totalEnergyLabel" styleClass="garden-energy"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Button text="收获成熟作物" onAction="#onHarvest" styleClass="toolbar-button"/>
         </HBox>
-
         <HBox spacing="16" alignment="TOP_LEFT">
-            <VBox spacing="8">
-                <Label text="作物图鉴" styleClass="section-title"/>
-                <Label text="点击选中 · 拖拽到空地种植 · 未解锁灰暗" styleClass="section-subtitle"/>
-                <ScrollPane fitToWidth="true" styleClass="page-scroll" prefWidth="216" prefHeight="330">
+            <VBox spacing="10" styleClass="garden-panel" prefWidth="245">
+                <Label text="作物图鉴" styleClass="panel-title"/>
+                <Label text="选中或拖到空地种植" styleClass="panel-subtitle"/>
+                <ScrollPane fitToWidth="true" styleClass="page-scroll" prefHeight="350" VBox.vgrow="ALWAYS">
                     <FlowPane fx:id="collectionPane" hgap="8" vgap="8" prefWrapLength="206"/>
                 </ScrollPane>
-                <Button text="解锁选中作物" onAction="#onUnlock" maxWidth="Infinity"/>
-                <Button text="种植选中作物" onAction="#onPlant" maxWidth="Infinity"/>
+                <Button text="解锁选中作物" onAction="#onUnlock" maxWidth="Infinity" styleClass="secondary-button"/>
+                <Button text="种植选中作物" onAction="#onPlant" maxWidth="Infinity" styleClass="primary-button"/>
             </VBox>
-            <FlowPane fx:id="plotPane" hgap="12" vgap="12" prefWrapLength="520"/>
+            <VBox spacing="12" styleClass="garden-panel" HBox.hgrow="ALWAYS">
+                <Label text="我的花园" styleClass="panel-title"/>
+                <Label text="拖动已解锁作物到空地，或点击左侧种植" styleClass="panel-subtitle"/>
+                <FlowPane fx:id="plotPane" hgap="12" vgap="12" prefWrapLength="520"/>
+            </VBox>
         </HBox>
-
-        <Label fx:id="statusLabel" styleClass="status"/>
+        <Label fx:id="statusLabel" styleClass="page-feedback" wrapText="true"/>
     </VBox>
 </ScrollPane>

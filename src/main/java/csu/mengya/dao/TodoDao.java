@@ -23,7 +23,8 @@ public class TodoDao {
     public synchronized List<TodoItem> findAll() {
         List<TodoItem> list = new ArrayList<>();
         String sql = "SELECT id, title, note, priority, due_date, est_pomodoro, done_pomodoro, status, created_at, completed_at "
-                + "FROM todo_item ORDER BY id";
+                + "FROM todo_item ORDER BY CASE WHEN status = 'done' THEN 1 ELSE 0 END, priority DESC, "
+                + "CASE WHEN due_date IS NULL OR due_date = '' THEN 1 ELSE 0 END, due_date, id";
         try (Statement st = DBManager.getInstance().getConnection().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
@@ -37,13 +38,18 @@ public class TodoDao {
 
     /** 新增待办（默认 note/due_date 为空，status=todo） */
     public synchronized void insert(String title, int priority, int estPomodoro) {
+        insert(title, priority, null, estPomodoro);
+    }
+
+    /** 新增带截止日期的待办。 */
+    public synchronized void insert(String title, int priority, String dueDate, int estPomodoro) {
         String sql = "INSERT INTO todo_item (title, note, priority, due_date, est_pomodoro, done_pomodoro, status, created_at) "
                 + "VALUES (?,?,?,?,?,?,?,?)";
         try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setString(2, null);
             ps.setInt(3, priority);
-            ps.setString(4, null);
+            ps.setString(4, dueDate);
             ps.setInt(5, estPomodoro);
             ps.setInt(6, 0);
             ps.setString(7, "todo");
@@ -55,14 +61,16 @@ public class TodoDao {
     }
 
     /** 更新待办（标题/优先级/预计番茄数/完成状态） */
-    public synchronized void update(long id, String title, int priority, int estPomodoro, boolean done) {
-        String sql = "UPDATE todo_item SET title = ?, priority = ?, est_pomodoro = ?, status = ? WHERE id = ?";
+    public synchronized void update(long id, String title, int priority, String dueDate, int estPomodoro, boolean done) {
+        String sql = "UPDATE todo_item SET title = ?, priority = ?, due_date = ?, est_pomodoro = ?, status = ?, completed_at = ? WHERE id = ?";
         try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setInt(2, priority);
-            ps.setInt(3, estPomodoro);
-            ps.setString(4, done ? "done" : "todo");
-            ps.setLong(5, id);
+            ps.setString(3, dueDate);
+            ps.setInt(4, estPomodoro);
+            ps.setString(5, done ? "done" : "todo");
+            ps.setString(6, done ? LocalDateTime.now().toString() : null);
+            ps.setLong(7, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("更新待办失败", e);
@@ -71,13 +79,29 @@ public class TodoDao {
 
     /** 单独更新完成状态 */
     public synchronized void setStatus(long id, String status) {
-        String sql = "UPDATE todo_item SET status = ? WHERE id = ?";
+        String sql = "UPDATE todo_item SET status = ?, completed_at = ? WHERE id = ?";
         try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
             ps.setString(1, status);
-            ps.setLong(2, id);
+            ps.setString(2, "done".equals(status) ? LocalDateTime.now().toString() : null);
+            ps.setLong(3, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("更新待办状态失败", e);
+        }
+    }
+
+    /** 完成一个番茄后递增任务进度，达到预计数时自动完成任务。 */
+    public synchronized void incrementDonePomodoro(long id) {
+        String sql = "UPDATE todo_item SET done_pomodoro = MIN(done_pomodoro + 1, est_pomodoro), "
+                + "status = CASE WHEN done_pomodoro + 1 >= est_pomodoro THEN 'done' ELSE 'doing' END, "
+                + "completed_at = CASE WHEN done_pomodoro + 1 >= est_pomodoro THEN ? ELSE completed_at END "
+                + "WHERE id = ? AND status != 'done'";
+        try (PreparedStatement ps = DBManager.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setString(1, LocalDateTime.now().toString());
+            ps.setLong(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("更新待办番茄进度失败", e);
         }
     }
 

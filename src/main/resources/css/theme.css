@@ -54,6 +54,7 @@
 .form-status { -fx-text-fill: #7BAE8D; -fx-padding: 8 0; }
 .calendar-header { -fx-font-weight: bold; -fx-text-fill: #466653; -fx-padding: 8; }
 .event-button { -fx-background-color: #EAF4EC; -fx-text-fill: #386348; -fx-alignment: CENTER_LEFT; -fx-font-size: 11px; }
+.calendar-cell { -fx-min-height: 30px; -fx-min-width: 85px; -fx-padding: 2px; -fx-border-color: #E6ECE6; -fx-border-width: 0 0 1 0; }
 .status { -fx-font-size: 14px; -fx-text-fill: -fx-accent; }
 .empty-hint { -fx-font-size: 13px; -fx-text-fill: -fx-text-secondary; -fx-font-style: italic; }
 
@@ -114,7 +115,321 @@
 .default-color0.chart-bar { -fx-bar-fill: #7BAE8D; -fx-background-radius: 6 6 0 0; }
 
 /* 饼图：已收集绿 / 未收集浅绿灰 */
-.default-color0.chart-pie { -fx-pie-fill: #7BAE8D; }
-.default-color1.chart-pie { -fx-pie-fill: #E4E9E2; }
+.default-color0.chart-pie { -fx-pie-color: #7BAE8D; }
+.default-color1.chart-pie { -fx-pie-color: #E4E9E2; }
 .chart-pie-label-line { -fx-stroke: #D9CEB2; }
 .chart-pie-label { -fx-fill: -fx-text-primary; -fx-font-size: 11px; }
+/* ===== 待办与日程：宽屏表单和周视图 ===== */
+.todo-page, .schedule-page { -fx-background-color: white; }
+.todo-page .section-title, .schedule-page .section-title { -fx-font-size: 21px; -fx-text-fill: #28563A; }
+.todo-page .section-subtitle, .schedule-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.todo-page .form-row, .schedule-page .form-row { -fx-alignment: CENTER_LEFT; -fx-background-color: #F3F8F4; -fx-background-radius: 12; -fx-padding: 9 11; }
+.todo-page .form-row .label, .schedule-page .form-row .label { -fx-text-fill: #526B5A; -fx-font-size: 12px; }
+.todo-page .form-row .text-field, .schedule-page .form-row .text-field,
+.todo-page .form-row .combo-box, .schedule-page .form-row .combo-box,
+.todo-page .form-row .date-picker, .schedule-page .form-row .date-picker,
+.todo-page .form-row .spinner, .schedule-page .form-row .spinner {
+    -fx-pref-height: 36px; -fx-background-color: white; -fx-background-radius: 8;
+    -fx-border-color: #D8E7DB; -fx-border-radius: 8; -fx-text-fill: #2F4035;
+}
+.todo-page .form-row .button, .schedule-page .form-row .button,
+.todo-page .form-actions .button, .schedule-page .form-actions .button {
+    -fx-pref-height: 36px; -fx-background-color: #E9F2EB; -fx-background-radius: 8;
+    -fx-text-fill: #376D4B; -fx-cursor: hand; -fx-padding: 7 13;
+}
+.todo-page .form-row .button:hover, .schedule-page .form-row .button:hover,
+.todo-page .form-actions .button:hover, .schedule-page .form-actions .button:hover { -fx-background-color: #D5E8D9; }
+.todo-page .form-row .primary-button, .schedule-page .form-row .primary-button {
+    -fx-background-color: #4CAF7D; -fx-text-fill: white; -fx-font-weight: bold;
+}
+.todo-page .form-row .primary-button:hover, .schedule-page .form-row .primary-button:hover { -fx-background-color: #3E966A; }
+.todo-page .form-actions, .schedule-page .form-actions { -fx-alignment: CENTER_LEFT; -fx-padding: 4 0 0 0; }
+.todo-page .form-status, .schedule-page .form-status { -fx-padding: 0 0 0 10; -fx-text-fill: #4B795C; }
+.todo-table { -fx-background-color: white; -fx-border-color: #DFEAE1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-table-cell-border-color: transparent; }
+.todo-table .column-header-background, .todo-table .column-header { -fx-background-color: #EAF4EC; }
+.todo-table .column-header .label { -fx-text-fill: #376D4B; -fx-font-size: 12px; -fx-font-weight: bold; }
+.todo-table .table-row-cell { -fx-background-color: white; -fx-cell-size: 42px; }
+.todo-table .table-row-cell:odd { -fx-background-color: #F8FBF8; }
+.todo-table .table-row-cell:selected { -fx-background-color: #DCEFE1; }
+.todo-table .table-cell { -fx-text-fill: #34473A; -fx-alignment: CENTER_LEFT; -fx-padding: 0 8; }
+.calendar-scroll { -fx-background-color: white; -fx-border-color: #DFEAE1; -fx-border-radius: 10; }
+.calendar-scroll > .viewport { -fx-background-color: white; }
+.calendar-grid { -fx-background-color: white; -fx-padding: 8; }
+.schedule-page .calendar-header { -fx-background-color: #EAF4EC; -fx-background-radius: 7; -fx-text-fill: #376D4B; -fx-min-width: 105px; -fx-alignment: CENTER; }
+.schedule-page .calendar-cell { -fx-min-width: 105px; -fx-min-height: 38px; -fx-padding: 3; -fx-background-color: #F8FBF8; -fx-background-radius: 5; -fx-border-color: #E5EEE7; -fx-border-radius: 5; -fx-border-width: 1; }
+.schedule-page .event-button { -fx-background-color: #DCEFE1; -fx-background-radius: 6; -fx-text-fill: #285C3B; -fx-font-size: 11px; -fx-padding: 3 5; }
+.schedule-page .event-button:hover { -fx-background-color: #C4E5CD; }
+
+/* ===== 学习助手 ===== */
+.assistant-page { -fx-background-color: white; }
+.assistant-page .assistant-key-row { -fx-alignment: CENTER_LEFT; -fx-background-color: #F3F8F4; -fx-background-radius: 10; -fx-padding: 10; }
+.assistant-page .assistant-key-row .label { -fx-text-fill: #376D4B; -fx-font-weight: bold; }
+.assistant-page .password-field, .assistant-page .text-area { -fx-background-color: white; -fx-border-color: #D8E7DB; -fx-border-radius: 9; -fx-background-radius: 9; }
+.assistant-page .password-field { -fx-pref-height: 36px; }
+.assistant-page .text-area .content { -fx-background-color: white; }
+.assistant-page .check-box { -fx-text-fill: #526B5A; }
+.assistant-page .assistant-note { -fx-text-fill: #78917F; -fx-font-size: 11px; }
+.assistant-page .assistant-actions .button { -fx-background-color: #E9F2EB; -fx-background-radius: 8; -fx-text-fill: #376D4B; -fx-pref-height: 36px; -fx-cursor: hand; }
+.assistant-page .assistant-actions .primary-button { -fx-background-color: #4CAF7D; -fx-text-fill: white; }
+.assistant-page .assistant-actions .button:hover { -fx-background-color: #D5E8D9; }
+.assistant-page .assistant-actions .primary-button:hover { -fx-background-color: #3E966A; }
+
+/* ===== F3/F4 统一视觉：植物园、统计与学习助手 ===== */
+.sidebar {
+    -fx-background-color: #EAF4EC;
+    -fx-border-color: #DCEBDD;
+    -fx-border-width: 0 1 0 0;
+}
+.nav-button {
+    -fx-pref-width: 174px;
+    -fx-font-weight: bold;
+}
+.nav-button:focused {
+    -fx-background-color: #D6EBDD;
+    -fx-border-color: #A9D5B7;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 3;
+}
+.page-card {
+    -fx-effect: dropshadow(gaussian, rgba(35, 74, 45, 0.07), 14, 0, 0, 3);
+}
+.garden-page, .stats-page {
+    -fx-background-color: white;
+}
+.garden-page .section-title, .stats-page .section-title,
+.assistant-page .section-title {
+    -fx-font-size: 21px;
+    -fx-text-fill: #28563A;
+}
+.garden-page .section-subtitle, .stats-page .section-subtitle,
+.assistant-page .section-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #78917F;
+}
+.garden-toolbar, .stats-summary {
+    -fx-background-color: #F3F8F4;
+    -fx-background-radius: 12;
+    -fx-border-color: #E2EEE4;
+    -fx-border-radius: 12;
+    -fx-padding: 10 12;
+}
+.garden-energy {
+    -fx-background-color: #DCEFE1;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+    -fx-text-fill: #285C3B;
+}
+.garden-page .toolbar-button, .garden-page .secondary-button {
+    -fx-background-color: #E9F2EB;
+    -fx-background-radius: 8;
+    -fx-text-fill: #376D4B;
+    -fx-pref-height: 36px;
+    -fx-cursor: hand;
+    -fx-padding: 7 12;
+}
+.garden-page .toolbar-button:hover, .garden-page .secondary-button:hover {
+    -fx-background-color: #D5E8D9;
+}
+.garden-page .primary-button {
+    -fx-background-color: #4CAF7D;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-pref-height: 38px;
+}
+.garden-page .primary-button:hover { -fx-background-color: #3E966A; }
+.garden-panel {
+    -fx-background-color: #FBFDFB;
+    -fx-background-radius: 12;
+    -fx-border-color: #DFEAE1;
+    -fx-border-radius: 12;
+    -fx-padding: 14;
+}
+.panel-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #28563A;
+}
+.panel-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #78917F;
+}
+.garden-page .collection-card {
+    -fx-background-color: white;
+    -fx-effect: none;
+}
+.garden-page .collection-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(41, 93, 57, 0.12), 9, 0, 0, 2);
+}
+.garden-page .plot-tile {
+    -fx-background-color: white;
+    -fx-border-color: #DFEAE1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: none;
+}
+.garden-page .plot-empty {
+    -fx-background-color: #F8FBF8;
+    -fx-border-color: #BDD6C3;
+    -fx-border-style: dashed;
+}
+.garden-page .plot-drop-target {
+    -fx-border-color: #4CAF7D;
+    -fx-border-style: solid;
+    -fx-background-color: #EAF7EE;
+}
+.page-feedback {
+    -fx-background-color: #EAF4EC;
+    -fx-background-radius: 8;
+    -fx-padding: 9 12;
+    -fx-text-fill: #376D4B;
+    -fx-font-size: 12px;
+}
+.stats-summary {
+    -fx-text-fill: #376D4B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+.stats-page .chart-card {
+    -fx-background-color: #FBFDFB;
+    -fx-border-color: #DFEAE1;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+    -fx-effect: none;
+}
+.stats-page .chart-card-title {
+    -fx-text-fill: #28563A;
+    -fx-font-size: 15px;
+}
+.stats-page .album-card {
+    -fx-effect: none;
+    -fx-border-color: #DFEAE1;
+}
+.stats-page .album-card-collected {
+    -fx-border-color: #7BAE8D;
+    -fx-background-color: #F3F8F4;
+}
+.assistant-page .assistant-key-row {
+    -fx-border-color: #E2EEE4;
+    -fx-border-radius: 10;
+}
+.assistant-page .text-area:focused, .assistant-page .password-field:focused {
+    -fx-border-color: #7BAE8D;
+}
+.assistant-page .assistant-actions .button:disabled { -fx-opacity: 0.65; }
+.assistant-page .form-status {
+    -fx-background-color: #F3F8F4;
+    -fx-background-radius: 8;
+    -fx-padding: 9 12;
+}
+/* ===== 专注计时（沿用 F3/F4 表单与卡片样式）===== */
+.focus-page { -fx-background-color: white; }
+.focus-page .section-title { -fx-font-size: 21px; -fx-text-fill: #28563A; }
+.focus-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.focus-page .form-row {
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-color: #F3F8F4;
+    -fx-background-radius: 12;
+    -fx-padding: 10 12;
+}
+.focus-page .form-row .combo-box, .focus-page .form-row .spinner {
+    -fx-pref-height: 36px;
+    -fx-background-color: white;
+    -fx-border-color: #D8E7DB;
+    -fx-border-radius: 8;
+}
+.focus-clock-card {
+    -fx-background-color: #FBFDFB;
+    -fx-border-color: #DFEAE1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 24;
+}
+.focus-mode { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #376D4B; }
+.focus-time { -fx-font-size: 76px; -fx-font-weight: bold; -fx-text-fill: #28563A; }
+.focus-cycle { -fx-font-size: 13px; -fx-text-fill: #78917F; -fx-padding: 0 0 10 0; }
+.focus-page .primary-button { -fx-background-color: #4CAF7D; -fx-background-radius: 8; -fx-font-weight: bold; }
+.focus-page .secondary-button {
+    -fx-background-color: #E9F2EB;
+    -fx-background-radius: 8;
+    -fx-pref-height: 36px;
+    -fx-text-fill: #376D4B;
+    -fx-cursor: hand;
+}
+.focus-page .secondary-button:hover { -fx-background-color: #D5E8D9; }
+.focus-page .button:disabled { -fx-opacity: 0.55; }
+.todo-page .form-actions .primary-button, .schedule-page .form-actions .primary-button {
+    -fx-background-color: #4CAF7D;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+/* ===== 系统设置（F6）===== */
+.settings-page { -fx-background-color: white; }
+.settings-page .section-title { -fx-font-size: 21px; -fx-text-fill: #28563A; }
+.settings-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.settings-card {
+    -fx-background-color: #FBFDFB;
+    -fx-border-color: #DFEAE1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+}
+.settings-page .form-row {
+    -fx-background-color: #F3F8F4;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+.settings-page .spinner {
+    -fx-pref-height: 36px;
+    -fx-background-color: white;
+    -fx-border-color: #D8E7DB;
+    -fx-border-radius: 8;
+}
+.settings-page .check-box { -fx-text-fill: #376D4B; }
+.settings-page .primary-button {
+    -fx-background-color: #4CAF7D;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+/* ===== F5 紧凑统计布局 ===== */
+.stats-metric {
+    -fx-background-color: #F3F8F4;
+    -fx-background-radius: 12;
+    -fx-border-color: #DFEAE1;
+    -fx-border-radius: 12;
+    -fx-padding: 12 15;
+    -fx-min-width: 0;
+}
+.stats-metric-label { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.stats-metric-value { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #28563A; }
+.stats-chart-row .chart-card {
+    -fx-pref-width: 430px;
+    -fx-min-width: 0;
+}
+.stats-chart-row .chart {
+    -fx-padding: 0;
+}
+.stats-chart-row .axis {
+    -fx-tick-label-font-size: 10px;
+}
+.stats-page .stats-progress-card {
+    -fx-pref-width: 260px;
+    -fx-min-width: 235px;
+    -fx-max-width: 300px;
+}
+.stats-album-panel {
+    -fx-background-color: #FBFDFB;
+    -fx-border-color: #DFEAE1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+    -fx-min-width: 0;
+}
+.stats-page .album-card {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 7;
+}
