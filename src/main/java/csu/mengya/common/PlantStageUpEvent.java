@@ -3,7 +3,7 @@ package csu.mengya.common;
 /**
  * 植物生长阶段升级事件（F2 植物园发布，F5 统计订阅）。
  *
- * @author B（临时搭建，组长 A 定稿后接管）
+ * @author 唐天乐
  * @since V1.0
  */
 public class PlantStageUpEvent {

@@ -40,7 +40,7 @@ import java.util.ResourceBundle;
  * <p>负责：展示图鉴与地块、种植、模拟专注（开发用）、收获、重置。
  * 只调 Service，不含 SQL 与业务规则（遵循计划书 5.3 分层约定）。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public class GardenController implements Initializable, PageRefreshable {

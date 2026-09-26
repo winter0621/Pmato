@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * <p>加载失败的场景返回 null，由调用方回退 Emoji 占位。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public final class PlantImage {

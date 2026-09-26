@@ -6,7 +6,7 @@ package csu.mengya.common;
  * <p>依据计划书 5.1 节，能量换算公式与生长阈值等魔法数字【集中硬编码在此一处】，
  * 业务代码不得散写数字。具体数值待 D2 会议最终确认后以本类为准。</p>
  *
- * @author B（临时搭建，组长 A 定稿后接管）
+ * @author 郭艾迪
  * @since V1.0
  */
 public final class GameConstants {

@@ -3,7 +3,7 @@ package csu.mengya.common;
 /**
  * 专注中断事件（F1 计时模块发布，F5 统计订阅）。
  *
- * @author B（临时搭建，组长 A 定稿后接管）
+ * @author 郭艾迪
  * @since V1.0
  */
 public class FocusAbortedEvent {

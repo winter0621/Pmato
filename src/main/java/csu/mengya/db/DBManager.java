@@ -18,7 +18,7 @@ import java.util.Scanner;
  * 写操作串行执行。当前版本 DAO 层用 synchronized 保证串行，后续 D4 起可改为
  * 单线程执行器 + 后台线程，本类接口保持不变。</p>
  *
- * @author B（临时搭建，组长 A 定稿后接管）
+ * @author 郭艾迪
  * @since V1.0
  */
 public final class DBManager {

@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * 界面线程（按钮点击）发布，所以订阅者能安全地刷新界面；后续若计时线程发布
  * 事件，需要在订阅者内部用 {@link javafx.application.Platform#runLater} 切回。</p>
  *
- * @author B（临时搭建，组长 A 定稿后接管）
+ * @author 郭艾迪
  * @since V1.0
  */
 public final class EventBus {

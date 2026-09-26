@@ -5,7 +5,7 @@ package csu.mengya.model;
  *
  * <p>纯数据类，只含字段与 getter/setter。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public class UserProfile {

@@ -3,7 +3,10 @@ package csu.mengya.model;
 /**
  * 待办事项实体（对应表 todo_item，计划书 5.2）。
  *
- * @author B（合并时按 5.2 搭建，F3 归属 C）
+ * <p>纯数据载体：只有字段与 getter / setter，不含业务逻辑。
+ * {@code status} 取值 todo / doing / done；{@code priority} 取值 0 低 / 1 中 / 2 高。</p>
+ *
+ * @author 侯卓轩
  * @since V1.0
  */
 public class TodoItem {

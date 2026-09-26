@@ -14,7 +14,13 @@ import java.util.List;
 /**
  * 待办事项数据访问（对应表 todo_item，计划书 5.2）。
  *
- * @author B（合并时按 5.2 搭建，F3 归属 C）
+ * <p>职责：单表增删改查，只返回 {@link csu.mengya.model.TodoItem} 实体，
+ * 不向调用方暴露 ResultSet。异常统一包成 RuntimeException 上抛，
+ * 由 Service 层捕获后转成 Result（计划书 5.3 分层约定）。</p>
+ *
+ * <p>并发：所有方法用 synchronized 保证串行，避免 SQLite 单连接被多线程争用。</p>
+ *
+ * @author 侯卓轩
  * @since V1.0
  */
 public class TodoDao {

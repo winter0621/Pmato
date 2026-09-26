@@ -3,7 +3,11 @@ package csu.mengya.model;
 /**
  * 日程事件实体（对应表 schedule_event，计划书 5.2）。
  *
- * @author B（合并时按 5.2 搭建，F4 归属 C）
+ * <p>纯数据载体：只有字段与 getter / setter，不含业务逻辑。
+ * {@code repeatRule} 取值 none / daily / weekly，重复展开由渲染层负责，
+ * 库中始终只存一条记录。</p>
+ *
+ * @author 侯卓轩
  * @since V1.0
  */
 public class ScheduleEvent {

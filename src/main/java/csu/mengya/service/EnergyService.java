@@ -9,7 +9,7 @@ import csu.mengya.common.FocusFinishedEvent;
  * <p>订阅 F1 计时模块发布的 {@link FocusFinishedEvent}，把本次结算能量交给
  * {@link GardenService} 浇灌作物。本类不 import 任何 javafx 包。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public final class EnergyService {

@@ -27,7 +27,7 @@ import java.util.Objects;
  * <p>注意：本类由 {@link Launcher} 调用 {@link Application#launch(Class, String...)}
  * 启动，自身不提供 main，以免直接运行时触发 JavaFX 的 module-path 检查报错。</p>
  *
- * @author 组长 A（请替换为真实姓名）
+ * @author 郭艾迪
  * @since V1.0
  */
 public class App extends Application {

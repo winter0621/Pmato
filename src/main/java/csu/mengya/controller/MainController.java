@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  * 页面采用缓存：首次加载 FXML 后复用，切换时只刷新数据，避免重复解析导致的卡顿。
  * F1–F6 均可从侧边栏进入，专注完成后按事件刷新关联模块。</p>
  *
- * @author A（主框架） / B（接入 F2/F5 + 页面缓存）
+ * @author 郭艾迪
  * @since V1.0
  */
 public class MainController implements Initializable {

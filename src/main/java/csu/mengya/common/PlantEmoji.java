@@ -7,7 +7,7 @@ package csu.mengya.common;
  * 界面代码只与本类打交道；将来换成 images/plants/ 下的真实图片时，只需改造本类
  * （新增一个 PlantImage），界面代码无需改动。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public final class PlantEmoji {

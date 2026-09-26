@@ -22,7 +22,7 @@ import java.util.Set;
  * <p>负责种植、能量浇灌、生长判定、收获与解锁。只依赖 DAO，不 import 任何
  * javafx 包（遵循计划书 5.3 分层约定）。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public final class GardenService {

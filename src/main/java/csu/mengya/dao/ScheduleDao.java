@@ -14,7 +14,14 @@ import java.util.List;
 /**
  * 日程事件数据访问（对应表 schedule_event，计划书 5.2）。
  *
- * @author B（合并时按 5.2 搭建，F4 归属 C）
+ * <p>职责：单表增删改查。注意 {@code insert} 有两个重载 ——
+ * 简版供早期代码使用，全参版支持重复规则、提前提醒与待办关联，
+ * 新增日程应使用全参版。</p>
+ *
+ * <p>时间字段统一以 {@code yyyy-MM-dd HH:mm} 字符串存储，与
+ * {@code ScheduleController.DB_TIME} 保持一致。</p>
+ *
+ * @author 侯卓轩
  * @since V1.0
  */
 public class ScheduleDao {

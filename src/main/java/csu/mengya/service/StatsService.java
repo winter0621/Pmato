@@ -17,7 +17,7 @@ import java.util.TreeMap;
  * <p>从专注会话表聚合出：番茄数、学习时长、按天趋势、作物收集进度、连续打卡。
  * 图表数据为空时由界面层展示空状态，本层返回空集合而非 null。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public final class StatsService {

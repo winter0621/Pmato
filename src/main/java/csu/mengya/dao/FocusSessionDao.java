@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 专注会话数据访问（对应表 focus_session，F5 统计的数据源）。
  *
- * @author B
+ * @author 郭艾迪
  * @since V1.0
  */
 public class FocusSessionDao {

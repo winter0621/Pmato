@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  *
  * <p>单用户程序，档案固定一行（id=1），首次访问时自动创建。</p>
  *
- * @author B
+ * @author 唐天乐
  * @since V1.0
  */
 public class UserProfileDao {

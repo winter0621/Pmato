@@ -40,10 +40,17 @@ import java.util.ResourceBundle;
 /**
  * 日程规划控制器（F4，对应计划书 5.2 的 schedule_event 表）。
  *
- * <p>周视图渲染日程，数据访问改为 {@link ScheduleDao}（5.2 表结构）。
- * 起止时间简化存为同一起止时间，后续再补时长与重复规则。</p>
+ * <p>职责：周视图渲染日程、新建与删除日程、与待办和专注模块联动。
+ * 数据访问走 {@link ScheduleDao}，本类不含 SQL（计划书 5.3 分层约定）。</p>
  *
- * @author A（界面）/ B（适配 5.2 数据访问）
+ * <p>重复日程的存储方式：库中只存一条记录，{@code repeat_rule} 标记重复规则
+ * （none / daily / weekly），周视图渲染时按规则动态展开，
+ * 而不是预先展开成多条记录。</p>
+ *
+ * <p>跨天日程的处理：新建时若结束时间不晚于开始时间，视为跨天，
+ * 结束时间自动加一天（验收用例 TC-4.7）。</p>
+ *
+ * @author 侯卓轩
  * @since V1.0
  */
 public class ScheduleController implements Initializable, PageRefreshable {
@@ -196,7 +203,12 @@ public class ScheduleController implements Initializable, PageRefreshable {
                 GridPane.setHgrow(cell, Priority.ALWAYS);
             }
         }
-        if (!hasEvent) scheduleStatus.setText("这一周还没有日程，添加一个学习安排吧。");
+        if (!hasEvent) {
+            scheduleStatus.setText("这一周还没有日程，添加一个学习安排吧。");
+        } else {
+            // 有日程时清掉空状态提示，否则从空周翻回来会一直挂着那句话
+            scheduleStatus.setText("");
+        }
     }
 
     /** 日程类型 -> 颜色（存到 schedule_event.color） */
