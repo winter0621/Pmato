@@ -21,120 +21,41 @@
     -fx-background-color: -fx-base;
 }
 
-/* 顶部导航栏 */
-.nav-bar {
-    -fx-padding: 12 16;
-    -fx-background-color: -fx-accent;
-}
+/* ===== 主框架 / 侧边栏（F0）===== */
+.app-shell { -fx-background-color: #FAFAF7; }
+.sidebar { -fx-background-color: #EAF4EC; }
+.brand-title { -fx-font-size: 27px; -fx-font-weight: bold; -fx-text-fill: #2E6B4A; }
+.brand-subtitle { -fx-font-size: 13px; -fx-text-fill: #78917F; -fx-padding: 0 0 18 0; }
+.nav-button { -fx-background-color: transparent; -fx-background-radius: 10; -fx-alignment: CENTER_LEFT; -fx-font-size: 14px; -fx-text-fill: #466653; -fx-padding: 12 14; -fx-cursor: hand; }
+.nav-button:hover { -fx-background-color: #D6EBDD; }
+.nav-button:focused { -fx-background-color: #C8E3D0; -fx-text-fill: #245C3D; }
+.sidebar-status { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.content { -fx-background-color: #FAFAF7; }
+.page-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2F4035; }
+.page-description { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; -fx-padding: 5 0 0 0; }
+.summary-pill { -fx-background-color: #EAF4EC; -fx-background-radius: 18; -fx-padding: 9 15; -fx-text-fill: #4B795C; -fx-font-size: 13px; }
+.page-card { -fx-background-color: white; -fx-background-radius: 18; -fx-border-color: #E6ECE6; -fx-border-radius: 18; -fx-border-width: 1; }
+.module-icon { -fx-font-size: 58px; -fx-text-fill: #4CAF7D; }
+.module-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
+.module-detail { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; }
+.primary-button { -fx-background-color: #4CAF7D; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 11 28; -fx-cursor: hand; }
+.primary-button:hover { -fx-background-color: #3E966A; }
 
-.nav-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-padding: 0 16 0 0;
-}
+/* ===== 通用组件 ===== */
+.section-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
+.section-subtitle { -fx-text-fill: #8A8A8A; }
+.form-status { -fx-text-fill: #4CAF7D; -fx-padding: 8 0; }
+.calendar-header { -fx-font-weight: bold; -fx-text-fill: #466653; -fx-padding: 8; }
+.event-button { -fx-background-color: #EAF4EC; -fx-text-fill: #386348; -fx-alignment: CENTER_LEFT; -fx-font-size: 11px; }
+.status { -fx-font-size: 14px; -fx-text-fill: -fx-accent; }
+.empty-hint { -fx-font-size: 13px; -fx-text-fill: -fx-text-secondary; -fx-font-style: italic; }
 
-.nav-bar .button {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-cursor: hand;
-}
-
-.nav-bar .button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.15);
-    -fx-background-radius: 8;
-}
-
-/* 页面容器 */
-.page {
-    -fx-padding: 16;
-}
-
-/* 页标题 */
-.page-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-accent;
-}
-
-/* 小节标题 */
-.section-title {
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-text-primary;
-}
-
-/* 地块卡片：浅米色底，与植物贴图的浅米背景同色系，贴图嵌入后视觉统一 */
-.plot-tile {
-    -fx-background-color: #F7F3EA;
-    -fx-background-radius: 12;
-    -fx-padding: 12;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2);
-}
-
-/* 空地：浅色虚线边框提示「可种植」 */
-.plot-empty {
-    -fx-border-color: #D9CEB2;
-    -fx-border-style: dashed;
-    -fx-border-radius: 12;
-    -fx-border-width: 1.5;
-}
-
-/* 地块内文字 */
-.plot-slot {
-    -fx-font-size: 12px;
-    -fx-text-fill: -fx-text-secondary;
-}
-
-.plot-name {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-text-primary;
-}
-
-.plot-stage {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-accent;
-}
-
-.plot-energy {
-    -fx-font-size: 11px;
-    -fx-text-fill: -fx-text-secondary;
-}
-
-/* 生长进度条 */
-.plot-progress .track {
-    -fx-background-color: rgba(0, 0, 0, 0.08);
-    -fx-background-radius: 4;
-}
-
-.plot-progress .bar {
-    -fx-background-color: -fx-accent;
-    -fx-background-radius: 4;
-}
-
-/* 状态提示 */
-.status {
-    -fx-font-size: 14px;
-    -fx-text-fill: -fx-accent;
-}
-
-/* 空状态提示 */
-.empty-hint {
-    -fx-font-size: 13px;
-    -fx-text-fill: -fx-text-secondary;
-    -fx-font-style: italic;
-}
-
-/* 大标题（Day1 遗留，暂保留） */
-.app-title {
-    -fx-font-size: 44px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-accent;
-}
-
-.app-subtitle {
-    -fx-font-size: 16px;
-    -fx-text-fill: -fx-text-secondary;
-}
+/* ===== 植物园地块（F2）===== */
+.plot-tile { -fx-background-color: #F7F3EA; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2); }
+.plot-empty { -fx-border-color: #D9CEB2; -fx-border-style: dashed; -fx-border-radius: 12; -fx-border-width: 1.5; }
+.plot-slot { -fx-font-size: 12px; -fx-text-fill: -fx-text-secondary; }
+.plot-name { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
+.plot-stage { -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: -fx-accent; }
+.plot-energy { -fx-font-size: 11px; -fx-text-fill: -fx-text-secondary; }
+.plot-progress .track { -fx-background-color: rgba(0, 0, 0, 0.08); -fx-background-radius: 4; }
+.plot-progress .bar { -fx-background-color: -fx-accent; -fx-background-radius: 4; }

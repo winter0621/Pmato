@@ -23,7 +23,7 @@ import java.util.Objects;
 public class App extends Application {
 
     /** 应用显示名称，供标题栏与后续软著材料引用 */
-    private static final String APP_NAME = "萌芽专注";
+    private static final String APP_NAME = "pmato";
 
     /** 主窗口默认宽（像素） */
     private static final double WIDTH = 960;
@@ -39,9 +39,8 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        // 初始化数据库、种子图鉴、事件订阅（B/C 独立开发的前置，待组长 A 定稿对齐）
+        // 初始化数据库、种子图鉴、事件订阅（统一走计划书 5.2 的 schema）
         Bootstrap.init();
-
         // 加载主界面布局（FXML 内部会实例化 MainController）
         FXMLLoader loader = new FXMLLoader(
                 Objects.requireNonNull(getClass().getResource("/fxml/main.fxml")));

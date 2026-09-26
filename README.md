@@ -1,4 +1,4 @@
-# 萌芽专注 —— 植物园式学习计时软件 V1.0
+# pmato —— 植物园式学习计时软件 V1.0
 
 > Day1 工程骨架：验证「环境就绪 + JavaFX 空窗口可运行」。
 > 对应《项目分工计划书》里程碑 M1（D1 结束）。
@@ -18,12 +18,12 @@ mvn javafx:run
 ```
 
 首次运行会从中央仓库下载 JavaFX 21 依赖，稍等即可。
-跑出一个标题为「萌芽专注」的窗口即算 D1 验收通过。
+跑出一个标题为「pmato」的窗口即算 D1 验收通过。
 
 ## 目录结构
 
 ```
-mengya-focus/
+pmato/
 ├── pom.xml                              # Maven 配置（JavaFX 21 + 启动插件）
 ├── src/main/java/csu/mengya/
 │   ├── Launcher.java                    # 启动入口（不继承 Application）
