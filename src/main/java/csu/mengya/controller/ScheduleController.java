@@ -219,7 +219,7 @@ public class ScheduleController implements Initializable, PageRefreshable {
         if ("专注".equals(type)) {
             return "#4A90D9";
         }
-        return "#4CAF7D";
+        return "#16A34A";
     }
 
     /** 日程行模型 */

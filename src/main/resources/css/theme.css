@@ -3,18 +3,19 @@
  *
  * 依据《统一技术约定》5.6 节：
  *   1. 所有颜色、圆角、动效时长集中定义在 .root，禁止在 FXML 硬写颜色；
- *   2. 主色「鼠尾草绿」#7BAE8D，背景 #F6F8F4，高亮「淡绿灰」#A8BF9F。
+ *   2. 强调色 #16A34A，背景 #FAFAF9，高亮 #86EFAC；
+ *      底色与边框一律中性，绿色越少，出现时越显眼。
  * ============================================================ */
 
 .root {
-    /* —— 品牌色（柔和低饱和）—— */
-    -fx-accent:          #7BAE8D;   /* 主色：鼠尾草绿 */
-    -fx-base:            #F6F8F4;   /* 背景色：清爽浅绿白 */
-    -fx-highlight-color: #A8BF9F;   /* 高亮色：淡绿灰 */
+    /* —— 强调色：全站只用这一种绿 —— */
+    -fx-accent:          #16A34A;   /* 主色，只出现在按钮、进度条与关键数字上 */
+    -fx-base:            #FAFAF9;   /* 背景色：中性暖白 */
+    -fx-highlight-color: #86EFAC;   /* 高亮色：浅绿 */
 
     /* —— 文字色 —— */
-    -fx-text-primary:    #333333;
-    -fx-text-secondary:  #8A8A8A;
+    -fx-text-primary:    #1C1917;
+    -fx-text-secondary:  #78716C;
 
     /* —— 全局字体与背景 —— */
     -fx-font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
@@ -22,24 +23,24 @@
 }
 
 /* ===== 主框架 / 侧边栏（F0）===== */
-.app-shell { -fx-background-color: #F6F8F4; }
-.sidebar { -fx-background-color: #EAF4EC; }
-.brand-title { -fx-font-size: 27px; -fx-font-weight: bold; -fx-text-fill: #2E6B4A; }
-.brand-subtitle { -fx-font-size: 13px; -fx-text-fill: #78917F; -fx-padding: 0 0 18 0; }
-.nav-button { -fx-background-color: transparent; -fx-background-radius: 10; -fx-alignment: CENTER_LEFT; -fx-font-size: 14px; -fx-text-fill: #466653; -fx-padding: 12 14; -fx-cursor: hand; }
-.nav-button:hover { -fx-background-color: #D6EBDD; }
-.nav-button:focused { -fx-background-color: #C8E3D0; -fx-text-fill: #245C3D; }
-.sidebar-status { -fx-font-size: 12px; -fx-text-fill: #78917F; }
-.content { -fx-background-color: #F6F8F4; }
-.page-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2F4035; }
-.page-description { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; -fx-padding: 5 0 0 0; }
-.summary-pill { -fx-background-color: #EAF4EC; -fx-background-radius: 18; -fx-padding: 9 15; -fx-text-fill: #4B795C; -fx-font-size: 13px; }
-.page-card { -fx-background-color: white; -fx-background-radius: 18; -fx-border-color: #E6ECE6; -fx-border-radius: 18; -fx-border-width: 1; }
-.module-icon { -fx-font-size: 58px; -fx-text-fill: #7BAE8D; }
-.module-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
-.module-detail { -fx-font-size: 14px; -fx-text-fill: #8A8A8A; }
-.primary-button { -fx-background-color: #7BAE8D; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 11 28; -fx-cursor: hand; }
-.primary-button:hover { -fx-background-color: #6AA080; }
+.app-shell { -fx-background-color: #FAFAF9; }
+.sidebar { -fx-background-color: #FFFFFF; }
+.brand-title { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
+.brand-subtitle { -fx-font-size: 13px; -fx-text-fill: #78716C; -fx-padding: 0 0 18 0; }
+.nav-button { -fx-background-color: transparent; -fx-background-radius: 10; -fx-alignment: CENTER_LEFT; -fx-font-size: 14px; -fx-text-fill: #57534E; -fx-padding: 12 14; -fx-cursor: hand; }
+.nav-button:hover { -fx-background-color: #F0FDF4; }
+.nav-button:focused { -fx-background-color: #DCFCE7; -fx-text-fill: #1C1917; }
+.sidebar-status { -fx-font-size: 12px; -fx-text-fill: #78716C; }
+.content { -fx-background-color: #FAFAF9; }
+.page-title { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
+.page-description { -fx-font-size: 14px; -fx-text-fill: #78716C; -fx-padding: 5 0 0 0; }
+.summary-pill { -fx-background-color: #FFFFFF; -fx-background-radius: 999; -fx-padding: 9 15; -fx-text-fill: #57534E; -fx-font-size: 13px; }
+.page-card { -fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #E7E5E4; -fx-border-radius: 10; -fx-border-width: 1; }
+.module-icon { -fx-font-size: 58px; -fx-text-fill: #16A34A; }
+.module-title { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
+.module-detail { -fx-font-size: 14px; -fx-text-fill: #78716C; }
+.primary-button { -fx-background-color: #16A34A; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 11 28; -fx-cursor: hand; }
+.primary-button:hover { -fx-background-color: #15803D; }
 
 /* 页面容器（F2/F5 页面内边距） */
 .page { -fx-padding: 16; }
@@ -49,19 +50,19 @@
 .page-scroll > .viewport { -fx-background-color: transparent; }
 
 /* ===== 通用组件 ===== */
-.section-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
-.section-subtitle { -fx-text-fill: #8A8A8A; }
-.form-status { -fx-text-fill: #7BAE8D; -fx-padding: 8 0; }
-.calendar-header { -fx-font-weight: bold; -fx-text-fill: #466653; -fx-padding: 8; }
-.event-button { -fx-background-color: #EAF4EC; -fx-text-fill: #386348; -fx-alignment: CENTER_LEFT; -fx-font-size: 11px; }
-.calendar-cell { -fx-min-height: 30px; -fx-min-width: 85px; -fx-padding: 2px; -fx-border-color: #E6ECE6; -fx-border-width: 0 0 1 0; }
+.section-title { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
+.section-subtitle { -fx-text-fill: #78716C; }
+.form-status { -fx-text-fill: #16A34A; -fx-padding: 8 0; }
+.calendar-header { -fx-font-weight: bold; -fx-text-fill: #57534E; -fx-padding: 8; }
+.event-button { -fx-background-color: #FFFFFF; -fx-text-fill: #44403C; -fx-alignment: CENTER_LEFT; -fx-font-size: 11px; }
+.calendar-cell { -fx-min-height: 30px; -fx-min-width: 85px; -fx-padding: 2px; -fx-border-color: #E7E5E4; -fx-border-width: 0 0 1 0; }
 .status { -fx-font-size: 14px; -fx-text-fill: -fx-accent; }
 .empty-hint { -fx-font-size: 13px; -fx-text-fill: -fx-text-secondary; -fx-font-style: italic; }
 
 /* ===== 植物园地块（F2）===== */
-.plot-tile { -fx-background-color: #F5F8F2; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2); }
-.plot-empty { -fx-border-color: #D8E0D6; -fx-border-style: dashed; -fx-border-radius: 12; -fx-border-width: 1.5; }
-.plot-drop-target { -fx-border-color: -fx-accent; -fx-border-style: solid; -fx-border-radius: 12; -fx-border-width: 2; }
+.plot-tile { -fx-background-color: #F5F5F4; -fx-background-radius: 10; -fx-padding: 12; }
+.plot-empty { -fx-border-color: #D6D3D1; -fx-border-style: dashed; -fx-border-radius: 10; -fx-border-width: 1.5; }
+.plot-drop-target { -fx-border-color: -fx-accent; -fx-border-style: solid; -fx-border-radius: 10; -fx-border-width: 2; }
 .plot-slot { -fx-font-size: 12px; -fx-text-fill: -fx-text-secondary; }
 .plot-name { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
 .plot-stage { -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: -fx-accent; }
@@ -70,114 +71,114 @@
 .plot-progress .bar { -fx-background-color: -fx-accent; -fx-background-radius: 4; }
 
 /* ===== 图鉴卡片（F2，收集/解锁分工：图鉴管解锁，统计页管收集）===== */
-.collection-card { -fx-background-color: white; -fx-background-radius: 12; -fx-padding: 8; -fx-alignment: CENTER; -fx-border-radius: 12; -fx-border-width: 2; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 6, 0, 0, 1); }
-.collection-card:hover { -fx-translate-y: -2; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.10), 10, 0, 0, 2); }
-.collection-card-common { -fx-border-color: #8FBF6A; }
+.collection-card { -fx-background-color: white; -fx-background-radius: 10; -fx-padding: 8; -fx-alignment: CENTER; -fx-border-radius: 10; -fx-border-width: 2; -fx-cursor: hand; }
+.collection-card:hover { -fx-translate-y: -2; }
+.collection-card-common { -fx-border-color: #65A30D; }
 .collection-card-rare { -fx-border-color: #A78BFA; }
 .collection-card-epic { -fx-border-color: #8FB7D9; }
-.collection-card-locked { -fx-background-color: #EFF2EC; -fx-border-color: #DCE2DA; }
-.collection-card-selected { -fx-border-color: #7BAE8D; -fx-border-width: 2.5; -fx-effect: dropshadow(gaussian, rgba(123, 174, 141, 0.35), 10, 0, 0, 0); }
+.collection-card-locked { -fx-background-color: #F5F5F4; -fx-border-color: #D6D3D1; }
+.collection-card-selected { -fx-border-color: #16A34A; -fx-border-width: 2.5; }
 .collection-name { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
 .collection-state-locked { -fx-font-size: 11px; -fx-text-fill: -fx-text-secondary; }
-.collection-state-unlocked { -fx-font-size: 11px; -fx-text-fill: #7CB342; }
-.collection-state-collected { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7BAE8D; }
+.collection-state-unlocked { -fx-font-size: 11px; -fx-text-fill: #16A34A; }
+.collection-state-collected { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #16A34A; }
 
 /* ===== 收集册（F5，收集成就展示）===== */
-.album-card { -fx-background-color: white; -fx-background-radius: 14; -fx-padding: 10; -fx-alignment: CENTER; -fx-border-radius: 14; -fx-border-width: 2; -fx-border-color: #E6ECE6; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 6, 0, 0, 1); }
-.album-card-collected { -fx-border-color: #7BAE8D; -fx-effect: dropshadow(gaussian, rgba(123, 174, 141, 0.35), 10, 0, 0, 0); }
-.album-card-missing { -fx-background-color: #F1F4EF; -fx-border-style: dashed; -fx-border-color: #DCE3DB; }
+.album-card { -fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: CENTER; -fx-border-radius: 10; -fx-border-width: 2; -fx-border-color: #E7E5E4; }
+.album-card-collected { -fx-border-color: #16A34A; }
+.album-card-missing { -fx-background-color: #F5F5F4; -fx-border-style: dashed; -fx-border-color: #D6D3D1; }
 .album-name { -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: -fx-text-primary; }
 .album-name-missing { -fx-text-fill: -fx-text-secondary; }
-.album-state-collected { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #7BAE8D; }
+.album-state-collected { -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #16A34A; }
 .album-state-missing { -fx-font-size: 11px; -fx-text-fill: -fx-text-secondary; }
 
 /* ===== 统计图表卡片（F5）===== */
-.chart-card { -fx-background-color: white; -fx-background-radius: 16; -fx-padding: 14; -fx-border-color: #E3EBE4; -fx-border-radius: 16; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 8, 0, 0, 2); }
-.chart-card-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #33483A; }
+.chart-card { -fx-background-color: white; -fx-background-radius: 10; -fx-padding: 14; -fx-border-color: #E7E5E4; -fx-border-radius: 10; -fx-border-width: 1.5; }
+.chart-card-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
 .chart { -fx-padding: 6; }
 .chart-plot-background { -fx-background-color: transparent; }
-.chart-vertical-grid-lines { -fx-stroke: #F3EFE6; }
-.chart-horizontal-grid-lines { -fx-stroke: #F3EFE6; }
+.chart-vertical-grid-lines { -fx-stroke: #F0EFEE; }
+.chart-horizontal-grid-lines { -fx-stroke: #F0EFEE; }
 .chart-legend { -fx-background-color: transparent; }
 .chart-legend-item { -fx-text-fill: -fx-text-secondary; }
 .chart-legend-item-symbol { -fx-background-radius: 4; }
 .axis-label { -fx-text-fill: -fx-text-secondary; -fx-font-size: 11px; }
 .axis { -fx-tick-label-fill: -fx-text-secondary; -fx-font-size: 10px; }
-.axis-tick-mark { -fx-stroke: #E6ECE6; }
-.axis-minor-tick-mark { -fx-stroke: #F0EDE3; }
+.axis-tick-mark { -fx-stroke: #E7E5E4; }
+.axis-minor-tick-mark { -fx-stroke: #F0EFEE; }
 
 /* 面积图：主色绿线 + 渐变区域填充 */
-.default-color0.chart-series-area-line { -fx-stroke: #7BAE8D; -fx-stroke-width: 2.5; }
-.default-color0.chart-series-area-fill { -fx-fill: linear-gradient(to top, rgba(123, 174, 141, 0.30), rgba(123, 174, 141, 0.03)); }
-.default-color0.chart-area-symbol { -fx-background-color: #7BAE8D, white; -fx-background-insets: 0, 2; -fx-background-radius: 5, 4; }
+.default-color0.chart-series-area-line { -fx-stroke: #16A34A; -fx-stroke-width: 2.5; }
+.default-color0.chart-series-area-fill { -fx-fill: linear-gradient(to top, rgba(22, 163, 74, 0.28), rgba(22, 163, 74, 0.02)); }
+.default-color0.chart-area-symbol { -fx-background-color: #16A34A, white; -fx-background-insets: 0, 2; -fx-background-radius: 5, 4; }
 
 /* 柱状图：主色圆角柱 */
-.default-color0.chart-bar { -fx-bar-fill: #7BAE8D; -fx-background-radius: 6 6 0 0; }
+.default-color0.chart-bar { -fx-bar-fill: #16A34A; -fx-background-radius: 6 6 0 0; }
 
 /* 饼图：已收集绿 / 未收集浅绿灰 */
-.default-color0.chart-pie { -fx-pie-color: #7BAE8D; }
-.default-color1.chart-pie { -fx-pie-color: #E4E9E2; }
-.chart-pie-label-line { -fx-stroke: #D9CEB2; }
+.default-color0.chart-pie { -fx-pie-color: #16A34A; }
+.default-color1.chart-pie { -fx-pie-color: #E7E5E4; }
+.chart-pie-label-line { -fx-stroke: #D6D3D1; }
 .chart-pie-label { -fx-fill: -fx-text-primary; -fx-font-size: 11px; }
 /* ===== 待办与日程：宽屏表单和周视图 ===== */
 .todo-page, .schedule-page { -fx-background-color: white; }
-.todo-page .section-title, .schedule-page .section-title { -fx-font-size: 21px; -fx-text-fill: #28563A; }
-.todo-page .section-subtitle, .schedule-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78917F; }
-.todo-page .form-row, .schedule-page .form-row { -fx-alignment: CENTER_LEFT; -fx-background-color: #F3F8F4; -fx-background-radius: 12; -fx-padding: 9 11; }
-.todo-page .form-row .label, .schedule-page .form-row .label { -fx-text-fill: #526B5A; -fx-font-size: 12px; }
+.todo-page .section-title, .schedule-page .section-title { -fx-font-size: 20px; -fx-text-fill: #1C1917; }
+.todo-page .section-subtitle, .schedule-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78716C; }
+.todo-page .form-row, .schedule-page .form-row { -fx-alignment: CENTER_LEFT; -fx-background-color: #F5F5F4; -fx-background-radius: 10; -fx-padding: 9 11; }
+.todo-page .form-row .label, .schedule-page .form-row .label { -fx-text-fill: #57534E; -fx-font-size: 12px; }
 .todo-page .form-row .text-field, .schedule-page .form-row .text-field,
 .todo-page .form-row .combo-box, .schedule-page .form-row .combo-box,
 .todo-page .form-row .date-picker, .schedule-page .form-row .date-picker,
 .todo-page .form-row .spinner, .schedule-page .form-row .spinner {
-    -fx-pref-height: 36px; -fx-background-color: white; -fx-background-radius: 8;
-    -fx-border-color: #D8E7DB; -fx-border-radius: 8; -fx-text-fill: #2F4035;
+    -fx-pref-height: 36px; -fx-background-color: white; -fx-background-radius: 6;
+    -fx-border-color: #D6D3D1; -fx-border-radius: 6; -fx-text-fill: #1C1917;
 }
 .todo-page .form-row .button, .schedule-page .form-row .button,
 .todo-page .form-actions .button, .schedule-page .form-actions .button {
-    -fx-pref-height: 36px; -fx-background-color: #E9F2EB; -fx-background-radius: 8;
-    -fx-text-fill: #376D4B; -fx-cursor: hand; -fx-padding: 7 13;
+    -fx-pref-height: 36px; -fx-background-color: #F5F5F4; -fx-background-radius: 6;
+    -fx-text-fill: #44403C; -fx-cursor: hand; -fx-padding: 7 13;
 }
 .todo-page .form-row .button:hover, .schedule-page .form-row .button:hover,
-.todo-page .form-actions .button:hover, .schedule-page .form-actions .button:hover { -fx-background-color: #D5E8D9; }
+.todo-page .form-actions .button:hover, .schedule-page .form-actions .button:hover { -fx-background-color: #E7E5E4; }
 .todo-page .form-row .primary-button, .schedule-page .form-row .primary-button {
-    -fx-background-color: #4CAF7D; -fx-text-fill: white; -fx-font-weight: bold;
+    -fx-background-color: #16A34A; -fx-text-fill: white; -fx-font-weight: bold;
 }
-.todo-page .form-row .primary-button:hover, .schedule-page .form-row .primary-button:hover { -fx-background-color: #3E966A; }
+.todo-page .form-row .primary-button:hover, .schedule-page .form-row .primary-button:hover { -fx-background-color: #15803D; }
 .todo-page .form-actions, .schedule-page .form-actions { -fx-alignment: CENTER_LEFT; -fx-padding: 4 0 0 0; }
-.todo-page .form-status, .schedule-page .form-status { -fx-padding: 0 0 0 10; -fx-text-fill: #4B795C; }
-.todo-table { -fx-background-color: white; -fx-border-color: #DFEAE1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-table-cell-border-color: transparent; }
-.todo-table .column-header-background, .todo-table .column-header { -fx-background-color: #EAF4EC; }
-.todo-table .column-header .label { -fx-text-fill: #376D4B; -fx-font-size: 12px; -fx-font-weight: bold; }
+.todo-page .form-status, .schedule-page .form-status { -fx-padding: 0 0 0 10; -fx-text-fill: #57534E; }
+.todo-table { -fx-background-color: white; -fx-border-color: #E7E5E4; -fx-border-radius: 10; -fx-background-radius: 10; -fx-table-cell-border-color: transparent; }
+.todo-table .column-header-background, .todo-table .column-header { -fx-background-color: #FFFFFF; }
+.todo-table .column-header .label { -fx-text-fill: #44403C; -fx-font-size: 12px; -fx-font-weight: bold; }
 .todo-table .table-row-cell { -fx-background-color: white; -fx-cell-size: 42px; }
-.todo-table .table-row-cell:odd { -fx-background-color: #F8FBF8; }
-.todo-table .table-row-cell:selected { -fx-background-color: #DCEFE1; }
-.todo-table .table-cell { -fx-text-fill: #34473A; -fx-alignment: CENTER_LEFT; -fx-padding: 0 8; }
-.calendar-scroll { -fx-background-color: white; -fx-border-color: #DFEAE1; -fx-border-radius: 10; }
+.todo-table .table-row-cell:odd { -fx-background-color: #FAFAF9; }
+.todo-table .table-row-cell:selected { -fx-background-color: #F0FDF4; }
+.todo-table .table-cell { -fx-text-fill: #1C1917; -fx-alignment: CENTER_LEFT; -fx-padding: 0 8; }
+.calendar-scroll { -fx-background-color: white; -fx-border-color: #E7E5E4; -fx-border-radius: 10; }
 .calendar-scroll > .viewport { -fx-background-color: white; }
 .calendar-grid { -fx-background-color: white; -fx-padding: 8; }
-.schedule-page .calendar-header { -fx-background-color: #EAF4EC; -fx-background-radius: 7; -fx-text-fill: #376D4B; -fx-min-width: 105px; -fx-alignment: CENTER; }
-.schedule-page .calendar-cell { -fx-min-width: 105px; -fx-min-height: 38px; -fx-padding: 3; -fx-background-color: #F8FBF8; -fx-background-radius: 5; -fx-border-color: #E5EEE7; -fx-border-radius: 5; -fx-border-width: 1; }
-.schedule-page .event-button { -fx-background-color: #DCEFE1; -fx-background-radius: 6; -fx-text-fill: #285C3B; -fx-font-size: 11px; -fx-padding: 3 5; }
-.schedule-page .event-button:hover { -fx-background-color: #C4E5CD; }
+.schedule-page .calendar-header { -fx-background-color: #FFFFFF; -fx-background-radius: 7; -fx-text-fill: #44403C; -fx-min-width: 105px; -fx-alignment: CENTER; }
+.schedule-page .calendar-cell { -fx-min-width: 105px; -fx-min-height: 38px; -fx-padding: 3; -fx-background-color: #FAFAF9; -fx-background-radius: 5; -fx-border-color: #E7E5E4; -fx-border-radius: 5; -fx-border-width: 1; }
+.schedule-page .event-button { -fx-background-color: #F0FDF4; -fx-background-radius: 6; -fx-text-fill: #44403C; -fx-font-size: 11px; -fx-padding: 3 5; }
+.schedule-page .event-button:hover { -fx-background-color: #DCFCE7; }
 
 /* ===== 学习助手 ===== */
 .assistant-page { -fx-background-color: white; }
-.assistant-page .assistant-key-row { -fx-alignment: CENTER_LEFT; -fx-background-color: #F3F8F4; -fx-background-radius: 10; -fx-padding: 10; }
-.assistant-page .assistant-key-row .label { -fx-text-fill: #376D4B; -fx-font-weight: bold; }
-.assistant-page .password-field, .assistant-page .text-area { -fx-background-color: white; -fx-border-color: #D8E7DB; -fx-border-radius: 9; -fx-background-radius: 9; }
+.assistant-page .assistant-key-row { -fx-alignment: CENTER_LEFT; -fx-background-color: #F5F5F4; -fx-background-radius: 10; -fx-padding: 10; }
+.assistant-page .assistant-key-row .label { -fx-text-fill: #44403C; -fx-font-weight: bold; }
+.assistant-page .password-field, .assistant-page .text-area { -fx-background-color: white; -fx-border-color: #D6D3D1; -fx-border-radius: 6; -fx-background-radius: 6; }
 .assistant-page .password-field { -fx-pref-height: 36px; }
 .assistant-page .text-area .content { -fx-background-color: white; }
-.assistant-page .check-box { -fx-text-fill: #526B5A; }
-.assistant-page .assistant-note { -fx-text-fill: #78917F; -fx-font-size: 11px; }
-.assistant-page .assistant-actions .button { -fx-background-color: #E9F2EB; -fx-background-radius: 8; -fx-text-fill: #376D4B; -fx-pref-height: 36px; -fx-cursor: hand; }
-.assistant-page .assistant-actions .primary-button { -fx-background-color: #4CAF7D; -fx-text-fill: white; }
-.assistant-page .assistant-actions .button:hover { -fx-background-color: #D5E8D9; }
-.assistant-page .assistant-actions .primary-button:hover { -fx-background-color: #3E966A; }
+.assistant-page .check-box { -fx-text-fill: #57534E; }
+.assistant-page .assistant-note { -fx-text-fill: #78716C; -fx-font-size: 11px; }
+.assistant-page .assistant-actions .button { -fx-background-color: #F5F5F4; -fx-background-radius: 6; -fx-text-fill: #44403C; -fx-pref-height: 36px; -fx-cursor: hand; }
+.assistant-page .assistant-actions .primary-button { -fx-background-color: #16A34A; -fx-text-fill: white; }
+.assistant-page .assistant-actions .button:hover { -fx-background-color: #E7E5E4; }
+.assistant-page .assistant-actions .primary-button:hover { -fx-background-color: #15803D; }
 
 /* ===== F3/F4 统一视觉：植物园、统计与学习助手 ===== */
 .sidebar {
-    -fx-background-color: #EAF4EC;
-    -fx-border-color: #DCEBDD;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E7E5E4;
     -fx-border-width: 0 1 0 0;
 }
 .nav-button {
@@ -185,226 +186,226 @@
     -fx-font-weight: bold;
 }
 .nav-button:focused {
-    -fx-background-color: #D6EBDD;
-    -fx-border-color: #A9D5B7;
+    -fx-background-color: #F0FDF4;
+    -fx-border-color: #16A34A;
     -fx-border-width: 0 0 0 3;
     -fx-border-radius: 3;
 }
 .page-card {
-    -fx-effect: dropshadow(gaussian, rgba(35, 74, 45, 0.07), 14, 0, 0, 3);
+
 }
 .garden-page, .stats-page {
     -fx-background-color: white;
 }
 .garden-page .section-title, .stats-page .section-title,
 .assistant-page .section-title {
-    -fx-font-size: 21px;
-    -fx-text-fill: #28563A;
+    -fx-font-size: 20px;
+    -fx-text-fill: #1C1917;
 }
 .garden-page .section-subtitle, .stats-page .section-subtitle,
 .assistant-page .section-subtitle {
     -fx-font-size: 12px;
-    -fx-text-fill: #78917F;
+    -fx-text-fill: #78716C;
 }
 .garden-toolbar, .stats-summary {
-    -fx-background-color: #F3F8F4;
-    -fx-background-radius: 12;
-    -fx-border-color: #E2EEE4;
-    -fx-border-radius: 12;
+    -fx-background-color: #F5F5F4;
+    -fx-background-radius: 10;
+    -fx-border-color: #E7E5E4;
+    -fx-border-radius: 10;
     -fx-padding: 10 12;
 }
 .garden-energy {
-    -fx-background-color: #DCEFE1;
-    -fx-background-radius: 8;
+    -fx-background-color: #F0FDF4;
+    -fx-background-radius: 6;
     -fx-padding: 8 12;
     -fx-font-weight: bold;
-    -fx-text-fill: #285C3B;
+    -fx-text-fill: #44403C;
 }
 .garden-page .toolbar-button, .garden-page .secondary-button {
-    -fx-background-color: #E9F2EB;
-    -fx-background-radius: 8;
-    -fx-text-fill: #376D4B;
+    -fx-background-color: #F5F5F4;
+    -fx-background-radius: 6;
+    -fx-text-fill: #44403C;
     -fx-pref-height: 36px;
     -fx-cursor: hand;
     -fx-padding: 7 12;
 }
 .garden-page .toolbar-button:hover, .garden-page .secondary-button:hover {
-    -fx-background-color: #D5E8D9;
+    -fx-background-color: #E7E5E4;
 }
 .garden-page .primary-button {
-    -fx-background-color: #4CAF7D;
-    -fx-background-radius: 8;
+    -fx-background-color: #16A34A;
+    -fx-background-radius: 6;
     -fx-font-weight: bold;
     -fx-pref-height: 38px;
 }
-.garden-page .primary-button:hover { -fx-background-color: #3E966A; }
+.garden-page .primary-button:hover { -fx-background-color: #15803D; }
 .garden-panel {
-    -fx-background-color: #FBFDFB;
-    -fx-background-radius: 12;
-    -fx-border-color: #DFEAE1;
-    -fx-border-radius: 12;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-border-color: #E7E5E4;
+    -fx-border-radius: 10;
     -fx-padding: 14;
 }
 .panel-title {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #28563A;
+    -fx-text-fill: #1C1917;
 }
 .panel-subtitle {
     -fx-font-size: 12px;
-    -fx-text-fill: #78917F;
+    -fx-text-fill: #78716C;
 }
 .garden-page .collection-card {
     -fx-background-color: white;
-    -fx-effect: none;
+
 }
 .garden-page .collection-card:hover {
-    -fx-effect: dropshadow(gaussian, rgba(41, 93, 57, 0.12), 9, 0, 0, 2);
+
 }
 .garden-page .plot-tile {
     -fx-background-color: white;
-    -fx-border-color: #DFEAE1;
+    -fx-border-color: #E7E5E4;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
-    -fx-effect: none;
+
 }
 .garden-page .plot-empty {
-    -fx-background-color: #F8FBF8;
-    -fx-border-color: #BDD6C3;
+    -fx-background-color: #FAFAF9;
+    -fx-border-color: #D6D3D1;
     -fx-border-style: dashed;
 }
 .garden-page .plot-drop-target {
-    -fx-border-color: #4CAF7D;
+    -fx-border-color: #16A34A;
     -fx-border-style: solid;
-    -fx-background-color: #EAF7EE;
+    -fx-background-color: #F0FDF4;
 }
 .page-feedback {
-    -fx-background-color: #EAF4EC;
-    -fx-background-radius: 8;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 6;
     -fx-padding: 9 12;
-    -fx-text-fill: #376D4B;
+    -fx-text-fill: #44403C;
     -fx-font-size: 12px;
 }
 .stats-summary {
-    -fx-text-fill: #376D4B;
+    -fx-text-fill: #44403C;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
 }
 .stats-page .chart-card {
-    -fx-background-color: #FBFDFB;
-    -fx-border-color: #DFEAE1;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E7E5E4;
     -fx-border-width: 1;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
     -fx-padding: 16;
-    -fx-effect: none;
+
 }
 .stats-page .chart-card-title {
-    -fx-text-fill: #28563A;
+    -fx-text-fill: #1C1917;
     -fx-font-size: 15px;
 }
 .stats-page .album-card {
-    -fx-effect: none;
-    -fx-border-color: #DFEAE1;
+
+    -fx-border-color: #E7E5E4;
 }
 .stats-page .album-card-collected {
-    -fx-border-color: #7BAE8D;
-    -fx-background-color: #F3F8F4;
+    -fx-border-color: #16A34A;
+    -fx-background-color: #F5F5F4;
 }
 .assistant-page .assistant-key-row {
-    -fx-border-color: #E2EEE4;
+    -fx-border-color: #E7E5E4;
     -fx-border-radius: 10;
 }
 .assistant-page .text-area:focused, .assistant-page .password-field:focused {
-    -fx-border-color: #7BAE8D;
+    -fx-border-color: #16A34A;
 }
 .assistant-page .assistant-actions .button:disabled { -fx-opacity: 0.65; }
 .assistant-page .form-status {
-    -fx-background-color: #F3F8F4;
-    -fx-background-radius: 8;
+    -fx-background-color: #F5F5F4;
+    -fx-background-radius: 6;
     -fx-padding: 9 12;
 }
 /* ===== 专注计时（沿用 F3/F4 表单与卡片样式）===== */
 .focus-page { -fx-background-color: white; }
-.focus-page .section-title { -fx-font-size: 21px; -fx-text-fill: #28563A; }
-.focus-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.focus-page .section-title { -fx-font-size: 20px; -fx-text-fill: #1C1917; }
+.focus-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78716C; }
 .focus-page .form-row {
     -fx-alignment: CENTER_LEFT;
-    -fx-background-color: #F3F8F4;
-    -fx-background-radius: 12;
+    -fx-background-color: #F5F5F4;
+    -fx-background-radius: 10;
     -fx-padding: 10 12;
 }
 .focus-page .form-row .combo-box, .focus-page .form-row .spinner {
     -fx-pref-height: 36px;
     -fx-background-color: white;
-    -fx-border-color: #D8E7DB;
-    -fx-border-radius: 8;
+    -fx-border-color: #D6D3D1;
+    -fx-border-radius: 6;
 }
 .focus-clock-card {
-    -fx-background-color: #FBFDFB;
-    -fx-border-color: #DFEAE1;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E7E5E4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
     -fx-padding: 24;
 }
-.focus-mode { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #376D4B; }
-.focus-time { -fx-font-size: 76px; -fx-font-weight: bold; -fx-text-fill: #28563A; }
-.focus-cycle { -fx-font-size: 13px; -fx-text-fill: #78917F; -fx-padding: 0 0 10 0; }
-.focus-page .primary-button { -fx-background-color: #4CAF7D; -fx-background-radius: 8; -fx-font-weight: bold; }
+.focus-mode { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #44403C; }
+.focus-time { -fx-font-size: 76px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
+.focus-cycle { -fx-font-size: 13px; -fx-text-fill: #78716C; -fx-padding: 0 0 10 0; }
+.focus-page .primary-button { -fx-background-color: #16A34A; -fx-background-radius: 6; -fx-font-weight: bold; }
 .focus-page .secondary-button {
-    -fx-background-color: #E9F2EB;
-    -fx-background-radius: 8;
+    -fx-background-color: #F5F5F4;
+    -fx-background-radius: 6;
     -fx-pref-height: 36px;
-    -fx-text-fill: #376D4B;
+    -fx-text-fill: #44403C;
     -fx-cursor: hand;
 }
-.focus-page .secondary-button:hover { -fx-background-color: #D5E8D9; }
+.focus-page .secondary-button:hover { -fx-background-color: #E7E5E4; }
 .focus-page .button:disabled { -fx-opacity: 0.55; }
 .todo-page .form-actions .primary-button, .schedule-page .form-actions .primary-button {
-    -fx-background-color: #4CAF7D;
+    -fx-background-color: #16A34A;
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 /* ===== 系统设置（F6）===== */
 .settings-page { -fx-background-color: white; }
-.settings-page .section-title { -fx-font-size: 21px; -fx-text-fill: #28563A; }
-.settings-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78917F; }
+.settings-page .section-title { -fx-font-size: 20px; -fx-text-fill: #1C1917; }
+.settings-page .section-subtitle { -fx-font-size: 12px; -fx-text-fill: #78716C; }
 .settings-card {
-    -fx-background-color: #FBFDFB;
-    -fx-border-color: #DFEAE1;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E7E5E4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
     -fx-padding: 16;
 }
 .settings-page .form-row {
-    -fx-background-color: #F3F8F4;
+    -fx-background-color: #F5F5F4;
     -fx-background-radius: 10;
     -fx-padding: 10;
 }
 .settings-page .spinner {
     -fx-pref-height: 36px;
     -fx-background-color: white;
-    -fx-border-color: #D8E7DB;
-    -fx-border-radius: 8;
+    -fx-border-color: #D6D3D1;
+    -fx-border-radius: 6;
 }
-.settings-page .check-box { -fx-text-fill: #376D4B; }
+.settings-page .check-box { -fx-text-fill: #44403C; }
 .settings-page .primary-button {
-    -fx-background-color: #4CAF7D;
-    -fx-background-radius: 8;
+    -fx-background-color: #16A34A;
+    -fx-background-radius: 6;
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 /* ===== F5 紧凑统计布局 ===== */
 .stats-metric {
-    -fx-background-color: #F3F8F4;
-    -fx-background-radius: 12;
-    -fx-border-color: #DFEAE1;
-    -fx-border-radius: 12;
+    -fx-background-color: #F5F5F4;
+    -fx-background-radius: 10;
+    -fx-border-color: #E7E5E4;
+    -fx-border-radius: 10;
     -fx-padding: 12 15;
     -fx-min-width: 0;
 }
-.stats-metric-label { -fx-font-size: 12px; -fx-text-fill: #78917F; }
-.stats-metric-value { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #28563A; }
+.stats-metric-label { -fx-font-size: 12px; -fx-text-fill: #78716C; }
+.stats-metric-value { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1C1917; }
 .stats-chart-row .chart-card {
     -fx-pref-width: 430px;
     -fx-min-width: 0;
@@ -421,10 +422,10 @@
     -fx-max-width: 300px;
 }
 .stats-album-panel {
-    -fx-background-color: #FBFDFB;
-    -fx-border-color: #DFEAE1;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E7E5E4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
     -fx-padding: 16;
     -fx-min-width: 0;
 }
