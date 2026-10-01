@@ -2,6 +2,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.HBox?>
@@ -29,6 +30,24 @@
     <VBox spacing="12" styleClass="settings-card">
         <Label text="提醒" styleClass="panel-title"/>
         <CheckBox fx:id="doNotDisturb" text="免打扰：不弹出日程与专注结束通知"/>
+    </VBox>
+    <VBox spacing="12" styleClass="settings-card">
+        <Label text="外观" styleClass="panel-title"/>
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="form-row">
+            <Label text="主题"/>
+            <ComboBox fx:id="themeBox" prefWidth="140"/>
+            <Label text="选择后立即生效，无需保存" styleClass="section-subtitle"/>
+        </HBox>
+        <Label text="深色主题适合夜间学习，配色与浅色主题一一对应。" styleClass="section-subtitle"/>
+    </VBox>
+    <VBox spacing="12" styleClass="settings-card">
+        <Label text="数据备份" styleClass="panel-title"/>
+        <HBox spacing="12" alignment="CENTER_LEFT" styleClass="form-row">
+            <Button text="导出备份" onAction="#exportBackup" styleClass="primary-button"/>
+            <Button text="导入备份" onAction="#importBackup"/>
+        </HBox>
+        <Label text="导出会生成一份独立的 .db 文件，可用于换机或留档；导入会用备份内容覆盖当前的全部学习记录、待办与日程。"
+               styleClass="section-subtitle" wrapText="true"/>
     </VBox>
     <HBox spacing="12" alignment="CENTER_LEFT">
         <Button text="保存设置" onAction="#saveSettings" styleClass="primary-button"/>

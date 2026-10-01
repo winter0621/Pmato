@@ -1,5 +1,6 @@
 package csu.mengya.controller;
 
+import csu.mengya.common.ThemeManager;
 import csu.mengya.dao.TodoDao;
 import csu.mengya.model.TodoItem;
 import csu.mengya.service.FocusService;
@@ -100,6 +101,8 @@ public class FocusController implements Initializable, PageRefreshable {
             alert.setTitle("专注完成");
             alert.setHeaderText("做得好，休息一下");
             alert.setContentText(state.message());
+            // 对话框有独立 Scene，深色主题下需单独挂样式表，否则弹出的是白色块
+            ThemeManager.applyToDialog(alert.getDialogPane(), SettingsService.getInstance().theme());
             alert.show();
         }
         lastNotice = state.message();

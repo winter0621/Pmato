@@ -1,5 +1,6 @@
 package csu.mengya.controller;
 
+import csu.mengya.common.DataRestoredEvent;
 import csu.mengya.common.EventBus;
 import csu.mengya.common.FocusRequestedEvent;
 import csu.mengya.common.FocusFinishedEvent;
@@ -43,11 +44,16 @@ public class MainController implements Initializable {
     /** 页面缓存：路径 -> 已加载的页面（根节点 + 控制器） */
     private final Map<String, CachedPage> pageCache = new HashMap<>();
 
+    /** 当前显示页面的加载参数，用于在数据被整体替换后原样重载 */
+    private String currentPath, currentTitle, currentDescription;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // 默认进入植物园（已实现）
         EventBus.subscribe(FocusRequestedEvent.class, event -> Platform.runLater(() -> openFocus(event.todoId())));
         EventBus.subscribe(FocusFinishedEvent.class, event -> Platform.runLater(this::refreshToday));
+        // 导入备份后整个数据库被替换，缓存的页面必须丢弃重建，否则界面还显示旧数据
+        EventBus.subscribe(DataRestoredEvent.class, event -> Platform.runLater(this::reloadCurrentPage));
         refreshToday();
         showGarden(null);
     }
@@ -124,6 +130,11 @@ public class MainController implements Initializable {
      * {@link PageRefreshable}，则调用其 refresh() 刷新数据。
      */
     private void load(String path, String title, String desc) {
+        // 记下当前页的加载参数，导入备份后据此原样重载
+        currentPath = path;
+        currentTitle = title;
+        currentDescription = desc;
+
         CachedPage page = pageCache.get(path);
         if (page == null) {
             try {
@@ -144,6 +155,21 @@ public class MainController implements Initializable {
         if (page.controller instanceof PageRefreshable) {
             ((PageRefreshable) page.controller).refresh();
         }
+    }
+
+    /**
+     * 丢弃全部页面缓存并重新加载当前页。
+     *
+     * <p>导入备份后调用。页面缓存里持有的是重建前的控制器与数据快照，
+     * 只调用 {@code refresh()} 不足以反映「整库被替换」这么大的变化 ——
+     * 例如图鉴列表是缓存在控制器字段里的，必须重新解析 FXML 才会更新。</p>
+     */
+    private void reloadCurrentPage() {
+        pageCache.clear();
+        if (currentPath != null) {
+            load(currentPath, currentTitle, currentDescription);
+        }
+        refreshToday();
     }
 
     /** 主框架显示今天的真实专注分钟数。 */

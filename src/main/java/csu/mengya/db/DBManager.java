@@ -2,6 +2,7 @@ package csu.mengya.db;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -44,6 +45,20 @@ public final class DBManager {
             return override;
         }
         return DEFAULT_DB_URL;
+    }
+
+    /**
+     * 当前数据库文件的绝对路径。
+     *
+     * <p>备份导出与导入需要直接操作数据库文件，因此把「连接串 → 文件路径」的
+     * 解析集中在这里，避免调用方各自重复拼装字符串（解析逻辑一旦改了就漏改）。</p>
+     *
+     * @return 数据库文件路径（此时文件可能尚不存在，尚未首次连接）
+     */
+    public Path databaseFile() {
+        String url = resolveDbUrl();
+        String path = url.startsWith("jdbc:sqlite:") ? url.substring("jdbc:sqlite:".length()) : url;
+        return Path.of(path).toAbsolutePath();
     }
 
     /** 单例实例 */

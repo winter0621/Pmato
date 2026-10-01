@@ -2,7 +2,9 @@ package csu.mengya.controller;
 
 import csu.mengya.dao.TodoDao;
 import csu.mengya.model.TodoItem;
+import csu.mengya.service.SettingsService;
 import csu.mengya.common.EventBus;
+import csu.mengya.common.ThemeManager;
 import csu.mengya.common.TodoCompletedEvent;
 import csu.mengya.common.FocusRequestedEvent;
 import javafx.beans.property.BooleanProperty;
@@ -141,6 +143,8 @@ public class TodoController implements Initializable, PageRefreshable {
         if (t != null) {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "确定删除任务“" + t.title.get() + "”？", ButtonType.OK, ButtonType.CANCEL);
             confirm.setHeaderText("删除待办");
+            // 对话框有独立 Scene，深色主题下需单独挂样式表，否则弹出的是白色块
+            ThemeManager.applyToDialog(confirm.getDialogPane(), SettingsService.getInstance().theme());
             if (confirm.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) return;
             todoDao.delete(t.id);
             load();
