@@ -175,11 +175,15 @@ public class ScheduleController implements Initializable, PageRefreshable {
                 for (Event e : events) {
                     LocalDateTime occurrence = e.start;
                     long step = "daily".equals(e.rule) ? 1 : 7;
-                    if(!"none".equals(e.rule)){
-                        long stepDays = "daily".equals(e.rule) ? 1 : 7;
-                        long diffDays=java.time.temporal.ChronoUnit.DAYS.between(occurrence, date);
-                        if(diffDays>0){
-                            occurrence = e.start.plusDays((diffDays/stepDays)*stepDays);
+                    if (!"none".equals(e.rule)) {
+                        // 用天数差一次算出该跳到第几次发生，避免逐日循环推进
+                        // （每天重复的日程创建于很久以前时，逐日推进会拖慢渲染）。
+                        // 两端都必须是 LocalDate：LocalDateTime 与 LocalDate 混用会抛
+                        // DateTimeException，导致整个页面渲染中断、看起来像页面消失了。
+                        long diffDays = java.time.temporal.ChronoUnit.DAYS
+                                .between(e.start.toLocalDate(), date);
+                        if (diffDays > 0) {
+                            occurrence = e.start.plusDays((diffDays / step) * step);
                         }
                     }
                     while (!occurrence.toLocalDate().isAfter(date)) {
