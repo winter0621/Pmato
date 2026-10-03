@@ -37,7 +37,7 @@ import java.util.Objects;
 public class App extends Application {
 
     /** 应用显示名称，供标题栏与后续软著材料引用 */
-    private static final String APP_NAME = "pmato";
+    private static final String APP_NAME = "Pmato植物园激励式学习软件 V1.0";
 
     /** 主窗口默认宽（像素） */
     private static final double WIDTH = 1280;
@@ -85,7 +85,7 @@ public class App extends Application {
             if (trayReady) {
                 event.consume();          // 拦下关闭动作，改为隐藏
                 TrayService.hideWindow();
-                TrayService.notifyMessage("萌芽专注", "程序已最小化到托盘，单击托盘图标可重新打开。");
+                TrayService.notifyMessage("Pmato植物园激励式学习软件", "程序已最小化到托盘，单击托盘图标可重新打开。");
             }
             // 托盘不可用时不做拦截，保持默认的「关闭即退出」
         });

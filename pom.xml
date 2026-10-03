@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  pmato —— 植物园式学习计时软件 V1.0
+  Pmato植物园激励式学习软件 V1.0
   Maven 工程描述文件（POM）。
 
   关键约定（对应《项目分工计划书》2.1 / 2.2 节）：
@@ -20,7 +20,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>pmato</name>
+    <name>Pmato植物园激励式学习软件</name>
     <description>植物园式学习计时软件 V1.0</description>
 
     <properties>

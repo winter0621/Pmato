@@ -30,7 +30,7 @@ public final class AiAssistantService {
     private static final String MODEL = "gpt-4.1-mini";
     private static final HttpClient CLIENT = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10)).build();
-    private static final String INSTRUCTIONS = "你是萌芽专注的中文学习助手。帮助学生拆解待办、规划现实可行的学习时间，"
+    private static final String INSTRUCTIONS = "你是Pmato植物园激励式学习软件的中文学习助手。帮助学生拆解待办、规划现实可行的学习时间，"
             + "或回答与学习方法有关的问题。回答应简洁、具体、可执行，优先给出今天能开始的一步。"
             + "只依据提供的数据判断；没有日期或时长时不要编造。你只能提出建议，不能声称已修改待办、日程或开始计时。";
 
