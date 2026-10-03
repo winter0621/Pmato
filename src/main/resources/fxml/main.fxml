@@ -22,8 +22,8 @@
             <padding>
                 <Insets top="28" right="18" bottom="24" left="18"/>
             </padding>
-            <Label text="pmato" styleClass="brand-title"/>
-            <Label text="植物园式学习计时" styleClass="brand-subtitle"/>
+            <Label text="Pmato" styleClass="brand-title"/>
+            <Label text="植物园激励式学习软件" styleClass="brand-subtitle"/>
 
             <VBox spacing="6" VBox.vgrow="ALWAYS">
                 <Button text="F1  专注学习" onAction="#showFocus" styleClass="nav-button"/>
