@@ -18,3 +18,6 @@ target/
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# 数据库备份（改名后不以 .db 结尾，*.db 规则盖不住）
+*.bak-*
