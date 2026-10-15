@@ -61,7 +61,7 @@ public class MainController implements Initializable {
     /** F1 专注学习：保留页面与计时状态，切换页面不会中断计时。 */
     @FXML
     public void showFocus(ActionEvent e) {
-        load("/fxml/focus.fxml", "F1  专注学习计时", "专注、休息与任务进度联动");
+        load("/fxml/focus.fxml", "专注计时", "专注、休息与任务进度自然同步");
     }
 
     /** 从待办或提醒进入计时页，并选中对应任务。 */
@@ -75,31 +75,31 @@ public class MainController implements Initializable {
     /** F2 植物园：B 已实现 */
     @FXML
     public void showGarden(ActionEvent e) {
-        load("/fxml/garden.fxml", "F2  植物园养成", "学习时长转化为能量，培育并收获作物");
+        load("/fxml/garden.fxml", "我的花园", "把每一次专注，种成看得见的成长");
     }
 
     /** F3 待办清单 */
     @FXML
     public void showTodo(ActionEvent e) {
-        load("/fxml/todo.fxml", "F3  待办清单", "任务增删改查、优先级和预计番茄数");
+        load("/fxml/todo.fxml", "待办事项", "把想做的事，变成今天能开始的一步");
     }
 
     /** F4 日程规划 */
     @FXML
     public void showSchedule(ActionEvent e) {
-        load("/fxml/schedule.fxml", "F4  日程规划", "周视图日历、时间段规划和提醒");
+        load("/fxml/schedule.fxml", "学习日历", "为重要的学习安排留出清晰时间");
     }
 
     /** F5 数据统计：B 已实现 */
     @FXML
     public void showStats(ActionEvent e) {
-        load("/fxml/stats.fxml", "F5  数据统计", "用数据观察你的专注和成长");
+        load("/fxml/stats.fxml", "成长记录", "回看每一段投入留下的轨迹");
     }
 
     /** F6 设置：时长与免打扰会影响计时和提醒模块。 */
     @FXML
     public void showSettings(ActionEvent e) {
-        load("/fxml/settings.fxml", "F6  系统与设置", "调整专注时长、休息和提醒");
+        load("/fxml/settings.fxml", "设置", "调整你的专注节奏与使用偏好");
     }
 
     /** 按需调用 AI，帮助用户拆解任务与安排学习时间。 */

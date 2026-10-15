@@ -7,27 +7,34 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="csu.mengya.controller.FocusController" spacing="16" styleClass="focus-page">
-    <padding><Insets top="20" right="22" bottom="20" left="22"/></padding>
-    <Label text="专注学习" styleClass="section-title"/>
-    <Label text="选一个待办，开始专注；完成后自动进入短休或长休" styleClass="section-subtitle"/>
-    <HBox spacing="10" styleClass="form-row">
-        <Label text="关联待办"/>
-        <ComboBox fx:id="todoBox" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-        <Label text="专注分钟"/>
-        <Spinner fx:id="minutesSpinner" prefWidth="95"/>
+      fx:controller="csu.mengya.controller.FocusController" spacing="18" styleClass="focus-page">
+    <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+    <HBox spacing="18" VBox.vgrow="ALWAYS">
+        <VBox spacing="14" alignment="CENTER" HBox.hgrow="ALWAYS" styleClass="focus-clock-card">
+            <Label fx:id="modeLabel" text="专注学习" styleClass="focus-mode"/>
+            <Label fx:id="timerLabel" text="25:00" styleClass="focus-time"/>
+            <Label fx:id="cycleLabel" text="已完成 0 个番茄" styleClass="focus-cycle"/>
+            <HBox spacing="9" alignment="CENTER">
+                <Button fx:id="startButton" text="开始专注" onAction="#startFocus" styleClass="primary-button"/>
+                <Button fx:id="pauseButton" text="暂停" onAction="#pauseFocus" styleClass="secondary-button"/>
+                <Button fx:id="resumeButton" text="继续" onAction="#resumeFocus" styleClass="secondary-button"/>
+                <Button fx:id="abandonButton" text="放弃" onAction="#abandonFocus" styleClass="secondary-button danger-button"/>
+                <Button fx:id="skipButton" text="跳过休息" onAction="#skipBreak" styleClass="secondary-button"/>
+            </HBox>
+        </VBox>
+        <VBox spacing="14" prefWidth="300" styleClass="focus-side-panel">
+            <Label text="本轮计划" styleClass="panel-title"/>
+            <Label text="选定一个任务，让每次专注成为可追踪的进度。" wrapText="true" styleClass="panel-subtitle"/>
+            <VBox spacing="8" styleClass="focus-field-group">
+                <Label text="关联待办" styleClass="field-label"/>
+                <ComboBox fx:id="todoBox" maxWidth="Infinity"/>
+            </VBox>
+            <VBox spacing="8" styleClass="focus-field-group">
+                <Label text="专注时长" styleClass="field-label"/>
+                <Spinner fx:id="minutesSpinner" maxWidth="Infinity"/>
+            </VBox>
+            <Label text="完成后会积累能量，滋养你花园中的第一株作物。" wrapText="true" styleClass="focus-tip"/>
+        </VBox>
     </HBox>
-    <VBox spacing="12" alignment="CENTER" VBox.vgrow="ALWAYS" styleClass="focus-clock-card">
-        <Label fx:id="modeLabel" text="专注学习" styleClass="focus-mode"/>
-        <Label fx:id="timerLabel" text="25:00" styleClass="focus-time"/>
-        <Label fx:id="cycleLabel" text="已完成 0 个番茄" styleClass="focus-cycle"/>
-        <HBox spacing="10" alignment="CENTER">
-            <Button fx:id="startButton" text="开始专注" onAction="#startFocus" styleClass="primary-button"/>
-            <Button fx:id="pauseButton" text="暂停" onAction="#pauseFocus" styleClass="secondary-button"/>
-            <Button fx:id="resumeButton" text="继续" onAction="#resumeFocus" styleClass="secondary-button"/>
-            <Button fx:id="abandonButton" text="放弃" onAction="#abandonFocus" styleClass="secondary-button"/>
-            <Button fx:id="skipButton" text="跳过休息" onAction="#skipBreak" styleClass="secondary-button"/>
-        </HBox>
-    </VBox>
     <Label fx:id="focusStatus" text="选择任务并开始专注" styleClass="page-feedback" wrapText="true"/>
 </VBox>

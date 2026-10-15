@@ -18,21 +18,25 @@
             prefWidth="1280" prefHeight="800" styleClass="app-shell">
 
     <left>
-        <VBox prefWidth="210" spacing="10" styleClass="sidebar">
+        <VBox prefWidth="232" spacing="10" styleClass="sidebar">
             <padding>
-                <Insets top="28" right="18" bottom="24" left="18"/>
+                <Insets top="30" right="16" bottom="24" left="16"/>
             </padding>
-            <Label text="Pmato" styleClass="brand-title"/>
-            <Label text="植物园激励式学习软件" styleClass="brand-subtitle"/>
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="brand-lockup">
+                <Label text="P" styleClass="brand-mark"/>
+                <VBox spacing="2"><Label text="Pmato" styleClass="brand-title"/><Label text="把专注种成花园" styleClass="brand-subtitle"/></VBox>
+            </HBox>
 
             <VBox spacing="6" VBox.vgrow="ALWAYS">
-                <Button text="F1  专注学习" onAction="#showFocus" styleClass="nav-button"/>
-                <Button text="F2  植物园" onAction="#showGarden" styleClass="nav-button"/>
-                <Button text="F3  待办清单" onAction="#showTodo" styleClass="nav-button"/>
-                <Button text="F4  日程规划" onAction="#showSchedule" styleClass="nav-button"/>
-                <Button text="F5  数据统计" onAction="#showStats" styleClass="nav-button"/>
-                <Button text="F6  系统与设置" onAction="#showSettings" styleClass="nav-button"/>
-                <Button text="✦  学习助手" onAction="#showAssistant" styleClass="nav-button"/>
+                <Label text="学习空间" styleClass="nav-section-label"/>
+                <Button text="专注计时" onAction="#showFocus" styleClass="nav-button"/>
+                <Button text="我的花园" onAction="#showGarden" styleClass="nav-button"/>
+                <Button text="待办事项" onAction="#showTodo" styleClass="nav-button"/>
+                <Button text="学习日历" onAction="#showSchedule" styleClass="nav-button"/>
+                <Button text="成长记录" onAction="#showStats" styleClass="nav-button"/>
+                <Label text="偏好设置" styleClass="nav-section-label"/>
+                <Button text="设置" onAction="#showSettings" styleClass="nav-button"/>
+                <Button text="学习建议" onAction="#showAssistant" styleClass="nav-button nav-button-quiet"/>
             </VBox>
 
             <Label fx:id="statusLabel" text="系统就绪" styleClass="sidebar-status" wrapText="true"/>
@@ -44,9 +48,9 @@
             <padding>
                 <Insets top="24" right="28" bottom="24" left="28"/>
             </padding>
-            <HBox alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" styleClass="topbar">
                 <VBox HBox.hgrow="ALWAYS">
-                    <Label fx:id="contentTitle" text="F2  植物园养成" styleClass="page-title"/>
+                    <Label fx:id="contentTitle" text="我的花园" styleClass="page-title"/>
                     <Label fx:id="contentDescription" text="学习时长转化为能量，培育并收获作物" styleClass="page-description"/>
                 </VBox>
                 <Label fx:id="todayFocusLabel" text="今日专注  0 分钟" styleClass="summary-pill"/>

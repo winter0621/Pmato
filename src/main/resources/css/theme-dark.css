@@ -440,3 +440,14 @@
     -fx-border-radius: 10;
     -fx-padding: 7;
 }
+
+/* 2026 refresh: keep the dark theme in the same garden-studio family. */
+.app-shell { -fx-background-color: #14251c; }
+.sidebar { -fx-background-color: #102d20; -fx-border-color: #254b36; }
+.brand-mark { -fx-background-color: #d8f29c; -fx-background-radius: 12; -fx-text-fill: #173725; -fx-padding: 8 13; }
+.brand-title { -fx-text-fill: #f7f8f3; }.brand-subtitle { -fx-text-fill: #9db9a6; }
+.nav-section-label { -fx-text-fill: #78a789; -fx-padding: 14 12 5 12; }.nav-button { -fx-background-radius: 8; -fx-text-fill: #d1e1d5; -fx-padding: 11 13; }.nav-button:hover { -fx-background-color: #24523a; }.nav-button:focused { -fx-background-color: #d8f29c; -fx-text-fill: #183c2c; }.sidebar-status { -fx-background-color: #1c4430; -fx-text-fill: #a9c7b1; }
+.content { -fx-background-color: #14251c; }.page-card { -fx-background-color: transparent; }.page-title,.section-title,.panel-title { -fx-text-fill: #f2f6ef; }.page-description,.section-subtitle,.panel-subtitle { -fx-text-fill: #9eb1a3; }.summary-pill { -fx-background-color: #3b3422; -fx-text-fill: #ffe09a; }
+.focus-clock-card { -fx-background-color: linear-gradient(to bottom right,#1e4a33,#2e4031); -fx-border-color: #3e674b; }.focus-time { -fx-text-fill: #f4f8f0; }.focus-mode { -fx-background-color: #315d41; -fx-text-fill: #d8f29c; }.focus-cycle { -fx-text-fill: #b7cab9; }.focus-side-panel,.garden-panel,.todo-page,.schedule-page,.settings-page,.assistant-page,.stats-metric,.chart-card { -fx-background-color: #1d3025; -fx-border-color: #385441; }.focus-field-group,.form-row,.settings-card,.assistant-key-row { -fx-background-color: #263c2f; }.focus-tip { -fx-background-color: #463d26; -fx-text-fill: #f1d995; }
+.garden-toolbar { -fx-background-color: #264d37; }.plot-tile,.collection-card,.album-card { -fx-background-color: #25382c; -fx-border-color: #3c5a45; }.plot-empty { -fx-background-color: #213128; }.plot-name,.collection-name,.album-name { -fx-text-fill: #eef5ec; }.plot-slot,.plot-energy,.collection-state-locked,.collection-state-unlocked,.collection-state-collected { -fx-text-fill: #a6baa9; }
+.todo-table,.todo-table .table-row-cell,.text-area,.text-area .content { -fx-background-color: #1d3025; }.todo-table .table-row-cell:odd { -fx-background-color: #22372a; }.todo-table .column-header-background,.todo-table .column-header { -fx-background-color: #263c2f; }.todo-table .table-cell,.todo-table .column-header .label { -fx-text-fill: #d9e7dc; }.calendar-scroll,.calendar-scroll > .viewport,.calendar-grid,.calendar-cell { -fx-background-color: #1d3025; }.calendar-header { -fx-background-color: #294735; -fx-text-fill: #d8f29c; }.event-button { -fx-background-color: #50442a; -fx-text-fill: #ffe5a7; }.stats-metric-value { -fx-text-fill: #d8f29c; }
